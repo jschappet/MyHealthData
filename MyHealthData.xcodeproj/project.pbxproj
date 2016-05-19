@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		307F69BB1CEDEB0D006D0D7A /* WeightTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69BA1CEDEB0D006D0D7A /* WeightTableViewController.swift */; };
+		307F69BF1CEDF1D5006D0D7A /* Weight1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69BE1CEDF1D5006D0D7A /* Weight1.swift */; };
+		307F69C11CEDF2E8006D0D7A /* WeightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69C01CEDF2E8006D0D7A /* WeightTests.swift */; };
+		307F69C41CEE0124006D0D7A /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 307F69C31CEE0124006D0D7A /* HealthKit.framework */; };
+		307F69C81CEE0724006D0D7A /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69C71CEE0724006D0D7A /* HealthManager.swift */; };
+		307F69CA1CEE096A006D0D7A /* Weight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69C91CEE096A006D0D7A /* Weight.swift */; };
 		30A489F21CECE2A800A6CD87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A489F11CECE2A800A6CD87 /* AppDelegate.swift */; };
 		30A489F41CECE2A800A6CD87 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A489F31CECE2A800A6CD87 /* FirstViewController.swift */; };
 		30A489F61CECE2A800A6CD87 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A489F51CECE2A800A6CD87 /* SecondViewController.swift */; };
@@ -15,6 +21,7 @@
 		30A489FE1CECE2A800A6CD87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30A489FC1CECE2A800A6CD87 /* LaunchScreen.storyboard */; };
 		30A48A091CECE2A800A6CD87 /* MyHealthDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A48A081CECE2A800A6CD87 /* MyHealthDataTests.swift */; };
 		30A48A141CECE2A800A6CD87 /* MyHealthDataUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A48A131CECE2A800A6CD87 /* MyHealthDataUITests.swift */; };
+		73401D2F65B24216E6FA1F2F /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62A1F36F4937647EA73EF22 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +42,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F8D6A800150845BFEC3BB7F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		307F69BA1CEDEB0D006D0D7A /* WeightTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightTableViewController.swift; sourceTree = "<group>"; };
+		307F69BE1CEDF1D5006D0D7A /* Weight1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weight1.swift; sourceTree = "<group>"; };
+		307F69C01CEDF2E8006D0D7A /* WeightTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightTests.swift; sourceTree = "<group>"; };
+		307F69C21CEE0124006D0D7A /* MyHealthData.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MyHealthData.entitlements; sourceTree = "<group>"; };
+		307F69C31CEE0124006D0D7A /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		307F69C71CEE0724006D0D7A /* HealthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		307F69C91CEE096A006D0D7A /* Weight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weight.swift; sourceTree = "<group>"; };
 		30A489EE1CECE2A700A6CD87 /* MyHealthData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyHealthData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30A489F11CECE2A800A6CD87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30A489F31CECE2A800A6CD87 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +64,8 @@
 		30A48A0F1CECE2A800A6CD87 /* MyHealthDataUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyHealthDataUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30A48A131CECE2A800A6CD87 /* MyHealthDataUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHealthDataUITests.swift; sourceTree = "<group>"; };
 		30A48A151CECE2A800A6CD87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		571F5CCC9D7C38636D253443 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		E62A1F36F4937647EA73EF22 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73401D2F65B24216E6FA1F2F /* Pods.framework in Frameworks */,
+				307F69C41CEE0124006D0D7A /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +95,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		307F69BC1CEDEB6F006D0D7A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				30A489F31CECE2A800A6CD87 /* FirstViewController.swift */,
+				30A489F51CECE2A800A6CD87 /* SecondViewController.swift */,
+				307F69BA1CEDEB0D006D0D7A /* WeightTableViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		307F69BD1CEDF1B8006D0D7A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				307F69BE1CEDF1D5006D0D7A /* Weight1.swift */,
+				307F69C91CEE096A006D0D7A /* Weight.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		30A489E51CECE2A700A6CD87 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +121,8 @@
 				30A48A071CECE2A800A6CD87 /* MyHealthDataTests */,
 				30A48A121CECE2A800A6CD87 /* MyHealthDataUITests */,
 				30A489EF1CECE2A700A6CD87 /* Products */,
+				F2F9DDD681E482205192C6E0 /* Pods */,
+				97E883B49C0B40A821F0228A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,9 +139,11 @@
 		30A489F01CECE2A800A6CD87 /* MyHealthData */ = {
 			isa = PBXGroup;
 			children = (
+				307F69C21CEE0124006D0D7A /* MyHealthData.entitlements */,
+				307F69BD1CEDF1B8006D0D7A /* Model */,
+				307F69BC1CEDEB6F006D0D7A /* Controllers */,
 				30A489F11CECE2A800A6CD87 /* AppDelegate.swift */,
-				30A489F31CECE2A800A6CD87 /* FirstViewController.swift */,
-				30A489F51CECE2A800A6CD87 /* SecondViewController.swift */,
+				307F69C71CEE0724006D0D7A /* HealthManager.swift */,
 				30A489F71CECE2A800A6CD87 /* Main.storyboard */,
 				30A489FA1CECE2A800A6CD87 /* Assets.xcassets */,
 				30A489FC1CECE2A800A6CD87 /* LaunchScreen.storyboard */,
@@ -115,6 +157,7 @@
 			children = (
 				30A48A081CECE2A800A6CD87 /* MyHealthDataTests.swift */,
 				30A48A0A1CECE2A800A6CD87 /* Info.plist */,
+				307F69C01CEDF2E8006D0D7A /* WeightTests.swift */,
 			);
 			path = MyHealthDataTests;
 			sourceTree = "<group>";
@@ -128,6 +171,24 @@
 			path = MyHealthDataUITests;
 			sourceTree = "<group>";
 		};
+		97E883B49C0B40A821F0228A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				307F69C31CEE0124006D0D7A /* HealthKit.framework */,
+				E62A1F36F4937647EA73EF22 /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F2F9DDD681E482205192C6E0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				571F5CCC9D7C38636D253443 /* Pods.debug.xcconfig */,
+				0F8D6A800150845BFEC3BB7F /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,9 +196,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 30A48A181CECE2A800A6CD87 /* Build configuration list for PBXNativeTarget "MyHealthData" */;
 			buildPhases = (
+				0E8077157E227E9FD5E8A6CD /* Check Pods Manifest.lock */,
 				30A489EA1CECE2A700A6CD87 /* Sources */,
 				30A489EB1CECE2A700A6CD87 /* Frameworks */,
 				30A489EC1CECE2A700A6CD87 /* Resources */,
+				9A72B1E70112380EDC4A38D0 /* Embed Pods Frameworks */,
+				49FF9A91A3EEC6589FF8BE76 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -196,6 +260,12 @@
 				TargetAttributes = {
 					30A489ED1CECE2A700A6CD87 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = S338357XKT;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 					30A48A031CECE2A800A6CD87 = {
 						CreatedOnToolsVersion = 7.3;
@@ -254,13 +324,65 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0E8077157E227E9FD5E8A6CD /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		49FF9A91A3EEC6589FF8BE76 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9A72B1E70112380EDC4A38D0 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		30A489EA1CECE2A700A6CD87 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				307F69BF1CEDF1D5006D0D7A /* Weight1.swift in Sources */,
+				307F69C81CEE0724006D0D7A /* HealthManager.swift in Sources */,
 				30A489F61CECE2A800A6CD87 /* SecondViewController.swift in Sources */,
+				307F69BB1CEDEB0D006D0D7A /* WeightTableViewController.swift in Sources */,
 				30A489F21CECE2A800A6CD87 /* AppDelegate.swift in Sources */,
+				307F69CA1CEE096A006D0D7A /* Weight.swift in Sources */,
 				30A489F41CECE2A800A6CD87 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30A48A091CECE2A800A6CD87 /* MyHealthDataTests.swift in Sources */,
+				307F69C11CEDF2E8006D0D7A /* WeightTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,8 +524,10 @@
 		};
 		30A48A191CECE2A800A6CD87 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 571F5CCC9D7C38636D253443 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MyHealthData/MyHealthData.entitlements;
 				INFOPLIST_FILE = MyHealthData/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthData;
@@ -412,8 +537,10 @@
 		};
 		30A48A1A1CECE2A800A6CD87 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0F8D6A800150845BFEC3BB7F /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MyHealthData/MyHealthData.entitlements;
 				INFOPLIST_FILE = MyHealthData/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthData;
@@ -486,6 +613,7 @@
 				30A48A1A1CECE2A800A6CD87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		30A48A1B1CECE2A800A6CD87 /* Build configuration list for PBXNativeTarget "MyHealthDataTests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +622,7 @@
 				30A48A1D1CECE2A800A6CD87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		30A48A1E1CECE2A800A6CD87 /* Build configuration list for PBXNativeTarget "MyHealthDataUITests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +631,7 @@
 				30A48A201CECE2A800A6CD87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

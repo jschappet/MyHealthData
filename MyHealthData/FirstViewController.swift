@@ -21,5 +21,27 @@ class FirstViewController: UIViewController {
     }
 
 
+    
+    
+    
+    let healthManager:HealthManager = HealthManager()
+    
+    func authorizeHealthKit(completion: ((success:Bool, error:NSError!) -> Void)!)
+    {
+        healthManager.authorizeHealthKit { (authorized,  error) -> Void in
+            if authorized {
+                print("HealthKit authorization received.")
+            }
+            else
+            {
+                print("HealthKit authorization denied!")
+                if error != nil {
+                    print("\(error)")
+                }
+            }
+        }
+        
+    }
+    
 }
 
