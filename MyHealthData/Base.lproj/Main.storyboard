@@ -9,7 +9,7 @@
         <!--Home-->
         <scene sceneID="FK1-ya-NrH">
             <objects>
-                <tableViewController id="11f-bx-JGH" sceneMemberID="viewController">
+                <tableViewController id="11f-bx-JGH" customClass="FirstViewController" customModule="MyHealthData" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="tuC-Hc-li0">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -182,7 +182,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Weight" image="second" id="cPa-gy-q4n"/>
                     <connections>
-                        <outlet property="tableView" destination="9kV-Eg-h8k" id="zgF-tx-Nfx"/>
+                        <outlet property="tableView" destination="9kV-Eg-h8k" id="mt8-WH-pGd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -238,8 +238,12 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzz-2U-ZPe">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <items>
-                                    <navigationItem title="Vitals" id="d1Q-Hg-OB7">
-                                        <barButtonItem key="backBarButtonItem" title="Back" id="CYd-HI-caN"/>
+                                    <navigationItem title="Title" id="eBi-32-mMI">
+                                        <barButtonItem key="rightBarButtonItem" title="Check HealthKit" id="NB6-j6-CNk">
+                                            <connections>
+                                                <action selector="clickCheckHk:" destination="3zE-Rg-V1V" id="rcW-0l-8Tg"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>

@@ -10,8 +10,14 @@ import Foundation
 import UIKit
 import Alamofire
 import SwiftyJSON
+import HealthKit
 
 class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    
+    //var latestDate : NSDate?
+    
+    let healthManager:HealthManager = HealthManager()
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -24,8 +30,11 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
             self.dataSourceArray = items!.sort({ (v1, v2) -> Bool in
                 return v1.vitalsDate.timeIntervalSinceReferenceDate > v2.vitalsDate.timeIntervalSinceReferenceDate
             })
-            self.updateView()
             
+            //self.latestDate = self.dataSourceArray[0].vitalsDate
+            
+
+            self.updateView()
         }
         
         print("Done view did load: VitalsController")
@@ -33,7 +42,14 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     
-    
+    func checkHealthKitData(latestDate: NSDate, completion: ([Vitals]?, NSError!) -> Void ) {
+        //let past = latestDate
+        let rightNow   = NSDate()
+        
+        self.healthManager.readVitals(latestDate, endDate: rightNow, completion:  completion)
+        
+        
+    }
     
     var dataSourceArray = [Vitals]()
     
@@ -66,6 +82,22 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     
+    @IBAction func clickCheckHk(sender: AnyObject) {
+        self.checkHealthKitData(self.dataSourceArray[0].vitalsDate, completion: { (hkItems, error) in
+            print("Count: \(hkItems!.count)")
+            for i in hkItems! {
+                self.dataSourceArray.append(i)
+            }
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.tableView.reloadData()
+                
+                
+            })
+        })
+        
+        
+    }
+    
     
     // MARK : Get Data
     
@@ -73,8 +105,17 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
         for w in dataSourceArray {
             print("\(w.vitalsDate) \(w.pulse)" )
         }
+        
+
+        self.dataSourceArray = self.dataSourceArray.sort({ (v1, v2) -> Bool in
+            return v1.vitalsDate.timeIntervalSinceReferenceDate > v2.vitalsDate.timeIntervalSinceReferenceDate
+        })
+        
+        
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.tableView.reloadData()
+            
+            
         })
     }
     

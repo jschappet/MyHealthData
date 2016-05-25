@@ -10,10 +10,16 @@ import Foundation
 import UIKit
 import Alamofire
 import SwiftyJSON
+import HealthKit
 
 class WeightController: UIViewController,  UITableViewDataSource, UITableViewDelegate{
     
-    @IBOutlet weak var tableView: WeightTableView!
+    
+    var weight:HKQuantitySample?
+    let healthManager:HealthManager = HealthManager()
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     
     override func viewDidLoad() {
         print("starting view did load: WeightController")
@@ -24,7 +30,7 @@ class WeightController: UIViewController,  UITableViewDataSource, UITableViewDel
                 w1.weightInDate.timeIntervalSinceReferenceDate > w2.weightInDate.timeIntervalSinceReferenceDate
             })
             self.updateView()
-            
+         
         }
         
         print("Done view did load: WeightController")

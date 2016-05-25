@@ -11,10 +11,10 @@ import UIKit
 class FirstViewController: UITableViewController {
 
     
-    let kAuthorizeHealthKitSection = 2
+    let kAuthorizeHealthKitSection = 0
 
-    
-    
+    let kAuthorizeHealthKitRow = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -51,10 +51,10 @@ class FirstViewController: UITableViewController {
     
     // MARK: - TableView Delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        print("Section: \(indexPath.section) Row: \(indexPath.row)" )
         switch (indexPath.section, indexPath.row)
         {
-        case (kAuthorizeHealthKitSection,0):
+        case (kAuthorizeHealthKitSection,kAuthorizeHealthKitRow):
             authorizeHealthKit { (authorized, error) -> Void in
                 // If authorization is received a nil error will be returned.
                 if error == nil {

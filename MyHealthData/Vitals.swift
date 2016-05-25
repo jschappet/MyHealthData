@@ -22,6 +22,16 @@ class Vitals {
     var person: String
     
     
+    init() {
+        self.person = ""
+        self.systolic = 0
+        self.diatolic = 0
+        self.pulse = 0
+        self.vitalsDate = NSDate()
+        self.vitalsId = -99
+    }
+    
+    
     
     
     init(jsonData: JSON) {
