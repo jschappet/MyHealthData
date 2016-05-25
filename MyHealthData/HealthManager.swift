@@ -23,11 +23,14 @@ class HealthManager {
       HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBiologicalSex)!,
       HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!,
       HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)!,
+      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureSystolic)!,
+      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureDiastolic)!,
+      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!,
       HKObjectType.workoutType()
       ]
     
     // 2. Set the types you want to write to HK Store
-    let healthKitTypesToWrite: Set = [
+    let healthKitTypesToWrite: Set =  [
       HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)!,
       HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!,
       HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning)!,
@@ -131,7 +134,7 @@ class HealthManager {
   }
   
   
-  
+  /*
   func saveBMISample(bmi:Double, date:NSDate ) {
     
     // 1. Create a BMI Sample
@@ -148,5 +151,5 @@ class HealthManager {
       }
     })
   }
-  
+  */
 }

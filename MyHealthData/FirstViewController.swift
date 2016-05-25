@@ -8,8 +8,13 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class FirstViewController: UITableViewController {
 
+    
+    let kAuthorizeHealthKitSection = 2
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -43,5 +48,26 @@ class FirstViewController: UIViewController {
         
     }
     
+    
+    // MARK: - TableView Delegate
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        switch (indexPath.section, indexPath.row)
+        {
+        case (kAuthorizeHealthKitSection,0):
+            authorizeHealthKit { (authorized, error) -> Void in
+                // If authorization is received a nil error will be returned.
+                if error == nil {
+                    print("health auth recieved.")
+                } else {
+                    print("health auth denied.")
+                    print("\(error)")
+                }
+            }
+        default:
+            break
+        }
+        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
 }
 
