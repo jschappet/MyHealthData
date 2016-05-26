@@ -22,14 +22,18 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     @IBOutlet weak var tableView: UITableView!
     
+    
+    let vitalDateSort = { (v1: Vitals, v2: Vitals) -> Bool in
+        return (v1.vitalsDate.timeIntervalSinceReferenceDate > v2.vitalsDate.timeIntervalSinceReferenceDate)
+    }
+    
+    
     override func viewDidLoad() {
         print("starting view did load: VitalsController")
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         fetchWeights(25) { (items) in
-            self.dataSourceArray = items!.sort({ (v1, v2) -> Bool in
-                return v1.vitalsDate.timeIntervalSinceReferenceDate > v2.vitalsDate.timeIntervalSinceReferenceDate
-            })
+            self.dataSourceArray = items!.sort(self.vitalDateSort)
             
             //self.latestDate = self.dataSourceArray[0].vitalsDate
             
@@ -88,6 +92,7 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
             for i in hkItems! {
                 self.dataSourceArray.append(i)
             }
+            self.dataSourceArray = self.dataSourceArray.sort(self.vitalDateSort)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.tableView.reloadData()
                 

@@ -169,7 +169,7 @@ class HealthManager {
         let predicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .None)
         
         let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
-        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 0, sortDescriptors: [sortDescriptor])
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 100, sortDescriptors: [sortDescriptor])
         { (sampleQuery, results, error ) -> Void in
             
             if let dataList = results as? [HKCorrelation] {
@@ -177,7 +177,7 @@ class HealthManager {
                 {
                     if let data1 = data.objectsForType(systolicType).first as? HKQuantitySample,
                         let data2 = data.objectsForType(diastolicType).first as? HKQuantitySample {
-                        
+                        // TODO: Get HeartRate for the 
                         let value1 = data1.quantity.doubleValueForUnit(HKUnit.millimeterOfMercuryUnit())
                         let value2 = data2.quantity.doubleValueForUnit(HKUnit.millimeterOfMercuryUnit())
                         let date = data2.endDate

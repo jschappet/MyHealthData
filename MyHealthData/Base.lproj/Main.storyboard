@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -162,8 +162,8 @@
                                     <outlet property="delegate" destination="8rJ-Kc-sve" id="kRV-MQ-ShI"/>
                                 </connections>
                             </tableView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MBd-ss-d64">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MBd-ss-d64">
+                                <rect key="frame" x="0.0" y="5" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Weight" id="Vnp-eQ-d3D"/>
                                 </items>
@@ -235,11 +235,11 @@
                                     <outlet property="delegate" destination="3zE-Rg-V1V" id="vXF-eh-suj"/>
                                 </connections>
                             </tableView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzz-2U-ZPe">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bzz-2U-ZPe">
+                                <rect key="frame" x="0.0" y="5" width="600" height="44"/>
                                 <items>
-                                    <navigationItem title="Title" id="eBi-32-mMI">
-                                        <barButtonItem key="rightBarButtonItem" title="Check HealthKit" id="NB6-j6-CNk">
+                                    <navigationItem title="Vitals" id="eBi-32-mMI">
+                                        <barButtonItem key="rightBarButtonItem" title="Sync Health" id="NB6-j6-CNk">
                                             <connections>
                                                 <action selector="clickCheckHk:" destination="3zE-Rg-V1V" id="rcW-0l-8Tg"/>
                                             </connections>
