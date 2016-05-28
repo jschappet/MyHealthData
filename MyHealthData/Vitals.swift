@@ -14,6 +14,9 @@ class Vitals {
     
     //{"vitalsId":879,"vitalsDate":"2016-04-12T16:00+00:00","systolic":107,"diatolic":77,"pulse":60,"comment":"","personName":"Schappet, Jimmy"}
     
+   
+    
+    
     var vitalsId: Int
     var vitalsDate: NSDate
     var systolic: Int
@@ -32,9 +35,31 @@ class Vitals {
     }
     
     
-    
+   
+    func json() -> [String : AnyObject] {
+        let dateFormatter = NSDateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        
+        let parameters: [String: AnyObject] = [
+            "personName" : self.person,
+            "person" : 2,
+            "systolic" : self.systolic,
+            "diatolic" : self.diatolic,
+            "vitalsDate": dateFormatter.stringFromDate(self.vitalsDate)
+            
+        ]
+        return parameters
+    }
     
     init(jsonData: JSON) {
+        let dateFormatter = NSDateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mmZZZ"
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        
+        
         self.person = jsonData["personName"].stringValue
         
         self.systolic = jsonData["systolic"].intValue
@@ -44,10 +69,6 @@ class Vitals {
         
         let dateString = jsonData["vitalsDate"].stringValue
         
-        let dateFormatter = NSDateFormatter()
-        
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mmZZZ"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         if let date =  dateFormatter.dateFromString( dateString ) {
             self.vitalsDate = date
         } else {

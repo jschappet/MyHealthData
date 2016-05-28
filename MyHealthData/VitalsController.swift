@@ -124,13 +124,16 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
         })
     }
     
+    //let baseUrl = "https://www.schappet.com/automation/rest/vitals"
+    
+    let baseUrl = "http://localhost:8080/rest/vitals"
     
     // With Alamofire
     //func fetchWeights() {
     func fetchWeights(count: Int, completion: ([Vitals]?) -> Void) {
         var items = [Vitals]()
         
-        Alamofire.request(.GET, "https://www.schappet.com/automation/rest/vitals" , parameters: ["last": count])
+        Alamofire.request(.GET, baseUrl , parameters: ["last": count])
             .validate().responseJSON { response in
                 switch response.result {
                 case .Success:
@@ -154,5 +157,21 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
 
+    func postVitals(vitals: [Vitals]) {
+        for v in vitals {
+            Alamofire.request(.POST, baseUrl, parameters: v.json(), encoding: .JSON)
+                .responseJSON { response in
+                    switch response.result {
+                    case .Success:
+                        print(response)
+                        print(response.result.value)
+                        
+                    case .Failure(let error):
+                        print (error)
+                    }
+                    
+            }
+        }
+    }
     
 }
