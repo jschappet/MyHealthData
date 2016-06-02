@@ -281,7 +281,7 @@
                             <constraint firstAttribute="trailing" secondItem="bzz-2U-ZPe" secondAttribute="trailing" id="l8m-PB-cDf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Vitals" image="Vitals" selectedImage="second" id="BQz-nO-66Y"/>
+                    <tabBarItem key="tabBarItem" title="Vitals" image="Vitals" id="BQz-nO-66Y"/>
                     <connections>
                         <outlet property="tableView" destination="dDL-h0-dpK" id="Z9d-xw-DW4"/>
                     </connections>
@@ -312,9 +312,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Home" width="30" height="30"/>
+        <image name="Home" width="29" height="29"/>
         <image name="Vitals" width="29" height="29"/>
         <image name="Weight" width="29" height="29"/>
-        <image name="second" width="30" height="30"/>
     </resources>
 </document>
