@@ -68,9 +68,14 @@ class HealthManager {
     do {
       let birthDay = try healthKitStore.dateOfBirth()
       let today = NSDate()
-      //let calendar = NSCalendar.currentCalendar()
-      let differenceComponents = NSCalendar.currentCalendar().components(.NSYearCalendarUnit, fromDate: birthDay, toDate: today, options: NSCalendarOptions(rawValue: 0) )
-          age = differenceComponents.year
+      let calendar = NSCalendar.currentCalendar()
+        
+      let differenceComponents = calendar.components(.Year,
+                                                fromDate: birthDay,
+                                                toDate: today,
+                                                options: [])
+       
+      age = differenceComponents.year
   
     } catch {
       print("Error reading Birthday")
@@ -154,6 +159,43 @@ class HealthManager {
   */
     
     
+    func readHeartRate(startDate: NSDate, endDate: NSDate, completion: (([Vitals]?, NSError!) -> Void)!) {
+        var vitals = [Vitals]()
+        
+        guard let type = HKQuantityType.correlationTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) else {
+                // display error, etc...
+                return
+        }
+        
+        //let startDate = NSDate.distantPast()
+        //let endDate   = NSDate()
+        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .None)
+        
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 1, sortDescriptors: [sortDescriptor])
+        { (sampleQuery, results, error ) -> Void in
+            
+                for r in results!
+                {
+                    if let data1 = r as? HKQuantitySample {
+                        // TODO: Get HeartRate for the
+                        let value1 = data1.quantity.doubleValueForUnit(HKUnit(fromString: "count/min"))
+                        
+                        let date = data1.endDate
+                        let v = Vitals()
+                        v.vitalsDate = date
+                        v.pulse = Int(value1)
+                        vitals.append(v)
+                        // print("\(date)  \(value1) / \(value2)")
+                    }
+                }
+                completion(vitals, error)
+            
+        }
+        healthKitStore.executeQuery(sampleQuery)
+    }
+    
+    
     func readVitals(startDate: NSDate, endDate: NSDate, completion: (([Vitals]?, NSError!) -> Void)!) {
         var vitals = [Vitals]()
         
@@ -196,32 +238,6 @@ class HealthManager {
         healthKitStore.executeQuery(sampleQuery)
     }
     
-    
-    
-    func readVitals1(startDate: NSDate, endDate: NSDate, completion: (([AnyObject]!, NSError!) -> Void)!) {
-        print("HealthManager::readVitals")
-        
-        let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate:endDate, options: .None)
-        
-        // 1. Predicate to read only Steps
-        let systolic = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureSystolic)
-        //HKQuantityTypeIdentifierBloodPressureDiastolic
-        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: false)
-        let stepsSampleQuery = HKSampleQuery(sampleType: systolic!, predicate: mostRecentPredicate, limit: 50, sortDescriptors: [sortDescriptor])
-        {(query, results, error) in
-            
-            if let queryError = error {
-                print( "There was an error while reading the samples: \(queryError.localizedDescription)")
-            }
-            
-            completion(results,error)
-        }
-        
-        // Don't forget to execute the Query!
-        healthKitStore.executeQuery(stepsSampleQuery)
-        
-    }
-
     
     
     

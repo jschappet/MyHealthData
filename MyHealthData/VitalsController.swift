@@ -89,9 +89,18 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
     @IBAction func clickCheckHk(sender: AnyObject) {
         self.checkHealthKitData(self.dataSourceArray[0].vitalsDate, completion: { (hkItems, error) in
             print("Count: \(hkItems!.count)")
+            
             for i in hkItems! {
+                self.healthManager.readHeartRate(i.vitalsDate, endDate: i.vitalsDate, completion: { (vitals, error) in
+                        for v in vitals! {
+                            i.pulse = v.pulse
+                            
+                        }
+                    })
+                
                 self.dataSourceArray.append(i)
             }
+            self.postVitals(hkItems!)
             self.dataSourceArray = self.dataSourceArray.sort(self.vitalDateSort)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.tableView.reloadData()
@@ -111,7 +120,6 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
             print("\(w.vitalsDate) \(w.pulse)" )
         }
         
-
         self.dataSourceArray = self.dataSourceArray.sort({ (v1, v2) -> Bool in
             return v1.vitalsDate.timeIntervalSinceReferenceDate > v2.vitalsDate.timeIntervalSinceReferenceDate
         })
@@ -124,9 +132,9 @@ class VitalsController: UIViewController, UITableViewDelegate, UITableViewDataSo
         })
     }
     
-    //let baseUrl = "https://www.schappet.com/automation/rest/vitals"
+    let baseUrl = "https://www.schappet.com/automation/rest/vitals"
     
-    let baseUrl = "http://localhost:8080/rest/vitals"
+    //let baseUrl = "http://localhost:8080/rest/vitals"
     
     // With Alamofire
     //func fetchWeights() {

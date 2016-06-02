@@ -132,7 +132,7 @@
                             <outlet property="delegate" destination="11f-bx-JGH" id="zcL-69-TSb"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Home" image="first" id="aSa-rB-pi1"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="Home" id="aSa-rB-pi1"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ptL-OQ-Onn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -202,7 +202,7 @@
                             <constraint firstItem="MBd-ss-d64" firstAttribute="leading" secondItem="9kV-Eg-h8k" secondAttribute="leading" id="vtf-C2-rJp"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Weight" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Weight" image="Weight" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="tableView" destination="9kV-Eg-h8k" id="mt8-WH-pGd"/>
                     </connections>
@@ -281,7 +281,7 @@
                             <constraint firstAttribute="trailing" secondItem="bzz-2U-ZPe" secondAttribute="trailing" id="l8m-PB-cDf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Vitals" image="second" selectedImage="second" id="BQz-nO-66Y"/>
+                    <tabBarItem key="tabBarItem" title="Vitals" image="Vitals" selectedImage="second" id="BQz-nO-66Y"/>
                     <connections>
                         <outlet property="tableView" destination="dDL-h0-dpK" id="Z9d-xw-DW4"/>
                     </connections>
@@ -312,7 +312,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
+        <image name="Home" width="30" height="30"/>
+        <image name="Vitals" width="29" height="29"/>
+        <image name="Weight" width="29" height="29"/>
         <image name="second" width="30" height="30"/>
     </resources>
 </document>
