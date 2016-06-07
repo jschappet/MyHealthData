@@ -304,14 +304,95 @@
                         <segue destination="11f-bx-JGH" kind="relationship" relationship="viewControllers" id="w8j-vX-akL"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="3zE-Rg-V1V" kind="relationship" relationship="viewControllers" id="ad0-Eg-FJc"/>
+                        <segue destination="BOI-vj-cTu" kind="relationship" relationship="viewControllers" id="buy-RB-yMY"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="492" y="157"/>
         </scene>
+        <!--Heart Rate-->
+        <scene sceneID="3Vr-Rm-J5l">
+            <objects>
+                <viewController id="BOI-vj-cTu" customClass="HeartRateController" customModule="MyHealthData" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4BT-zC-1mg"/>
+                        <viewControllerLayoutGuide type="bottom" id="ysh-k6-aE0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gI2-GD-Koc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MKT-71-dbz">
+                                <rect key="frame" x="0.0" y="44" width="600" height="507"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="vitailsCellId" textLabel="w4f-l5-tkH" detailTextLabel="rpy-il-qqP" style="IBUITableViewCellStyleSubtitle" id="Eo9-Y8-KmA">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eo9-Y8-KmA" id="GOs-38-Sgd">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w4f-l5-tkH">
+                                                    <rect key="frame" x="15" y="5" width="32" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rpy-il-qqP">
+                                                    <rect key="frame" x="15" y="25" width="41" height="14"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BOI-vj-cTu" id="ueG-S4-RTt"/>
+                                    <outlet property="delegate" destination="BOI-vj-cTu" id="Rrv-iZ-TRN"/>
+                                </connections>
+                            </tableView>
+                            <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ewa-C1-cyc">
+                                <rect key="frame" x="0.0" y="5" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Heart Rate" id="42V-9H-fmc">
+                                        <barButtonItem key="rightBarButtonItem" title="Sync Health" id="IKa-DV-fjx">
+                                            <connections>
+                                                <action selector="clickCheckHk:" destination="BOI-vj-cTu" id="Msk-zA-E3M"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ewa-C1-cyc" firstAttribute="leading" secondItem="MKT-71-dbz" secondAttribute="leading" id="GQz-MY-mSF"/>
+                            <constraint firstItem="ewa-C1-cyc" firstAttribute="trailing" secondItem="MKT-71-dbz" secondAttribute="trailing" id="Mbx-yY-bMU"/>
+                            <constraint firstItem="ewa-C1-cyc" firstAttribute="leading" secondItem="gI2-GD-Koc" secondAttribute="leading" id="VeT-Ec-p38"/>
+                            <constraint firstAttribute="trailing" secondItem="ewa-C1-cyc" secondAttribute="trailing" id="X9e-43-fR9"/>
+                            <constraint firstItem="MKT-71-dbz" firstAttribute="bottom" secondItem="ysh-k6-aE0" secondAttribute="top" id="kh2-6W-wql"/>
+                            <constraint firstItem="ewa-C1-cyc" firstAttribute="top" secondItem="gI2-GD-Koc" secondAttribute="top" id="rpP-yV-7j4"/>
+                            <constraint firstItem="MKT-71-dbz" firstAttribute="top" secondItem="ewa-C1-cyc" secondAttribute="bottom" id="v4J-UD-fFZ"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Heart Rate" image="HeartRate" id="PZ1-An-1f4"/>
+                    <connections>
+                        <outlet property="tableView" destination="MKT-71-dbz" id="keB-pR-Yde"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Gy-rF-vJn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1379" y="1370"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="HeartRate" width="29" height="29"/>
         <image name="Home" width="29" height="29"/>
         <image name="Vitals" width="29" height="29"/>
         <image name="Weight" width="29" height="29"/>

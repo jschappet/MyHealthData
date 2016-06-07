@@ -59,6 +59,15 @@ class HealthManager {
     }
   }
   
+    func getSettings() -> NSDictionary {
+        
+        if let path = NSBundle.mainBundle().pathForResource("MyHealthData", ofType: "plist"), dict = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
+            // use swift dictionary as normal
+           return dict
+        } else {
+            return NSDictionary()
+        }
+    }
   
   func readProfile() -> ( age:Int?,  biologicalsex:HKBiologicalSexObject?, bloodtype:HKBloodTypeObject?)
   {
@@ -159,12 +168,14 @@ class HealthManager {
   */
     
     
-    func readHeartRate(startDate: NSDate, endDate: NSDate, completion: (([Vitals]?, NSError!) -> Void)!) {
-        var vitals = [Vitals]()
-        
-        guard let type = HKQuantityType.correlationTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) else {
+    func readHeartRate(startDate: NSDate, endDate: NSDate, completion: (([HeartRate]?, NSError!) -> Void)!) {
+        var heartRates = [HeartRate]()
+        print ("Getting data from: \(startDate) to: \(endDate)")
+        guard let type = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) else {
                 // display error, etc...
-                return
+            print("error getting data")
+
+            return
         }
         
         //let startDate = NSDate.distantPast()
@@ -172,9 +183,9 @@ class HealthManager {
         let predicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .None)
         
         let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
-        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 1, sortDescriptors: [sortDescriptor])
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 100, sortDescriptors: [sortDescriptor])
         { (sampleQuery, results, error ) -> Void in
-            
+                print("got results: \(results!.count)")
                 for r in results!
                 {
                     if let data1 = r as? HKQuantitySample {
@@ -182,14 +193,14 @@ class HealthManager {
                         let value1 = data1.quantity.doubleValueForUnit(HKUnit(fromString: "count/min"))
                         
                         let date = data1.endDate
-                        let v = Vitals()
-                        v.vitalsDate = date
-                        v.pulse = Int(value1)
-                        vitals.append(v)
+                        let hr = HeartRate()
+                        hr.measureDate = date
+                        hr.value = "\(value1)"
+                        heartRates.append(hr)
                         // print("\(date)  \(value1) / \(value2)")
                     }
                 }
-                completion(vitals, error)
+                completion(heartRates, error)
             
         }
         healthKitStore.executeQuery(sampleQuery)

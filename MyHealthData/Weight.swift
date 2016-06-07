@@ -45,7 +45,7 @@ class Weight {
         
         let dateFormatter = NSDateFormatter()
 
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mmZZZ"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         if let date =  dateFormatter.dateFromString( dateString ) {
              self.weightInDate = date

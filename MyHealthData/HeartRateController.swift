@@ -1,8 +1,8 @@
 //
-//  VitalsController.swift
+//  HeartRateController.swift
 //  MyHealthData
 //
-//  Created by Schappet, James C on 5/25/16.
+//  Created by Schappet, James C on 6/6/16.
 //  Copyright © 2016 University of Iowa - ICTS. All rights reserved.
 //
 
@@ -13,51 +13,49 @@ import SwiftyJSON
 import HealthKit
 import SwiftDate
 
-class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDelegate {
-    
+class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     //var latestDate : NSDate?
     
     let healthManager:HealthManager = HealthManager()
+ 
     var settings : NSDictionary = [:]
     
-    let entityType = "vitals"
+    let entityType = "heartrate"
+    
     
     @IBOutlet weak var tableView: UITableView!
     
     
-    let vitalDateSort = { (v1: Vitals, v2: Vitals) -> Bool in
-        return (v1.vitalsDate.timeIntervalSinceReferenceDate > v2.vitalsDate.timeIntervalSinceReferenceDate)
+    let heartRateDateSort = { (v1: HeartRate, v2: HeartRate) -> Bool in
+        return (v1.measureDate.timeIntervalSinceReferenceDate > v2.measureDate.timeIntervalSinceReferenceDate)
     }
     
-
     
     override func viewDidLoad() {
-        
-
-        settings = healthManager.getSettings()
-        
-        print("starting view did load: VitalsController")
+        print("starting view did load: HeartRateController")
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
+        settings = healthManager.getSettings()
+ 
         
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        fetchWeights(25) { (items) in
-            self.dataSourceArray = items!.sort(self.vitalDateSort)
+        fetchHeartRate(25) { (items) in
+            self.dataSourceArray = items!.sort(self.heartRateDateSort)
             
             //self.latestDate = self.dataSourceArray[0].vitalsDate
             
-
+            
             self.updateView()
         }
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: #selector(VitalsController.refresh(_:)) ,   forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(HeartRateController.refresh(_:)) ,   forControlEvents: UIControlEvents.ValueChanged)
         tableView!.addSubview(refreshControl)
-        print("Done view did load: VitalsController")
+        print("Done view did load: HeartRateController")
         
     }
     
@@ -69,22 +67,30 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     {
         
         print("refreshing")
-        self.updateView()
+        
+        fetchHeartRate(25) { (items) in
+            self.dataSourceArray = items!.sort(self.heartRateDateSort)
+            
+            //self.latestDate = self.dataSourceArray[0].vitalsDate
+            
+            
+            self.updateView()
+        }
         
         refreshControl?.endRefreshing()
     }
     
     
-    func checkHealthKitData(latestDate: NSDate, completion: ([Vitals]?, NSError!) -> Void ) {
+    func checkHealthKitData(latestDate: NSDate, completion: ([HeartRate]?, NSError!) -> Void ) {
         //let past = latestDate
         let rightNow   = NSDate()
         
-        self.healthManager.readVitals(latestDate, endDate: rightNow, completion:  completion)
+        self.healthManager.readHeartRate(latestDate, endDate: rightNow, completion:  completion)
         
         
     }
     
-    var dataSourceArray = [Vitals]()
+    var dataSourceArray = [HeartRate]()
     
     
     
@@ -97,7 +103,7 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Note:  Be sure to replace the argument to dequeueReusableCellWithIdentifier with the actual identifier string!
         let cell = tableView.dequeueReusableCellWithIdentifier("vitailsCellId")! as UITableViewCell
-
+        
         let row = indexPath.row
         
         let dateFormatter = NSDateFormatter()
@@ -106,30 +112,36 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         
-        let dateString = dateFormatter.stringFromDate(dataSourceArray[row].vitalsDate)
-        cell.textLabel?.text =  "\(dataSourceArray[row].systolic) / \(dataSourceArray[row].diatolic)"
-        cell.detailTextLabel?.text = dateString
-        // set cell's textLabel.text property
-        // set cell's detailTextLabel.text property
+         let dateString = dateFormatter.stringFromDate(dataSourceArray[row].measureDate)
+            cell.textLabel?.text =  "Heart Rate: \(dataSourceArray[row].value) "
+            cell.detailTextLabel?.text = dateString
+            // set cell's textLabel.text property
+            // set cell's detailTextLabel.text property
+        
         return cell
     }
     
     
     @IBAction func clickCheckHk(sender: AnyObject) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        var vitalsDate : NSDate
+        var measureDate: NSDate
+        
         if (self.dataSourceArray.count > 0) {
-            vitalsDate = self.dataSourceArray[0].vitalsDate + 10.minutes
+            measureDate = self.dataSourceArray[0].measureDate + 10.minutes
         } else {
-            vitalsDate = NSDate.distantPast()
+            measureDate = 5.years.ago()
         }
+        print("click check Hk: \(measureDate)" )
         
-        
-        self.checkHealthKitData(vitalsDate, completion: { (hkItems, error) in
+        self.checkHealthKitData(measureDate, completion: { (hkItems, error) in
             print("Count: \(hkItems!.count)")
             
-            self.postVitals(hkItems!)
-            self.dataSourceArray = self.dataSourceArray.sort(self.vitalDateSort)
+            for i in hkItems! {
+                
+                self.dataSourceArray.append(i)
+            }
+            self.postHeartRate(hkItems!)
+            self.dataSourceArray = self.dataSourceArray.sort(self.heartRateDateSort)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.tableView.reloadData()
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -137,6 +149,7 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
                 
             })
         })
+        print("done: click check Hk" )
         
         
     }
@@ -146,10 +159,10 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     
     func updateView() {
         for w in dataSourceArray {
-            print("\(w.vitalsDate) \(w.pulse)" )
+            print("\(w.measureDate) \(w.value)" )
         }
         
-        self.dataSourceArray = self.dataSourceArray.sort(vitalDateSort)
+        self.dataSourceArray = self.dataSourceArray.sort(self.heartRateDateSort)
         
         
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -160,13 +173,11 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     }
     
     
-    
     // With Alamofire
     //func fetchWeights() {
-    func fetchWeights(count: Int, completion: ([Vitals]?) -> Void) {
-        
-        
-        var items = [Vitals]()
+    func fetchHeartRate(count: Int, completion: ([HeartRate]?) -> Void) {
+        print("Fetching heartRate values")
+        var items = [HeartRate]()
         
         Alamofire.request(.GET, "\(settings.valueForKey("com.schappet.base.url") as! String)\(entityType)" , parameters: ["last": count])
             .validate().responseJSON { response in
@@ -176,9 +187,8 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
                         let json = JSON(value)
                         
                         for (_,subJson):(String, JSON) in json {
-                            let w = Vitals(jsonData: subJson)
+                            let w = HeartRate(jsonData: subJson)
                             items.append(w)
-                            //print("JSON: \(index) \(w.person) \(w.weightInDate) \(w.value)")
                         }
                         completion(items)
                     }
@@ -191,9 +201,10 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
         
     }
     
-
-    func postVitals(vitals: [Vitals]) {
-        for v in vitals {
+    
+    func postHeartRate(heartRate: [HeartRate]) {
+        print("Posting heartRate values: \(heartRate.count)")
+        for v in heartRate {
             Alamofire.request(.POST, "\(settings.valueForKey("com.schappet.base.url") as! String)\(entityType)", parameters: v.json(), encoding: .JSON)
                 .responseJSON { response in
                     switch response.result {

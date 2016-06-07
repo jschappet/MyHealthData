@@ -1,41 +1,36 @@
 //
-//  Vitals.swift
+//  HeartRate.swift
 //  MyHealthData
 //
-//  Created by Schappet, James C on 5/24/16.
+//  Created by Schappet, James C on 6/6/16.
 //  Copyright © 2016 University of Iowa - ICTS. All rights reserved.
 //
 
 import Foundation
+
+import Foundation
 import SwiftyJSON
 
-class Vitals {
+class HeartRate {
     
     
-    //{"vitalsId":879,"vitalsDate":"2016-04-12T16:00+00:00","systolic":107,"diatolic":77,"pulse":60,"comment":"","personName":"Schappet, Jimmy"}
+    var heartRateId: Int
+    var measureDate: NSDate
+    var value: String
     
-   
     
-    
-    var vitalsId: Int
-    var vitalsDate: NSDate
-    var systolic: Int
-    var diatolic: Int
-    var pulse: Int
     var person: String
     
     
     init() {
         self.person = ""
-        self.systolic = 0
-        self.diatolic = 0
-        self.pulse = 0
-        self.vitalsDate = NSDate()
-        self.vitalsId = -99
+        self.value = ""
+        self.measureDate = NSDate()
+        self.heartRateId = -99
     }
     
     
-   
+    
     func json() -> [String : AnyObject] {
         let dateFormatter = NSDateFormatter()
         
@@ -45,9 +40,9 @@ class Vitals {
         let parameters: [String: AnyObject] = [
             "personName" : self.person,
             "person" : 2,
-            "systolic" : self.systolic,
-            "diatolic" : self.diatolic,
-            "vitalsDate": dateFormatter.stringFromDate(self.vitalsDate)
+            "value" : self.value,
+            
+            "measureDate": dateFormatter.stringFromDate(self.measureDate)
             
         ]
         return parameters
@@ -59,24 +54,22 @@ class Vitals {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         
+        //print(jsonData)
         
         self.person = jsonData["personName"].stringValue
         
-        self.systolic = jsonData["systolic"].intValue
-        self.diatolic = jsonData["diatolic"].intValue
+        self.value = jsonData["value"].stringValue
         
-        self.pulse = jsonData["pulse"].intValue
-        
-        let dateString = jsonData["vitalsDate"].stringValue
+        let dateString = jsonData["measureDate"].stringValue
         
         if let date =  dateFormatter.dateFromString( dateString ) {
-            self.vitalsDate = date
+            self.measureDate = date
         } else {
             print("Date: \(dateString) did not parse")
-            self.vitalsDate = NSDate()
+            self.measureDate = NSDate()
         }
         
-        self.vitalsId = jsonData["vitalsId"].intValue
+        self.heartRateId = jsonData["heartRateId"].intValue
         
     }
     

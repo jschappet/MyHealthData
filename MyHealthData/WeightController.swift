@@ -17,12 +17,23 @@ class WeightController: UIViewController,  UITableViewDataSource, UITableViewDel
     
     var weight:HKQuantitySample?
     let healthManager:HealthManager = HealthManager()
+    var settings : NSDictionary = [:]
     
+    let entityType = "weight"
+
     @IBOutlet weak var tableView: UITableView!
     
+    var refreshControl:UIRefreshControl!
+
     
     override func viewDidLoad() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
         print("starting view did load: WeightController")
+        
+        settings = healthManager.getSettings()
+
+        
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         fetchWeights(25) { (weights) in
@@ -33,10 +44,23 @@ class WeightController: UIViewController,  UITableViewDataSource, UITableViewDel
          
         }
         
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: #selector(VitalsController.refresh(_:)) ,   forControlEvents: UIControlEvents.ValueChanged)
+        tableView!.addSubview(refreshControl)
+        
         print("Done view did load: WeightController")
         
     }
     
+    func refresh(sender:AnyObject)
+    {
+        
+        print("refreshing")
+        self.updateView()
+        
+        refreshControl?.endRefreshing()
+    }
     
     
     
@@ -80,6 +104,7 @@ class WeightController: UIViewController,  UITableViewDataSource, UITableViewDel
         }
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
              self.tableView.reloadData()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
     }
     
@@ -89,7 +114,7 @@ class WeightController: UIViewController,  UITableViewDataSource, UITableViewDel
     func fetchWeights(count: Int, completion: ([Weight]?) -> Void) {
         var weights = [Weight]()
         
-        Alamofire.request(.GET, "https://www.schappet.com/automation/rest/weight" , parameters: ["last": count])
+        Alamofire.request(.GET, "\(settings.valueForKey("com.schappet.base.url") as! String)\(entityType)" , parameters: ["last": count])
             .validate().responseJSON { response in
                 switch response.result {
                 case .Success:
