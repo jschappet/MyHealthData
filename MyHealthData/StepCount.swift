@@ -1,19 +1,21 @@
 //
-//  HeartRate.swift
+//  StepCount.swift
 //  MyHealthData
 //
-//  Created by Schappet, James C on 6/6/16.
+//  Created by Schappet, James C on 6/8/16.
 //  Copyright © 2016 University of Iowa - ICTS. All rights reserved.
 //
 
 import Foundation
 import SwiftyJSON
 
-class HeartRate {
+class StepCount {
     
     
-    var heartRateId: Int
-    var measureDate: NSDate
+    var id: Int
+    var measureStartDate: NSDate
+    var measureEndDate: NSDate
+    
     var value: String
     
     
@@ -23,8 +25,9 @@ class HeartRate {
     init() {
         self.person = ""
         self.value = ""
-        self.measureDate = NSDate()
-        self.heartRateId = -99
+        self.measureStartDate = NSDate()
+        self.measureEndDate = NSDate()
+        self.id = -99
     }
     
     
@@ -40,7 +43,8 @@ class HeartRate {
             "person" : 2,
             "value" : self.value,
             
-            "measureDate": dateFormatter.stringFromDate(self.measureDate)
+            "measureStartDate": dateFormatter.stringFromDate(self.measureStartDate),
+            "measureEndDate": dateFormatter.stringFromDate(self.measureEndDate)
             
         ]
         return parameters
@@ -58,16 +62,25 @@ class HeartRate {
         
         self.value = jsonData["value"].stringValue
         
-        let dateString = jsonData["measureDate"].stringValue
+        var dateString = jsonData["measureStartDate"].stringValue
         
         if let date =  dateFormatter.dateFromString( dateString ) {
-            self.measureDate = date
+            self.measureStartDate = date
         } else {
-            print("Date: \(dateString) did not parse")
-            self.measureDate = NSDate()
+            print("Start Date: \(dateString) did not parse")
+            self.measureStartDate = NSDate()
         }
         
-        self.heartRateId = jsonData["heartRateId"].intValue
+        dateString = jsonData["measureEndDate"].stringValue
+        
+        if let date =  dateFormatter.dateFromString( dateString ) {
+            self.measureEndDate = date
+        } else {
+            print("End Date : \(dateString) did not parse")
+            self.measureEndDate = NSDate()
+        }
+        
+        self.id = jsonData["id"].intValue
         
     }
     

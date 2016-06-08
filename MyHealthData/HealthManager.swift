@@ -22,6 +22,7 @@ class HealthManager {
       HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBloodType)!,
       HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBiologicalSex)!,
       HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!,
+      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!,
       HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)!,
       HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureSystolic)!,
       HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureDiastolic)!,
@@ -205,6 +206,46 @@ class HealthManager {
         }
         healthKitStore.executeQuery(sampleQuery)
     }
+
+    
+    
+    func readStepCount(startDate: NSDate, endDate: NSDate, completion: (([StepCount]?, NSError!) -> Void)!) {
+        var activities = [StepCount]()
+        print ("Getting data from: \(startDate) to: \(endDate)")
+        guard let type = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount) else {
+            // display error, etc...
+            print("error getting data")
+            
+            return
+        }
+        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .None)
+        
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 1000, sortDescriptors: [sortDescriptor])
+        { (sampleQuery, results, error ) -> Void in
+            print("got results: \(results!.count)")
+            for r in results!
+            {
+                if let data1 = r as? HKQuantitySample {
+                    // TODO: Get HeartRate for the
+                    let value1 = data1.quantity.doubleValueForUnit(HKUnit.countUnit())
+                    
+                    let startDate = data1.startDate
+                    let endDate = data1.endDate
+                    let act = StepCount()
+                    act.measureStartDate = startDate
+                    act.measureEndDate = endDate
+                    act.value = "\(value1)"
+                    activities.append(act)
+                    // print("\(date)  \(value1) / \(value2)")
+                }
+            }
+            completion(activities, error)
+            
+        }
+        healthKitStore.executeQuery(sampleQuery)
+    }
+
     
     
     func readVitals(startDate: NSDate, endDate: NSDate, completion: (([Vitals]?, NSError!) -> Void)!) {

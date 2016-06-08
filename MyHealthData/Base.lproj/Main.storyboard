@@ -305,6 +305,7 @@
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="3zE-Rg-V1V" kind="relationship" relationship="viewControllers" id="ad0-Eg-FJc"/>
                         <segue destination="BOI-vj-cTu" kind="relationship" relationship="viewControllers" id="buy-RB-yMY"/>
+                        <segue destination="HLm-D1-e3s" kind="relationship" relationship="viewControllers" id="3UX-P6-Fpv"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -327,7 +328,7 @@
                                 <rect key="frame" x="0.0" y="44" width="600" height="507"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="vitailsCellId" textLabel="w4f-l5-tkH" detailTextLabel="rpy-il-qqP" style="IBUITableViewCellStyleSubtitle" id="Eo9-Y8-KmA">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="heartRateCellId" textLabel="w4f-l5-tkH" detailTextLabel="rpy-il-qqP" style="IBUITableViewCellStyleSubtitle" id="Eo9-Y8-KmA">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eo9-Y8-KmA" id="GOs-38-Sgd">
@@ -388,12 +389,92 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Gy-rF-vJn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1379" y="1370"/>
+            <point key="canvasLocation" x="1132" y="1356"/>
+        </scene>
+        <!--Step Count-->
+        <scene sceneID="JLU-Cf-3nk">
+            <objects>
+                <viewController id="HLm-D1-e3s" customClass="StepCountController" customModule="MyHealthData" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ex1-yQ-67G"/>
+                        <viewControllerLayoutGuide type="bottom" id="dhG-Zd-O4O"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Yui-RX-cHn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RNb-c9-uqD">
+                                <rect key="frame" x="0.0" y="44" width="600" height="507"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="stepCountCellId" textLabel="UgS-PC-LOQ" detailTextLabel="109-9x-NGN" style="IBUITableViewCellStyleSubtitle" id="Tnv-gL-o5s">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tnv-gL-o5s" id="dkO-55-6cH">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UgS-PC-LOQ">
+                                                    <rect key="frame" x="15" y="5" width="32" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="109-9x-NGN">
+                                                    <rect key="frame" x="15" y="25" width="41" height="14"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="HLm-D1-e3s" id="0Dj-vf-ig9"/>
+                                    <outlet property="delegate" destination="HLm-D1-e3s" id="6Kg-KK-pqO"/>
+                                </connections>
+                            </tableView>
+                            <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Sh-RK-2aB">
+                                <rect key="frame" x="0.0" y="5" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Step Count" id="HGX-kH-GQ9">
+                                        <barButtonItem key="rightBarButtonItem" title="Sync Health" id="NuF-C9-zNz">
+                                            <connections>
+                                                <action selector="clickCheckHk:" destination="HLm-D1-e3s" id="YHd-F4-QgL"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3Sh-RK-2aB" firstAttribute="leading" secondItem="Yui-RX-cHn" secondAttribute="leading" id="7XY-gS-rTc"/>
+                            <constraint firstItem="RNb-c9-uqD" firstAttribute="top" secondItem="3Sh-RK-2aB" secondAttribute="bottom" id="CEW-Gp-GOA"/>
+                            <constraint firstItem="3Sh-RK-2aB" firstAttribute="leading" secondItem="RNb-c9-uqD" secondAttribute="leading" id="Thk-nZ-JAS"/>
+                            <constraint firstItem="3Sh-RK-2aB" firstAttribute="top" secondItem="Yui-RX-cHn" secondAttribute="top" id="Ww4-Iy-2em"/>
+                            <constraint firstAttribute="trailing" secondItem="3Sh-RK-2aB" secondAttribute="trailing" id="Z3P-vD-gU5"/>
+                            <constraint firstItem="RNb-c9-uqD" firstAttribute="bottom" secondItem="dhG-Zd-O4O" secondAttribute="top" id="wMl-Uz-Z8a"/>
+                            <constraint firstItem="3Sh-RK-2aB" firstAttribute="trailing" secondItem="RNb-c9-uqD" secondAttribute="trailing" id="yv3-rN-fo3"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Step Count" image="StepCount" id="wZa-1F-Kyw"/>
+                    <connections>
+                        <outlet property="tableView" destination="RNb-c9-uqD" id="ZtY-hP-J5T"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BAS-Dw-D9R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1760" y="1356"/>
         </scene>
     </scenes>
     <resources>
         <image name="HeartRate" width="29" height="29"/>
         <image name="Home" width="29" height="29"/>
+        <image name="StepCount" width="29" height="29"/>
         <image name="Vitals" width="29" height="29"/>
         <image name="Weight" width="29" height="29"/>
     </resources>
