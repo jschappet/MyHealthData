@@ -69,7 +69,16 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     {
         
         print("refreshing")
-        self.updateView()
+        
+        
+        fetchWeights(25) { (items) in
+            self.dataSourceArray = items!.sort(self.vitalDateSort)
+            
+            //self.latestDate = self.dataSourceArray[0].vitalsDate
+            
+            
+            self.updateView()
+        }
         
         refreshControl?.endRefreshing()
     }

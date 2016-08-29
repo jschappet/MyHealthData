@@ -221,22 +221,25 @@ class HealthManager {
         let predicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .None)
         
         let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
-        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 1000, sortDescriptors: [sortDescriptor])
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 10000, sortDescriptors: [sortDescriptor])
         { (sampleQuery, results, error ) -> Void in
             print("got results: \(results!.count)")
             for r in results!
             {
                 if let data1 = r as? HKQuantitySample {
-                    // TODO: Get HeartRate for the
-                    let value1 = data1.quantity.doubleValueForUnit(HKUnit.countUnit())
+                    print(data1.sourceRevision.source.name)
+                    if (data1.sourceRevision.source.name == "Misfit") {
+                        // TODO: Get HeartRate for the
+                        let value1 = data1.quantity.doubleValueForUnit(HKUnit.countUnit())
                     
-                    let startDate = data1.startDate
-                    let endDate = data1.endDate
-                    let act = StepCount()
-                    act.measureStartDate = startDate
-                    act.measureEndDate = endDate
-                    act.value = "\(value1)"
-                    activities.append(act)
+                        let startDate = data1.startDate
+                        let endDate = data1.endDate
+                        let act = StepCount()
+                        act.measureStartDate = startDate
+                        act.measureEndDate = endDate
+                        act.value = "\(value1)"
+                        activities.append(act)
+                    }
                     // print("\(date)  \(value1) / \(value2)")
                 }
             }

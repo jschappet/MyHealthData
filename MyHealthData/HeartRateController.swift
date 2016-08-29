@@ -102,7 +102,7 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Note:  Be sure to replace the argument to dequeueReusableCellWithIdentifier with the actual identifier string!
-        let cell = tableView.dequeueReusableCellWithIdentifier("vitailsCellId")! as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("heartRateCellId")! as UITableViewCell
         
         let row = indexPath.row
         
