@@ -13,28 +13,28 @@ class HealthManager {
   
   let healthKitStore:HKHealthStore = HKHealthStore()
   
-  func authorizeHealthKit(completion: ((success:Bool, error:NSError!) -> Void)!)
+  func authorizeHealthKit(_ completion: ((_ success:Bool, _ error:NSError?) -> Void)!)
   {
     // 1. Set the types you want to read from HK Store
     
     let healthKitTypesToRead: Set = [
-      HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierDateOfBirth)!,
-      HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBloodType)!,
-      HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBiologicalSex)!,
-      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!,
-      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!,
-      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)!,
-      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureSystolic)!,
-      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureDiastolic)!,
-      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)!,
+      HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!,
+      HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!,
+      HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)!,
+      HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!,
+      HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!,
+      HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!,
+      HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bloodPressureSystolic)!,
+      HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bloodPressureDiastolic)!,
+      HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!,
       HKObjectType.workoutType()
       ]
     
     // 2. Set the types you want to write to HK Store
     let healthKitTypesToWrite: Set =  [
-      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)!,
-      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!,
-      HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning)!,
+      HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMassIndex)!,
+      HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!,
+      HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!,
       HKQuantityType.workoutType()
       ]
     
@@ -44,27 +44,27 @@ class HealthManager {
       let error = NSError(domain: "edu.uiowa.icts.healthkit", code: 2, userInfo: [NSLocalizedDescriptionKey:"HealthKit is not available in this Device"])
       if( completion != nil )
       {
-        completion(success:false, error:error)
+        completion?(false, error)
       }
       return;
     }
     
     // 4.  Request HealthKit authorization
-    healthKitStore.requestAuthorizationToShareTypes(
-      healthKitTypesToWrite, readTypes: healthKitTypesToRead) { (success, error) -> Void in
+    healthKitStore.requestAuthorization(
+      toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { (success, error) -> Void in
       
       if( completion != nil )
       {
-        completion(success:success,error:error)
+        completion?(success,error as NSError?)
       }
     }
   }
   
     func getSettings() -> NSDictionary {
         
-        if let path = NSBundle.mainBundle().pathForResource("MyHealthData", ofType: "plist"), dict = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
+        if let path = Bundle.main.path(forResource: "MyHealthData", ofType: "plist"), let dict = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
             // use swift dictionary as normal
-           return dict
+           return dict as NSDictionary
         } else {
             return NSDictionary()
         }
@@ -77,12 +77,12 @@ class HealthManager {
     // 1. Request birthday and calculate age
     do {
       let birthDay = try healthKitStore.dateOfBirth()
-      let today = NSDate()
-      let calendar = NSCalendar.currentCalendar()
+      let today = Date()
+      let calendar = Calendar.current
         
-      let differenceComponents = calendar.components(.Year,
-                                                fromDate: birthDay,
-                                                toDate: today,
+      let differenceComponents = (calendar as NSCalendar).components(.year,
+                                                from: birthDay,
+                                                to: today,
                                                 options: [])
        
       age = differenceComponents.year
@@ -114,13 +114,13 @@ class HealthManager {
   
   
   
-  func readMostRecentSample(sampleType:HKSampleType , completion: ((HKSample!, NSError!) -> Void)!)
+  func readMostRecentSample(_ sampleType:HKSampleType , completion: ((HKSample?, NSError?) -> Void)!)
   {
     
     // 1. Build the Predicate
-    let past = NSDate.distantPast()
-    let now   = NSDate()
-    let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(past, endDate:now, options: .None)
+    let past = Date.distantPast
+    let now   = Date()
+    let mostRecentPredicate = HKQuery.predicateForSamples(withStart: past, end:now, options: HKQueryOptions())
     
     // 2. Build the sort descriptor to return the samples in descending order
     let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: false)
@@ -132,7 +132,7 @@ class HealthManager {
     { (sampleQuery, results, error ) -> Void in
       
       if let queryError = error {
-        completion(nil,queryError)
+        completion?(nil,queryError as NSError?)
         return;
       }
       
@@ -145,7 +145,7 @@ class HealthManager {
       }
     }
     // 5. Execute the Query
-    self.healthKitStore.executeQuery(sampleQuery)
+    self.healthKitStore.execute(sampleQuery)
   }
   
   
@@ -169,10 +169,10 @@ class HealthManager {
   */
     
     
-    func readHeartRate(startDate: NSDate, endDate: NSDate, completion: (([HeartRate]?, NSError!) -> Void)!) {
+    func readHeartRate(_ startDate: Date, endDate: Date, completion: (([HeartRate]?, NSError?) -> Void)!) {
         var heartRates = [HeartRate]()
         print ("Getting data from: \(startDate) to: \(endDate)")
-        guard let type = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate) else {
+        guard let type = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate) else {
                 // display error, etc...
             print("error getting data")
 
@@ -181,7 +181,7 @@ class HealthManager {
         
         //let startDate = NSDate.distantPast()
         //let endDate   = NSDate()
-        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .None)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
         
         let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
         let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 100, sortDescriptors: [sortDescriptor])
@@ -191,7 +191,7 @@ class HealthManager {
                 {
                     if let data1 = r as? HKQuantitySample {
                         // TODO: Get HeartRate for the
-                        let value1 = data1.quantity.doubleValueForUnit(HKUnit(fromString: "count/min"))
+                        let value1 = data1.quantity.doubleValue(for: HKUnit(from: "count/min"))
                         
                         let date = data1.endDate
                         let hr = HeartRate()
@@ -201,24 +201,24 @@ class HealthManager {
                         // print("\(date)  \(value1) / \(value2)")
                     }
                 }
-                completion(heartRates, error)
+                completion?(heartRates, error as NSError?)
             
         }
-        healthKitStore.executeQuery(sampleQuery)
+        healthKitStore.execute(sampleQuery)
     }
 
     
     
-    func readStepCount(startDate: NSDate, endDate: NSDate, completion: (([StepCount]?, NSError!) -> Void)!) {
+    func readStepCount(_ startDate: Date, endDate: Date, completion: (([StepCount]?, NSError?) -> Void)!) {
         var activities = [StepCount]()
         print ("Getting data from: \(startDate) to: \(endDate)")
-        guard let type = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount) else {
+        guard let type = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount) else {
             // display error, etc...
             print("error getting data")
             
             return
         }
-        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .None)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
         
         let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
         let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 10000, sortDescriptors: [sortDescriptor])
@@ -230,7 +230,7 @@ class HealthManager {
                     print(data1.sourceRevision.source.name)
                     if (data1.sourceRevision.source.name == "Misfit") {
                         // TODO: Get HeartRate for the
-                        let value1 = data1.quantity.doubleValueForUnit(HKUnit.countUnit())
+                        let value1 = data1.quantity.doubleValue(for: HKUnit.count())
                     
                         let startDate = data1.startDate
                         let endDate = data1.endDate
@@ -243,27 +243,27 @@ class HealthManager {
                     // print("\(date)  \(value1) / \(value2)")
                 }
             }
-            completion(activities, error)
+            completion?(activities, error as NSError?)
             
         }
-        healthKitStore.executeQuery(sampleQuery)
+        healthKitStore.execute(sampleQuery)
     }
 
     
     
-    func readVitals(startDate: NSDate, endDate: NSDate, completion: (([Vitals]?, NSError!) -> Void)!) {
+    func readVitals(_ startDate: Date, endDate: Date, completion: (([Vitals]?, NSError?) -> Void)!) {
         var vitals = [Vitals]()
         
-        guard let type = HKQuantityType.correlationTypeForIdentifier(HKCorrelationTypeIdentifierBloodPressure),
-            let systolicType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureSystolic),
-            let diastolicType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureDiastolic) else {
+        guard let type = HKQuantityType.correlationType(forIdentifier: HKCorrelationTypeIdentifier.bloodPressure),
+            let systolicType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bloodPressureSystolic),
+            let diastolicType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bloodPressureDiastolic) else {
                 // display error, etc...
                 return
         }
         
         //let startDate = NSDate.distantPast()
         //let endDate   = NSDate()
-        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate, endDate: endDate, options: .None)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
         
         let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
         let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 100, sortDescriptors: [sortDescriptor])
@@ -272,11 +272,11 @@ class HealthManager {
             if let dataList = results as? [HKCorrelation] {
                 for data in dataList
                 {
-                    if let data1 = data.objectsForType(systolicType).first as? HKQuantitySample,
-                        let data2 = data.objectsForType(diastolicType).first as? HKQuantitySample {
+                    if let data1 = data.objects(for: systolicType).first as? HKQuantitySample,
+                        let data2 = data.objects(for: diastolicType).first as? HKQuantitySample {
                         // TODO: Get HeartRate for the 
-                        let value1 = data1.quantity.doubleValueForUnit(HKUnit.millimeterOfMercuryUnit())
-                        let value2 = data2.quantity.doubleValueForUnit(HKUnit.millimeterOfMercuryUnit())
+                        let value1 = data1.quantity.doubleValue(for: HKUnit.millimeterOfMercury())
+                        let value2 = data2.quantity.doubleValue(for: HKUnit.millimeterOfMercury())
                         let date = data2.endDate
                         let v = Vitals()
                         v.vitalsDate = date
@@ -286,11 +286,11 @@ class HealthManager {
                        // print("\(date)  \(value1) / \(value2)")
                     }
                 }
-                completion(vitals, error)
+                completion?(vitals, error as NSError?)
             }
             
         }
-        healthKitStore.executeQuery(sampleQuery)
+        healthKitStore.execute(sampleQuery)
     }
     
     

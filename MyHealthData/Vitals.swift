@@ -18,7 +18,7 @@ class Vitals {
     
     
     var vitalsId: Int
-    var vitalsDate: NSDate
+    var vitalsDate: Date
     var systolic: Int
     var diatolic: Int
     var pulse: Int
@@ -30,34 +30,34 @@ class Vitals {
         self.systolic = 0
         self.diatolic = 0
         self.pulse = 0
-        self.vitalsDate = NSDate()
+        self.vitalsDate = Date()
         self.vitalsId = -99
     }
     
     
    
     func json() -> [String : AnyObject] {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         let parameters: [String: AnyObject] = [
-            "personName" : self.person,
-            "person" : 2,
-            "systolic" : self.systolic,
-            "diatolic" : self.diatolic,
-            "vitalsDate": dateFormatter.stringFromDate(self.vitalsDate)
+            "personName" : self.person as AnyObject,
+            "person" : 2 as AnyObject,
+            "systolic" : self.systolic as AnyObject,
+            "diatolic" : self.diatolic as AnyObject,
+            "vitalsDate": dateFormatter.string(from: self.vitalsDate) as AnyObject
             
         ]
         return parameters
     }
     
     init(jsonData: JSON) {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         
         self.person = jsonData["personName"].stringValue
@@ -69,11 +69,11 @@ class Vitals {
         
         let dateString = jsonData["vitalsDate"].stringValue
         
-        if let date =  dateFormatter.dateFromString( dateString ) {
+        if let date =  dateFormatter.date( from: dateString ) {
             self.vitalsDate = date
         } else {
             print("Date: \(dateString) did not parse")
-            self.vitalsDate = NSDate()
+            self.vitalsDate = Date()
         }
         
         self.vitalsId = jsonData["vitalsId"].intValue

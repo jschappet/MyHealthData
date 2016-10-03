@@ -43,11 +43,11 @@ class WeightTests: XCTestCase {
         print(potentialItem.weightInDate)
         let date = potentialItem.weightInDate
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         let dateString = dateFormatter.stringFromDate(date)
         
@@ -67,7 +67,7 @@ class WeightTests: XCTestCase {
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measureBlock() {
+        self.measure() {
             // Put the code you want to measure the time of here.
         }
     }

@@ -35,7 +35,7 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         print("starting view did load: HeartRateController")
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         settings = healthManager.getSettings()
  
@@ -43,7 +43,7 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         fetchHeartRate(25) { (items) in
-            self.dataSourceArray = items!.sort(self.heartRateDateSort)
+            self.dataSourceArray = items!.sorted(by: self.heartRateDateSort)
             
             //self.latestDate = self.dataSourceArray[0].vitalsDate
             
@@ -53,7 +53,7 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: #selector(HeartRateController.refresh(_:)) ,   forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(HeartRateController.refresh(_:)) ,   for: UIControlEvents.valueChanged)
         tableView!.addSubview(refreshControl)
         print("Done view did load: HeartRateController")
         
@@ -63,13 +63,13 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     var refreshControl:UIRefreshControl!
     
     
-    func refresh(sender:AnyObject)
+    func refresh(_ sender:AnyObject)
     {
         
         print("refreshing")
         
         fetchHeartRate(25) { (items) in
-            self.dataSourceArray = items!.sort(self.heartRateDateSort)
+            self.dataSourceArray = items!.sorted(by: self.heartRateDateSort)
             
             //self.latestDate = self.dataSourceArray[0].vitalsDate
             
@@ -81,9 +81,9 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     
-    func checkHealthKitData(latestDate: NSDate, completion: ([HeartRate]?, NSError!) -> Void ) {
+    func checkHealthKitData(_ latestDate: Date, completion: @escaping ([HeartRate]?, NSError?) -> Void ) {
         //let past = latestDate
-        let rightNow   = NSDate()
+        let rightNow   = Date()
         
         self.healthManager.readHeartRate(latestDate, endDate: rightNow, completion:  completion)
         
@@ -94,25 +94,25 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Most of the time my data source is an array of something...  will replace with the actual name of the data source
         return dataSourceArray.count
         
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Note:  Be sure to replace the argument to dequeueReusableCellWithIdentifier with the actual identifier string!
-        let cell = tableView.dequeueReusableCellWithIdentifier("heartRateCellId")! as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "heartRateCellId")! as UITableViewCell
         
-        let row = indexPath.row
+        let row = (indexPath as NSIndexPath).row
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
-         let dateString = dateFormatter.stringFromDate(dataSourceArray[row].measureDate)
+         let dateString = dateFormatter.string(from: dataSourceArray[row].measureDate as Date)
             cell.textLabel?.text =  "Heart Rate: \(dataSourceArray[row].value) "
             cell.detailTextLabel?.text = dateString
             // set cell's textLabel.text property
@@ -122,12 +122,12 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     
-    @IBAction func clickCheckHk(sender: AnyObject) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        var measureDate: NSDate
+    @IBAction func clickCheckHk(_ sender: AnyObject) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        var measureDate: Date
         
         if (self.dataSourceArray.count > 0) {
-            measureDate = self.dataSourceArray[0].measureDate + 10.minutes
+            measureDate = self.dataSourceArray[0].measureDate as Date + 10.minutes
         } else {
             measureDate = 5.years.ago()
         }
@@ -141,10 +141,10 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
                 self.dataSourceArray.append(i)
             }
             self.postHeartRate(hkItems!)
-            self.dataSourceArray = self.dataSourceArray.sort(self.heartRateDateSort)
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.dataSourceArray = self.dataSourceArray.sorted(by: self.heartRateDateSort)
+            DispatchQueue.main.async(execute: { () -> Void in
                 self.tableView.reloadData()
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
                 
             })
@@ -162,12 +162,12 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
             print("\(w.measureDate) \(w.value)" )
         }
         
-        self.dataSourceArray = self.dataSourceArray.sort(self.heartRateDateSort)
+        self.dataSourceArray = self.dataSourceArray.sorted(by: self.heartRateDateSort)
         
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
             self.tableView.reloadData()
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             
         })
     }
@@ -175,14 +175,14 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // With Alamofire
     //func fetchWeights() {
-    func fetchHeartRate(count: Int, completion: ([HeartRate]?) -> Void) {
+    func fetchHeartRate(_ count: Int, completion: @escaping ([HeartRate]?) -> Void) {
         print("Fetching heartRate values")
         var items = [HeartRate]()
         
-        Alamofire.request(.GET, "\(settings.valueForKey("com.schappet.base.url") as! String)\(entityType)" , parameters: ["last": count])
+        Alamofire.request(  "\(settings.value(forKey: "com.schappet.base.url") as! String)\(entityType)" , parameters: ["last": count])
             .validate().responseJSON { response in
                 switch response.result {
-                case .Success:
+                case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
                         
@@ -192,7 +192,7 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
                         }
                         completion(items)
                     }
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
                     completion(nil)
                 }
@@ -202,20 +202,35 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     
-    func postHeartRate(heartRate: [HeartRate]) {
+    func postHeartRate(_ heartRate: [HeartRate]) {
         print("Posting heartRate values: \(heartRate.count)")
+        let urlString = settings.value(forKey: "com.schappet.base.url") as! String
+        let newUrlString = "\(urlString)\(entityType)"
         for v in heartRate {
-            Alamofire.request(.POST, "\(settings.valueForKey("com.schappet.base.url") as! String)\(entityType)", parameters: v.json(), encoding: .JSON)
+            /*
+            Alamofire.request("\(urlString)\(entityType)", method: .post, parameters: ["foo": "bar"], encoding: .json )
                 .responseJSON { response in
                     switch response.result {
-                    case .Success:
+                    case .success:
                         print(response)
                         print(response.result.value)
                         
-                    case .Failure(let error):
+                    case .failure(let error):
                         print (error)
                     }
                     
+            }
+            */
+            Alamofire.request( newUrlString , method: .post, parameters: v.json(),  encoding: JSONEncoding.default)
+                .validate().responseJSON { response in
+                    switch response.result {
+                    case .success:
+                        print(response)
+                        print(response.result.value)
+                        
+                    case .failure(let error):
+                        print (error)
+                    }
             }
         }
     }

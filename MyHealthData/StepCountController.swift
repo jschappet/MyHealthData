@@ -39,13 +39,13 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
         settings = healthManager.getSettings()
         
         print("starting view did load: StepCountController")
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         fetch(25) { (items) in
-            self.dataSourceArray = items!.sort(self.dateSort)
+            self.dataSourceArray = items!.sorted(by: self.dateSort)
             
             
             self.updateView()
@@ -53,7 +53,7 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: #selector(VitalsController.refresh(_:)) ,   forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(VitalsController.refresh(_:)) ,   for: UIControlEvents.valueChanged)
         tableView!.addSubview(refreshControl)
         print("Done view did load: StepCountController")
         
@@ -63,7 +63,7 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     var refreshControl:UIRefreshControl!
     
     
-    func refresh(sender:AnyObject)
+    func refresh(_ sender:AnyObject)
     {
         
         print("refreshing")
@@ -73,9 +73,9 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     }
     
     
-    func checkHealthKitData(latestDate: NSDate, completion: ([StepCount]?, NSError!) -> Void ) {
+    func checkHealthKitData(_ latestDate: Date, completion: @escaping ([StepCount]?, NSError?) -> Void ) {
         //let past = latestDate
-        let rightNow   = NSDate()
+        let rightNow   = Date()
         
         self.healthManager.readStepCount(latestDate, endDate: rightNow, completion:  completion)
         
@@ -86,25 +86,25 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Most of the time my data source is an array of something...  will replace with the actual name of the data source
         return dataSourceArray.count
         
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Note:  Be sure to replace the argument to dequeueReusableCellWithIdentifier with the actual identifier string!
-        let cell = tableView.dequeueReusableCellWithIdentifier("stepCountCellId")! as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "stepCountCellId")! as UITableViewCell
         
-        let row = indexPath.row
+        let row = (indexPath as NSIndexPath).row
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
-        let dateString = dateFormatter.stringFromDate(dataSourceArray[row].measureEndDate)
+        let dateString = dateFormatter.string(from: dataSourceArray[row].measureEndDate as Date)
         cell.textLabel?.text =  "\(dataSourceArray[row].value)"
         cell.detailTextLabel?.text = dateString
         // set cell's textLabel.text property
@@ -113,11 +113,11 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     }
     
     
-    @IBAction func clickCheckHk(sender: AnyObject) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        var vitalsDate : NSDate
+    @IBAction func clickCheckHk(_ sender: AnyObject) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        var vitalsDate : Date
         if (self.dataSourceArray.count > 0) {
-            vitalsDate = self.dataSourceArray[0].measureEndDate + 1.minutes
+            vitalsDate = self.dataSourceArray[0].measureEndDate as Date + 1.minutes
         } else {
             vitalsDate = 1.years.ago
         }
@@ -129,10 +129,10 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
                 for v in hkItems! {
                     self.dataSourceArray.append(v)
                 }
-              self.dataSourceArray = self.dataSourceArray.sort(self.dateSort)
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+              self.dataSourceArray = self.dataSourceArray.sorted(by: self.dateSort)
+                DispatchQueue.main.async(execute: { () -> Void in
                   self.tableView.reloadData()
-                  UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                  UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 })
             })
        
@@ -147,12 +147,12 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
             print("\(w.measureEndDate) \(w.value)" )
         }
         
-        self.dataSourceArray = self.dataSourceArray.sort(dateSort)
+        self.dataSourceArray = self.dataSourceArray.sorted(by: dateSort)
         
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
             self.tableView.reloadData()
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             
         })
     }
@@ -161,15 +161,15 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     
     // With Alamofire
     //func fetchWeights() {
-    func fetch(count: Int, completion: ([StepCount]?) -> Void) {
+    func fetch(_ count: Int, completion: @escaping ([StepCount]?) -> Void) {
         
         
         var items = [StepCount]()
         
-        Alamofire.request(.GET, "\(settings.valueForKey("com.schappet.base.url") as! String)\(entityType)" , parameters: ["last": count])
+        Alamofire.request("\(settings.value(forKey: "com.schappet.base.url") as! String)\(entityType)" , parameters: ["last": count])
             .validate().responseJSON { response in
                 switch response.result {
-                case .Success:
+                case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
                         
@@ -180,7 +180,7 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
                         }
                         completion(items)
                     }
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
                     completion(nil)
                 }
@@ -190,16 +190,17 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     }
     
     
-    func post(items: [StepCount]) {
+    func post(_ items: [StepCount]) {
         for v in items {
-            Alamofire.request(.POST, "\(settings.valueForKey("com.schappet.base.url") as! String)\(entityType)", parameters: v.json(), encoding: .JSON)
+            Alamofire.request( "\(settings.value(forKey: "com.schappet.base.url") as! String)\(entityType)",
+                    method: .post, parameters: v.json(), encoding: JSONEncoding.default)
                 .responseJSON { response in
                     switch response.result {
-                    case .Success:
+                    case .success:
                         print(response)
                        // print(response.result.value)
                         
-                    case .Failure(let error):
+                    case .failure(let error):
                         print (error)
                     }
                     

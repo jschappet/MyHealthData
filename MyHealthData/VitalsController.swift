@@ -39,13 +39,13 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
         settings = healthManager.getSettings()
         
         print("starting view did load: VitalsController")
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         fetchWeights(25) { (items) in
-            self.dataSourceArray = items!.sort(self.vitalDateSort)
+            self.dataSourceArray = items!.sorted(by: self.vitalDateSort)
             
             //self.latestDate = self.dataSourceArray[0].vitalsDate
             
@@ -55,7 +55,7 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: #selector(VitalsController.refresh(_:)) ,   forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(VitalsController.refresh(_:)) ,   for: UIControlEvents.valueChanged)
         tableView!.addSubview(refreshControl)
         print("Done view did load: VitalsController")
         
@@ -65,14 +65,14 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     var refreshControl:UIRefreshControl!
     
     
-    func refresh(sender:AnyObject)
+    func refresh(_ sender:AnyObject)
     {
         
         print("refreshing")
         
         
         fetchWeights(25) { (items) in
-            self.dataSourceArray = items!.sort(self.vitalDateSort)
+            self.dataSourceArray = items!.sorted(by: self.vitalDateSort)
             
             //self.latestDate = self.dataSourceArray[0].vitalsDate
             
@@ -84,9 +84,9 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     }
     
     
-    func checkHealthKitData(latestDate: NSDate, completion: ([Vitals]?, NSError!) -> Void ) {
+    func checkHealthKitData(_ latestDate: Date, completion: @escaping ([Vitals]?, NSError?) -> Void ) {
         //let past = latestDate
-        let rightNow   = NSDate()
+        let rightNow   = Date()
         
         self.healthManager.readVitals(latestDate, endDate: rightNow, completion:  completion)
         
@@ -97,25 +97,25 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Most of the time my data source is an array of something...  will replace with the actual name of the data source
         return dataSourceArray.count
         
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Note:  Be sure to replace the argument to dequeueReusableCellWithIdentifier with the actual identifier string!
-        let cell = tableView.dequeueReusableCellWithIdentifier("vitailsCellId")! as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "vitailsCellId")! as UITableViewCell
 
-        let row = indexPath.row
+        let row = (indexPath as NSIndexPath).row
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
-        let dateString = dateFormatter.stringFromDate(dataSourceArray[row].vitalsDate)
+        let dateString = dateFormatter.string(from: dataSourceArray[row].vitalsDate as Date)
         cell.textLabel?.text =  "\(dataSourceArray[row].systolic) / \(dataSourceArray[row].diatolic)"
         cell.detailTextLabel?.text = dateString
         // set cell's textLabel.text property
@@ -124,13 +124,13 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     }
     
     
-    @IBAction func clickCheckHk(sender: AnyObject) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        var vitalsDate : NSDate
+    @IBAction func clickCheckHk(_ sender: AnyObject) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        var vitalsDate : Date
         if (self.dataSourceArray.count > 0) {
-            vitalsDate = self.dataSourceArray[0].vitalsDate + 10.minutes
+            vitalsDate = self.dataSourceArray[0].vitalsDate as Date + 10.minutes
         } else {
-            vitalsDate = NSDate.distantPast()
+            vitalsDate = Date.distantPast
         }
         
         
@@ -138,10 +138,10 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
             print("Count: \(hkItems!.count)")
             
             self.postVitals(hkItems!)
-            self.dataSourceArray = self.dataSourceArray.sort(self.vitalDateSort)
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.dataSourceArray = self.dataSourceArray.sorted(by: self.vitalDateSort)
+            DispatchQueue.main.async(execute: { () -> Void in
                 self.tableView.reloadData()
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
                 
             })
@@ -158,12 +158,12 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
             print("\(w.vitalsDate) \(w.pulse)" )
         }
         
-        self.dataSourceArray = self.dataSourceArray.sort(vitalDateSort)
+        self.dataSourceArray = self.dataSourceArray.sorted(by: vitalDateSort)
         
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
             self.tableView.reloadData()
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             
         })
     }
@@ -172,15 +172,15 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     
     // With Alamofire
     //func fetchWeights() {
-    func fetchWeights(count: Int, completion: ([Vitals]?) -> Void) {
+    func fetchWeights(_ count: Int, completion: @escaping ([Vitals]?) -> Void) {
         
         
         var items = [Vitals]()
         
-        Alamofire.request(.GET, "\(settings.valueForKey("com.schappet.base.url") as! String)\(entityType)" , parameters: ["last": count])
+        Alamofire.request("\(settings.value(forKey: "com.schappet.base.url") as! String)\(entityType)" , parameters: ["last": count])
             .validate().responseJSON { response in
                 switch response.result {
-                case .Success:
+                case .success:
                     if let value = response.result.value {
                         let json = JSON(value)
                         
@@ -191,7 +191,7 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
                         }
                         completion(items)
                     }
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
                     completion(nil)
                 }
@@ -201,16 +201,17 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     }
     
 
-    func postVitals(vitals: [Vitals]) {
+    func postVitals(_ vitals: [Vitals]) {
         for v in vitals {
-            Alamofire.request(.POST, "\(settings.valueForKey("com.schappet.base.url") as! String)\(entityType)", parameters: v.json(), encoding: .JSON)
+            Alamofire.request("\(settings.value(forKey: "com.schappet.base.url") as! String)\(entityType)",
+                    method: .post, parameters: v.json(),  encoding: JSONEncoding.default)
                 .responseJSON { response in
                     switch response.result {
-                    case .Success:
+                    case .success:
                         print(response)
                         print(response.result.value)
                         
-                    case .Failure(let error):
+                    case .failure(let error):
                         print (error)
                     }
                     
