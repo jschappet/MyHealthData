@@ -13,8 +13,8 @@ class StepCount {
     
     
     var id: Int
-    var measureStartDate: NSDate
-    var measureEndDate: NSDate
+    var measureStartDate: Date
+    var measureEndDate: Date
     
     var value: String
     
@@ -25,36 +25,36 @@ class StepCount {
     init() {
         self.person = ""
         self.value = ""
-        self.measureStartDate = NSDate()
-        self.measureEndDate = NSDate()
+        self.measureStartDate = Date()
+        self.measureEndDate = Date()
         self.id = -99
     }
     
     
     
     func json() -> [String : AnyObject] {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         let parameters: [String: AnyObject] = [
-            "personName" : self.person,
-            "person" : 2,
-            "value" : self.value,
+            "personName" : self.person as AnyObject,
+            "person" : 2 as AnyObject,
+            "value" : self.value as AnyObject,
             
-            "measureStartDate": dateFormatter.stringFromDate(self.measureStartDate),
-            "measureEndDate": dateFormatter.stringFromDate(self.measureEndDate)
+            "measureStartDate": dateFormatter.string(from: self.measureStartDate) as AnyObject,
+            "measureEndDate": dateFormatter.string(from: self.measureEndDate) as AnyObject
             
         ]
         return parameters
     }
     
     init(jsonData: JSON) {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         //print(jsonData)
         
@@ -64,20 +64,20 @@ class StepCount {
         
         var dateString = jsonData["measureStartDate"].stringValue
         
-        if let date =  dateFormatter.dateFromString( dateString ) {
+        if let date =  dateFormatter.date(from: dateString ) {
             self.measureStartDate = date
         } else {
             print("Start Date: \(dateString) did not parse")
-            self.measureStartDate = NSDate()
+            self.measureStartDate = Date()
         }
         
         dateString = jsonData["measureEndDate"].stringValue
         
-        if let date =  dateFormatter.dateFromString( dateString ) {
+        if let date =  dateFormatter.date( from: dateString ) {
             self.measureEndDate = date
         } else {
             print("End Date : \(dateString) did not parse")
-            self.measureEndDate = NSDate()
+            self.measureEndDate = Date()
         }
         
         self.id = jsonData["id"].intValue

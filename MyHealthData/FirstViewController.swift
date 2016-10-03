@@ -33,7 +33,7 @@ class FirstViewController: UITableViewController {
     
     let healthManager:HealthManager = HealthManager()
     
-    func authorizeHealthKit(completion: ((success:Bool, error:NSError!) -> Void)!)
+    func authorizeHealthKit(_ completion: ((_ success:Bool, _ error:NSError?) -> Void)!)
     {
         healthManager.authorizeHealthKit { (authorized,  error) -> Void in
             if authorized {
@@ -52,9 +52,9 @@ class FirstViewController: UITableViewController {
     
     
     // MARK: - TableView Delegate
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("Section: \(indexPath.section) Row: \(indexPath.row)" )
-        switch (indexPath.section, indexPath.row)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Section: \((indexPath as NSIndexPath).section) Row: \((indexPath as NSIndexPath).row)" )
+        switch ((indexPath as NSIndexPath).section, (indexPath as NSIndexPath).row)
         {
         case (kAuthorizeHealthKitSection,kAuthorizeHealthKitRow):
             authorizeHealthKit { (authorized, error) -> Void in
@@ -79,23 +79,23 @@ class FirstViewController: UITableViewController {
         default:
             break
         }
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
     
     let baseUrl = "http://localhost:8080/rest/vitals"
     
-    func postVitals(vitals: [Vitals]) {
+    func postVitals(_ vitals: [Vitals]) {
         for v in vitals {
-           let request =  Alamofire.request(.POST, baseUrl, parameters: v.json(), encoding: .JSON)
+            let request =  Alamofire.request(baseUrl,  method: .post, parameters: v.json())
                 .responseJSON { response in
                     switch response.result {
-                    case .Success:
+                    case .success:
                         print(response)
                         print(response.result.value)
                         
-                    case .Failure(let error):
+                    case .failure(let error):
                         print (error)
                     }
                     

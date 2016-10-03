@@ -1,0 +1,34 @@
+PODS:
+  - Alamofire (4.0.1)
+  - SwiftDate (3.0.9)
+  - SwiftyJSON (3.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.0)
+  - SwiftDate (from `https://github.com/malcommac/SwiftDate.git`, branch `feature/swift-3.0`)
+  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`, branch `master`)
+
+EXTERNAL SOURCES:
+  SwiftDate:
+    :branch: feature/swift-3.0
+    :git: https://github.com/malcommac/SwiftDate.git
+  SwiftyJSON:
+    :branch: master
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+
+CHECKOUT OPTIONS:
+  SwiftDate:
+    :commit: 040b2c844a34a677feed13238a1bbcf85eceac41
+    :git: https://github.com/malcommac/SwiftDate.git
+  SwiftyJSON:
+    :commit: ff43c8e31b4a74e9f98ead17d9b83fa9caf6c486
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+
+SPEC CHECKSUMS:
+  Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  SwiftDate: fa487d9b7d8c3070ea2553486902494f4915465d
+  SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
+
+PODFILE CHECKSUM: 2393701e14f54e30430da6e839af3eca7407407e
+
+COCOAPODS: 1.1.0.rc.2

@@ -18,12 +18,12 @@ class Weight {
     var value: String
     
     //private Date weightInDate;
-    var weightInDate: NSDate
+    var weightInDate: Date
     
     //private Person person;
     var person: String
     
-    init(value: String, person: String, weightId: Int, weightInDate: NSDate) {
+    init(value: String, person: String, weightId: Int, weightInDate: Date) {
         
         // Initialize stored properties.
         self.value = value
@@ -43,15 +43,15 @@ class Weight {
         
         let dateString = jsonData["weightInDate"].stringValue
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
 
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        if let date =  dateFormatter.dateFromString( dateString ) {
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        if let date =  dateFormatter.date( from: dateString ) {
              self.weightInDate = date
         } else {
             print("Date: \(dateString) did not parse")
-            self.weightInDate = NSDate()
+            self.weightInDate = Date()
         }
         
         self.weightId = jsonData["weightId"].intValue

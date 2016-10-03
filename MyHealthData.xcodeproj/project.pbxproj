@@ -27,7 +27,7 @@
 		30A489FE1CECE2A800A6CD87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30A489FC1CECE2A800A6CD87 /* LaunchScreen.storyboard */; };
 		30A48A091CECE2A800A6CD87 /* MyHealthDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A48A081CECE2A800A6CD87 /* MyHealthDataTests.swift */; };
 		30A48A141CECE2A800A6CD87 /* MyHealthDataUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A48A131CECE2A800A6CD87 /* MyHealthDataUITests.swift */; };
-		73401D2F65B24216E6FA1F2F /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62A1F36F4937647EA73EF22 /* Pods.framework */; };
+		640A71BDCD9B9A8CD9E1F269 /* Pods_MyHealthData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E32C14E2C8BABCDD80342A86 /* Pods_MyHealthData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0F8D6A800150845BFEC3BB7F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		304B1EA81CF39BDF00B42482 /* WeightController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightController.swift; sourceTree = "<group>"; };
 		304B1EAC1CF4D2CD00B42482 /* Vitals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vitals.swift; sourceTree = "<group>"; };
 		304B1EAE1CF4D40400B42482 /* VitalsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsTests.swift; sourceTree = "<group>"; };
@@ -76,8 +75,10 @@
 		30A48A0F1CECE2A800A6CD87 /* MyHealthDataUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyHealthDataUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30A48A131CECE2A800A6CD87 /* MyHealthDataUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHealthDataUITests.swift; sourceTree = "<group>"; };
 		30A48A151CECE2A800A6CD87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		571F5CCC9D7C38636D253443 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		7F910F59794EF05F286BA810 /* Pods-MyHealthData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyHealthData.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyHealthData/Pods-MyHealthData.release.xcconfig"; sourceTree = "<group>"; };
+		E32C14E2C8BABCDD80342A86 /* Pods_MyHealthData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyHealthData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E62A1F36F4937647EA73EF22 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3911DE4ADE61A8EC22E7F2E /* Pods-MyHealthData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyHealthData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyHealthData/Pods-MyHealthData.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +86,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73401D2F65B24216E6FA1F2F /* Pods.framework in Frameworks */,
 				307F69C41CEE0124006D0D7A /* HealthKit.framework in Frameworks */,
+				640A71BDCD9B9A8CD9E1F269 /* Pods_MyHealthData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,8 +138,8 @@
 				30A48A071CECE2A800A6CD87 /* MyHealthDataTests */,
 				30A48A121CECE2A800A6CD87 /* MyHealthDataUITests */,
 				30A489EF1CECE2A700A6CD87 /* Products */,
-				F2F9DDD681E482205192C6E0 /* Pods */,
 				97E883B49C0B40A821F0228A /* Frameworks */,
+				8BB1C255BD331EDA8B2D8AB0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -189,22 +190,23 @@
 			path = MyHealthDataUITests;
 			sourceTree = "<group>";
 		};
+		8BB1C255BD331EDA8B2D8AB0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F3911DE4ADE61A8EC22E7F2E /* Pods-MyHealthData.debug.xcconfig */,
+				7F910F59794EF05F286BA810 /* Pods-MyHealthData.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		97E883B49C0B40A821F0228A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				307F69C31CEE0124006D0D7A /* HealthKit.framework */,
 				E62A1F36F4937647EA73EF22 /* Pods.framework */,
+				E32C14E2C8BABCDD80342A86 /* Pods_MyHealthData.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		F2F9DDD681E482205192C6E0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				571F5CCC9D7C38636D253443 /* Pods.debug.xcconfig */,
-				0F8D6A800150845BFEC3BB7F /* Pods.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,12 +216,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 30A48A181CECE2A800A6CD87 /* Build configuration list for PBXNativeTarget "MyHealthData" */;
 			buildPhases = (
-				0E8077157E227E9FD5E8A6CD /* Check Pods Manifest.lock */,
+				8CD064731635915BA626CCD3 /* [CP] Check Pods Manifest.lock */,
 				30A489EA1CECE2A700A6CD87 /* Sources */,
 				30A489EB1CECE2A700A6CD87 /* Frameworks */,
 				30A489EC1CECE2A700A6CD87 /* Resources */,
-				9A72B1E70112380EDC4A38D0 /* Embed Pods Frameworks */,
-				49FF9A91A3EEC6589FF8BE76 /* Copy Pods Resources */,
+				8CF30967B9FA4805542846C4 /* [CP] Embed Pods Frameworks */,
+				993C23F39AA47BC91101D002 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -279,6 +281,7 @@
 					30A489ED1CECE2A700A6CD87 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = S338357XKT;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
 								enabled = 1;
@@ -287,10 +290,12 @@
 					};
 					30A48A031CECE2A800A6CD87 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 						TestTargetID = 30A489ED1CECE2A700A6CD87;
 					};
 					30A48A0E1CECE2A800A6CD87 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 						TestTargetID = 30A489ED1CECE2A700A6CD87;
 					};
 				};
@@ -344,49 +349,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E8077157E227E9FD5E8A6CD /* Check Pods Manifest.lock */ = {
+		8CD064731635915BA626CCD3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		49FF9A91A3EEC6589FF8BE76 /* Copy Pods Resources */ = {
+		8CF30967B9FA4805542846C4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyHealthData/Pods-MyHealthData-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9A72B1E70112380EDC4A38D0 /* Embed Pods Frameworks */ = {
+		993C23F39AA47BC91101D002 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyHealthData/Pods-MyHealthData-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -500,7 +505,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -539,7 +544,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -548,7 +553,7 @@
 		};
 		30A48A191CECE2A800A6CD87 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 571F5CCC9D7C38636D253443 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = F3911DE4ADE61A8EC22E7F2E /* Pods-MyHealthData.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MyHealthData/MyHealthData.entitlements;
@@ -559,12 +564,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		30A48A1A1CECE2A800A6CD87 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F8D6A800150845BFEC3BB7F /* Pods.release.xcconfig */;
+			baseConfigurationReference = 7F910F59794EF05F286BA810 /* Pods-MyHealthData.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MyHealthData/MyHealthData.entitlements;
@@ -575,6 +581,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -586,6 +593,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthDataTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyHealthData.app/MyHealthData";
 			};
 			name = Debug;
@@ -598,6 +606,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthDataTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyHealthData.app/MyHealthData";
 			};
 			name = Release;
@@ -609,6 +618,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthDataUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = MyHealthData;
 			};
 			name = Debug;
@@ -620,6 +630,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthDataUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = MyHealthData;
 			};
 			name = Release;

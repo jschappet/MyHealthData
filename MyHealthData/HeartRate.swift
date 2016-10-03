@@ -13,7 +13,7 @@ class HeartRate {
     
     
     var heartRateId: Int
-    var measureDate: NSDate
+    var measureDate: Date
     var value: String
     
     
@@ -23,34 +23,34 @@ class HeartRate {
     init() {
         self.person = ""
         self.value = ""
-        self.measureDate = NSDate()
+        self.measureDate = Date()
         self.heartRateId = -99
     }
     
     
     
     func json() -> [String : AnyObject] {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         let parameters: [String: AnyObject] = [
-            "personName" : self.person,
-            "person" : 2,
-            "value" : self.value,
+            "personName" : self.person as AnyObject,
+            "person" : 2 as AnyObject,
+            "value" : self.value as AnyObject,
             
-            "measureDate": dateFormatter.stringFromDate(self.measureDate)
+            "measureDate": dateFormatter.string(from: self.measureDate) as AnyObject
             
         ]
         return parameters
     }
     
     init(jsonData: JSON) {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         //print(jsonData)
         
@@ -60,11 +60,11 @@ class HeartRate {
         
         let dateString = jsonData["measureDate"].stringValue
         
-        if let date =  dateFormatter.dateFromString( dateString ) {
+        if let date =  dateFormatter.date( from: dateString ) {
             self.measureDate = date
         } else {
             print("Date: \(dateString) did not parse")
-            self.measureDate = NSDate()
+            self.measureDate = Date()
         }
         
         self.heartRateId = jsonData["heartRateId"].intValue
