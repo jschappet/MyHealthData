@@ -209,7 +209,7 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
                     switch response.result {
                     case .success:
                         print(response)
-                        print(response.result.value)
+                        print(response.result.value ?? "")
                         
                     case .failure(let error):
                         print (error)

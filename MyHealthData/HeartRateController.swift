@@ -129,7 +129,7 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
         if (self.dataSourceArray.count > 0) {
             measureDate = self.dataSourceArray[0].measureDate as Date + 10.minutes
         } else {
-            measureDate = 5.years.ago()
+            measureDate = 5.years.ago()!
         }
         print("click check Hk: \(measureDate)" )
         

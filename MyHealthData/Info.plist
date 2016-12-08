@@ -37,6 +37,10 @@
 	</array>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleDefault</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Personal Health Data Tracking</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Personal Health Data Tracking</string>
 	<key>UIStatusBarTintParameters</key>
 	<dict>
 		<key>UINavigationBar</key>

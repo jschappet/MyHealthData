@@ -11,6 +11,9 @@
 		304B1EAD1CF4D2CD00B42482 /* Vitals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EAC1CF4D2CD00B42482 /* Vitals.swift */; };
 		304B1EAF1CF4D40400B42482 /* VitalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EAE1CF4D40400B42482 /* VitalsTests.swift */; };
 		304B1ECF1CF5E2FB00B42482 /* VitalsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1ECE1CF5E2FB00B42482 /* VitalsController.swift */; };
+		3074C6BF1DF9E6CD0043E66A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3074C6BB1DF9E6CD0043E66A /* LaunchScreen.storyboard */; };
+		3074C6C01DF9E6CD0043E66A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3074C6BD1DF9E6CD0043E66A /* Main.storyboard */; };
+		3074C6C21DF9E95D0043E66A /* WeightCBLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3074C6C11DF9E95D0043E66A /* WeightCBLController.swift */; };
 		307F69C11CEDF2E8006D0D7A /* WeightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69C01CEDF2E8006D0D7A /* WeightTests.swift */; };
 		307F69C41CEE0124006D0D7A /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 307F69C31CEE0124006D0D7A /* HealthKit.framework */; };
 		307F69C81CEE0724006D0D7A /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69C71CEE0724006D0D7A /* HealthManager.swift */; };
@@ -22,9 +25,7 @@
 		308215A51D08461B00CD6D77 /* StepCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308215A41D08461B00CD6D77 /* StepCount.swift */; };
 		30A489F21CECE2A800A6CD87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A489F11CECE2A800A6CD87 /* AppDelegate.swift */; };
 		30A489F41CECE2A800A6CD87 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A489F31CECE2A800A6CD87 /* FirstViewController.swift */; };
-		30A489F91CECE2A800A6CD87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30A489F71CECE2A800A6CD87 /* Main.storyboard */; };
 		30A489FB1CECE2A800A6CD87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30A489FA1CECE2A800A6CD87 /* Assets.xcassets */; };
-		30A489FE1CECE2A800A6CD87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30A489FC1CECE2A800A6CD87 /* LaunchScreen.storyboard */; };
 		30A48A091CECE2A800A6CD87 /* MyHealthDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A48A081CECE2A800A6CD87 /* MyHealthDataTests.swift */; };
 		30A48A141CECE2A800A6CD87 /* MyHealthDataUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A48A131CECE2A800A6CD87 /* MyHealthDataUITests.swift */; };
 		640A71BDCD9B9A8CD9E1F269 /* Pods_MyHealthData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E32C14E2C8BABCDD80342A86 /* Pods_MyHealthData.framework */; };
@@ -52,6 +53,10 @@
 		304B1EAC1CF4D2CD00B42482 /* Vitals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vitals.swift; sourceTree = "<group>"; };
 		304B1EAE1CF4D40400B42482 /* VitalsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsTests.swift; sourceTree = "<group>"; };
 		304B1ECE1CF5E2FB00B42482 /* VitalsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsController.swift; sourceTree = "<group>"; };
+		305F8C181DF9B51A0016CDD5 /* MyHealthData-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyHealthData-Bridging-Header.h"; sourceTree = "<group>"; };
+		3074C6BC1DF9E6CD0043E66A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3074C6BE1DF9E6CD0043E66A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3074C6C11DF9E95D0043E66A /* WeightCBLController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightCBLController.swift; sourceTree = "<group>"; };
 		307F69C01CEDF2E8006D0D7A /* WeightTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightTests.swift; sourceTree = "<group>"; };
 		307F69C21CEE0124006D0D7A /* MyHealthData.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MyHealthData.entitlements; sourceTree = "<group>"; };
 		307F69C31CEE0124006D0D7A /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -65,9 +70,7 @@
 		30A489EE1CECE2A700A6CD87 /* MyHealthData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyHealthData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30A489F11CECE2A800A6CD87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30A489F31CECE2A800A6CD87 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		30A489F81CECE2A800A6CD87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		30A489FA1CECE2A800A6CD87 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		30A489FD1CECE2A800A6CD87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		30A489FF1CECE2A800A6CD87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30A48A041CECE2A800A6CD87 /* MyHealthDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyHealthDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30A48A081CECE2A800A6CD87 /* MyHealthDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHealthDataTests.swift; sourceTree = "<group>"; };
@@ -116,6 +119,7 @@
 				304B1ECE1CF5E2FB00B42482 /* VitalsController.swift */,
 				308215981D05BA9600CD6D77 /* HeartRateController.swift */,
 				308215A21D08454E00CD6D77 /* StepCountController.swift */,
+				3074C6C11DF9E95D0043E66A /* WeightCBLController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -156,16 +160,17 @@
 		30A489F01CECE2A800A6CD87 /* MyHealthData */ = {
 			isa = PBXGroup;
 			children = (
+				3074C6BB1DF9E6CD0043E66A /* LaunchScreen.storyboard */,
+				3074C6BD1DF9E6CD0043E66A /* Main.storyboard */,
 				307F69C21CEE0124006D0D7A /* MyHealthData.entitlements */,
 				307F69BD1CEDF1B8006D0D7A /* Model */,
 				307F69BC1CEDEB6F006D0D7A /* Controllers */,
 				30A489F11CECE2A800A6CD87 /* AppDelegate.swift */,
 				307F69C71CEE0724006D0D7A /* HealthManager.swift */,
-				30A489F71CECE2A800A6CD87 /* Main.storyboard */,
 				30A489FA1CECE2A800A6CD87 /* Assets.xcassets */,
-				30A489FC1CECE2A800A6CD87 /* LaunchScreen.storyboard */,
 				30A489FF1CECE2A800A6CD87 /* Info.plist */,
 				3082159E1D07324400CD6D77 /* MyHealthData.plist */,
+				305F8C181DF9B51A0016CDD5 /* MyHealthData-Bridging-Header.h */,
 			);
 			path = MyHealthData;
 			sourceTree = "<group>";
@@ -275,7 +280,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "University of Iowa - ICTS";
 				TargetAttributes = {
 					30A489ED1CECE2A700A6CD87 = {
@@ -325,10 +330,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30A489FE1CECE2A800A6CD87 /* LaunchScreen.storyboard in Resources */,
+				3074C6BF1DF9E6CD0043E66A /* LaunchScreen.storyboard in Resources */,
 				30A489FB1CECE2A800A6CD87 /* Assets.xcassets in Resources */,
 				3082159F1D07324400CD6D77 /* MyHealthData.plist in Resources */,
-				30A489F91CECE2A800A6CD87 /* Main.storyboard in Resources */,
+				3074C6C01DF9E6CD0043E66A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +407,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				308215A31D08454E00CD6D77 /* StepCountController.swift in Sources */,
+				3074C6C21DF9E95D0043E66A /* WeightCBLController.swift in Sources */,
 				308215991D05BA9600CD6D77 /* HeartRateController.swift in Sources */,
 				3082159B1D05BAE400CD6D77 /* HeartRate.swift in Sources */,
 				307F69C81CEE0724006D0D7A /* HealthManager.swift in Sources */,
@@ -449,20 +455,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		30A489F71CECE2A800A6CD87 /* Main.storyboard */ = {
+		3074C6BB1DF9E6CD0043E66A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				30A489F81CECE2A800A6CD87 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		30A489FC1CECE2A800A6CD87 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				30A489FD1CECE2A800A6CD87 /* Base */,
+				3074C6BC1DF9E6CD0043E66A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		3074C6BD1DF9E6CD0043E66A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3074C6BE1DF9E6CD0043E66A /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -482,8 +488,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -505,7 +513,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -527,8 +535,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -544,9 +554,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -555,15 +566,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F3911DE4ADE61A8EC22E7F2E /* Pods-MyHealthData.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MyHealthData/MyHealthData.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MyHealthData/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyHealthData/MyHealthData-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -572,15 +586,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7F910F59794EF05F286BA810 /* Pods-MyHealthData.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MyHealthData/MyHealthData.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MyHealthData/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.icts.MyHealthData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyHealthData/MyHealthData-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

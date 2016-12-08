@@ -297,4 +297,45 @@ class HealthManager {
     
     
     
+    func readWeight(_ startDate: Date, endDate: Date, completion: (([Weight]?, NSError?) -> Void)!) {
+        var weights = [Weight]()
+        print ("Getting data from: \(startDate) to: \(endDate)")
+        guard let type = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass) else {
+            // display error, etc...
+            print("error getting data")
+            
+            return
+        }
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
+        
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 10000, sortDescriptors: [sortDescriptor])
+        { (sampleQuery, data, error ) -> Void in
+            if let e = error {
+                    print(e)
+            } else {
+            if let results = data {
+                print("got results: \(results.count)")
+            for r in results
+                {
+                if let data1 = r as? HKQuantitySample {
+                    print(data1.sourceRevision.source.name)
+                    //if (data1.sourceRevision.source.name == "Misfit") {
+                        // TODO: Get HeartRate for the
+                    let act = Weight(hkSample: data1)
+                        weights.append(act)
+                    //}
+                    // print("\(date)  \(value1) / \(value2)")
+                    }
+                }
+                completion?(weights, error as NSError?)
+            
+            }
+          }
+        }
+        healthKitStore.execute(sampleQuery)
+    }
+    
+    
+
 }

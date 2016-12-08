@@ -119,7 +119,7 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
         if (self.dataSourceArray.count > 0) {
             vitalsDate = self.dataSourceArray[0].measureEndDate as Date + 1.minutes
         } else {
-            vitalsDate = 1.years.ago
+            vitalsDate = 1.years.ago()!
         }
        
             self.checkHealthKitData(vitalsDate, completion: { (hkItems, error) in

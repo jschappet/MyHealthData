@@ -8,17 +8,19 @@
 
 import Foundation
 import SwiftyJSON
+import HealthKit
 
 class Weight {
     
     //private Integer weightId;
     var weightId: Int
-    
+    var uuid: UUID
     //private String value;
     var value: String
     
     //private Date weightInDate;
     var weightInDate: Date
+    var deviceName: String
     
     //private Person person;
     var person: String
@@ -31,13 +33,32 @@ class Weight {
         self.weightId = weightId
         
         self.weightInDate = weightInDate
-        
+        self.uuid = UUID.init()
+        self.deviceName = ""
         
     }
     
+    
+    init(hkSample: HKQuantitySample) {
+        self.uuid = hkSample.uuid
+        self.person = ""
+        self.weightInDate = hkSample.startDate
+        if let deviceName = hkSample.device?.name {
+            self.deviceName = deviceName
+        } else {
+            self.deviceName = ""
+        }
+        
+        let value1 = hkSample.quantity.doubleValue(for: HKUnit.pound())
+        self.value = "\(value1)"
+        self.weightId = -1
+
+    }
  
     init(jsonData: JSON) {
         self.person = jsonData["personName"].stringValue
+        self.uuid = UUID.init()
+        self.deviceName = ""
         
         self.value = "\(jsonData["valueFloat"].floatValue)"
         

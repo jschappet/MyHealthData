@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyHealthData/Weight.swift"
-            timestampString = "485380735.679834"
+            timestampString = "502926767.524197"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
             landmarkName = "Weight"
             landmarkType = "3">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyHealthData/Weight.swift"
-            timestampString = "485380735.679834"
+            timestampString = "502927542.312668"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "init(jsonData:)"
             landmarkType = "7">
          </BreakpointContent>
