@@ -47,15 +47,16 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
     var weightTitles : [CBLQueryRow]?
 
     func setupViewAndQuery() {
-        let listsView = database.viewNamed("weightByTitle")
+        let listsView = database.viewNamed("viewWeightByTitle")
         if listsView.mapBlock == nil {
             listsView.setMapBlock({ (doc,emit) in
                 if let id = doc["_id"] as? String, id.hasPrefix("weight") {
                     
                     if let data = doc["data"] as? [String : AnyObject] {
-                        if let title = data["title"] as? String {
-                            emit(title, nil)
+                        if let title = data["value"] as? String {
+                            emit(title, data)
                         }
+                        
                     }
                     
                 }
@@ -142,7 +143,9 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
         
         let row = self.weightTitles![indexPath.row] as CBLQueryRow
         cell.textLabel?.text = row.value(forKey: "key") as? String
-        
+        if let myValue = row.value(forKey: "value") as? [ String : String] {
+            cell.detailTextLabel?.text = myValue["weightInDate"] 
+        }
         return cell
     }
     
@@ -162,12 +165,12 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
             
             self.saveHKItems(hkItems: hkItems!)
             //self.dataSourceArray = self.dataSourceArray.sorted(by: self.dateSort)
-          /*  DispatchQueue.main.async(execute: { () -> Void in
-                self.tableView.reloadData()
+            DispatchQueue.main.async(execute: { () -> Void in
+               // self.tableView.reloadData()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
                 
-            })*/
+            })
         })
         
         
@@ -185,15 +188,33 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
                 
                 
                 for w in hkItems {
-                    let id = "weight_\(w.uuid)"
+                    
+                    let docId = "weight_\(w.uuid)"
+                    guard let doc = bgdb.document(withID: docId) else {
+                        print("wont save uuid exists: \(w.uuid)")
+                        continue
+                    }
+                    
                     let properties : [String : Any] = [
                         "data" : [
                             "devicename" : w.deviceName,
-                            "value" : w.value
+                            "value" : w.value,
+                            "weightInDate": "\(w.weightInDate)"
+                            
                         ]
                     ]
-                    let doc = bgdb.document(withID: id)!
-                    try! doc.putProperties(properties)
+                    
+                    
+                    
+                    
+                    
+                    do {
+                        try doc.putProperties(properties)
+                    } catch _ as NSError {
+                        print("could not set properties uuid exists: \(w.uuid)")
+                        continue
+                    }
+                    
                     
                 }
             })
