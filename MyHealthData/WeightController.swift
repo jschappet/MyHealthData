@@ -38,7 +38,7 @@ class WeightController: UIViewController,  UITableViewDataSource, UITableViewDel
         // Do any additional setup after loading the view, typically from a nib.
         fetchWeights( 25) { (weights) in
             self.dataSourceArray = weights!.sorted(by: { (w1, w2)-> Bool in
-                w1.weightInDate.timeIntervalSinceReferenceDate > w2.weightInDate.timeIntervalSinceReferenceDate
+                w1.startDate.timeIntervalSinceReferenceDate > w2.startDate.timeIntervalSinceReferenceDate
             })
             self.updateView()
          
@@ -86,7 +86,7 @@ class WeightController: UIViewController,  UITableViewDataSource, UITableViewDel
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
          
-        let dateString = dateFormatter.string(from: dataSourceArray[row].weightInDate as Date)
+        let dateString = dateFormatter.string(from: dataSourceArray[row].startDate as Date)
         cell.textLabel?.text =  "\(dataSourceArray[row].value)lbs"
         cell.detailTextLabel?.text = dateString
         // set cell's textLabel.text property
@@ -100,7 +100,7 @@ class WeightController: UIViewController,  UITableViewDataSource, UITableViewDel
     
     func updateView() {
         for w in dataSourceArray {
-            print("\(w.weightInDate) \(w.value)" )
+            print("\(w.startDate) \(w.value)" )
         }
         DispatchQueue.main.async(execute: { () -> Void in
              self.tableView.reloadData()

@@ -39,7 +39,7 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
     
     
     let dateSort = { (v1: Weight, v2: Weight) -> Bool in
-        return (v1.weightInDate.timeIntervalSinceReferenceDate > v2.weightInDate.timeIntervalSinceReferenceDate)
+        return (v1.startDate.timeIntervalSinceReferenceDate > v2.startDate.timeIntervalSinceReferenceDate)
         
     }
     
@@ -50,10 +50,10 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
         let listsView = database.viewNamed("viewWeightByTitle")
         if listsView.mapBlock == nil {
             listsView.setMapBlock({ (doc,emit) in
-                if let id = doc["_id"] as? String, id.hasPrefix("weight") {
+                if let id = doc["_id"] as? String, id.hasPrefix("\(self.entityType)_") {
                     
                     if let data = doc["data"] as? [String : AnyObject] {
-                        if let title = data["value"] as? String {
+                        if let title = data["startDate"] as? String {
                             emit(title, data)
                         }
                         
@@ -127,12 +127,13 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
         
     }
     
-    var dataSourceArray = [Weight]()
+  //  var dataSourceArray = [Weight]()
     
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Most of the time my data source is an array of something...  will replace with the actual name of the data source
+        print("Count \(weightTitles?.count ?? 0)")
         return weightTitles?.count ?? 0
         
     }
@@ -142,9 +143,9 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "weightCBLCellId")! as UITableViewCell
         
         let row = self.weightTitles![indexPath.row] as CBLQueryRow
-        cell.textLabel?.text = row.value(forKey: "key") as? String
+        cell.detailTextLabel?.text = row.value(forKey: "key") as? String
         if let myValue = row.value(forKey: "value") as? [ String : String] {
-            cell.detailTextLabel?.text = myValue["weightInDate"] 
+            cell.textLabel?.text = myValue["value"]
         }
         return cell
     }
@@ -152,13 +153,14 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
     
     @IBAction func clickCheckHk(_ sender: AnyObject) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        var latestDate : Date
+        let latestDate = Date.distantPast
+       /*
         if (self.dataSourceArray.count > 0) {
-            latestDate = self.dataSourceArray[0].weightInDate as Date + 10.minutes
+            latestDate = self.dataSourceArray[0].startDate as Date + 10.minutes
         } else {
             latestDate = Date.distantPast
         }
-        
+        */
         
         self.checkHealthKitData(latestDate, completion: { (hkItems, error) in
             print("Count: \(hkItems!.count)")
@@ -189,7 +191,7 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
                 
                 for w in hkItems {
                     
-                    let docId = "weight_\(w.uuid)"
+                    let docId = "\(self.entityType)_\(w.uuid)"
                     guard let doc = bgdb.document(withID: docId) else {
                         print("wont save uuid exists: \(w.uuid)")
                         continue
@@ -199,7 +201,8 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
                         "data" : [
                             "devicename" : w.deviceName,
                             "value" : w.value,
-                            "weightInDate": "\(w.weightInDate)"
+                            "startDate": "\(w.startDate)",
+                            "endDate": "\(w.endDate)"
                             
                         ]
                     ]
@@ -210,8 +213,8 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
                     
                     do {
                         try doc.putProperties(properties)
-                    } catch _ as NSError {
-                        print("could not set properties uuid exists: \(w.uuid)")
+                    } catch  let error as NSError  {
+                        print("could not set properties uuid exists: \(w.uuid) \(error)")
                         continue
                     }
                     
@@ -227,10 +230,10 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
     
     
     // MARK : Get Data
-    
+    /*
     func updateView() {
         for w in dataSourceArray {
-            print("\(w.weightInDate) \(w.value)" )
+            print("\(w.startDate) \(w.value)" )
         }
         
         self.dataSourceArray = self.dataSourceArray.sorted(by: dateSort)
@@ -242,7 +245,7 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
             
         })
     }
-    
+    */
     
     
     

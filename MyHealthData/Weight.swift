@@ -10,29 +10,18 @@ import Foundation
 import SwiftyJSON
 import HealthKit
 
-class Weight {
+class Weight : HealthItem{
     
-    //private Integer weightId;
-    var weightId: Int
-    var uuid: UUID
-    //private String value;
-    var value: String
-    
-    //private Date weightInDate;
-    var weightInDate: Date
-    var deviceName: String
-    
-    //private Person person;
-    var person: String
-    
-    init(value: String, person: String, weightId: Int, weightInDate: Date) {
-        
+      init(value: String, person: String, weightId: Int, weightInDate: Date) {
+        super.init()
         // Initialize stored properties.
         self.value = value
         self.person = person
-        self.weightId = weightId
+        self.id = weightId
         
-        self.weightInDate = weightInDate
+        self.startDate = weightInDate
+        self.endDate = weightInDate
+        
         self.uuid = UUID.init()
         self.deviceName = ""
         
@@ -40,22 +29,21 @@ class Weight {
     
     
     init(hkSample: HKQuantitySample) {
+        super.init()
         self.uuid = hkSample.uuid
         self.person = ""
-        self.weightInDate = hkSample.startDate
-        if let deviceName = hkSample.device?.name {
-            self.deviceName = deviceName
-        } else {
-            self.deviceName = ""
-        }
+        self.startDate = hkSample.startDate
+        self.endDate = hkSample.endDate
         
+        self.deviceName = hkSample.sourceRevision.source.name
         let value1 = hkSample.quantity.doubleValue(for: HKUnit.pound())
         self.value = "\(value1)"
-        self.weightId = -1
+        self.id = -1
 
     }
  
     init(jsonData: JSON) {
+        super.init()
         self.person = jsonData["personName"].stringValue
         self.uuid = UUID.init()
         self.deviceName = ""
@@ -69,13 +57,16 @@ class Weight {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         if let date =  dateFormatter.date( from: dateString ) {
-             self.weightInDate = date
+             self.startDate = date
+            self.endDate = date
+            
         } else {
             print("Date: \(dateString) did not parse")
-            self.weightInDate = Date()
+            self.startDate = Date()
+            self.endDate = Date()
         }
         
-        self.weightId = jsonData["weightId"].intValue
+        self.id = jsonData["weightId"].intValue
         
     }
     

@@ -11,6 +11,7 @@
 		304B1EAD1CF4D2CD00B42482 /* Vitals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EAC1CF4D2CD00B42482 /* Vitals.swift */; };
 		304B1EAF1CF4D40400B42482 /* VitalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EAE1CF4D40400B42482 /* VitalsTests.swift */; };
 		304B1ECF1CF5E2FB00B42482 /* VitalsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1ECE1CF5E2FB00B42482 /* VitalsController.swift */; };
+		306070061DFAF82600DF1A0D /* HealthItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306070051DFAF82600DF1A0D /* HealthItem.swift */; };
 		3074C6BF1DF9E6CD0043E66A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3074C6BB1DF9E6CD0043E66A /* LaunchScreen.storyboard */; };
 		3074C6C01DF9E6CD0043E66A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3074C6BD1DF9E6CD0043E66A /* Main.storyboard */; };
 		3074C6C21DF9E95D0043E66A /* WeightCBLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3074C6C11DF9E95D0043E66A /* WeightCBLController.swift */; };
@@ -54,6 +55,7 @@
 		304B1EAE1CF4D40400B42482 /* VitalsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsTests.swift; sourceTree = "<group>"; };
 		304B1ECE1CF5E2FB00B42482 /* VitalsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsController.swift; sourceTree = "<group>"; };
 		305F8C181DF9B51A0016CDD5 /* MyHealthData-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyHealthData-Bridging-Header.h"; sourceTree = "<group>"; };
+		306070051DFAF82600DF1A0D /* HealthItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthItem.swift; sourceTree = "<group>"; };
 		3074C6BC1DF9E6CD0043E66A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3074C6BE1DF9E6CD0043E66A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3074C6C11DF9E95D0043E66A /* WeightCBLController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightCBLController.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				304B1EAC1CF4D2CD00B42482 /* Vitals.swift */,
 				3082159A1D05BAE400CD6D77 /* HeartRate.swift */,
 				308215A41D08461B00CD6D77 /* StepCount.swift */,
+				306070051DFAF82600DF1A0D /* HealthItem.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				3082159B1D05BAE400CD6D77 /* HeartRate.swift in Sources */,
 				307F69C81CEE0724006D0D7A /* HealthManager.swift in Sources */,
 				304B1EAD1CF4D2CD00B42482 /* Vitals.swift in Sources */,
+				306070061DFAF82600DF1A0D /* HealthItem.swift in Sources */,
 				30A489F21CECE2A800A6CD87 /* AppDelegate.swift in Sources */,
 				304B1ECF1CF5E2FB00B42482 /* VitalsController.swift in Sources */,
 				304B1EA91CF39BDF00B42482 /* WeightController.swift in Sources */,
