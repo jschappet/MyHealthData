@@ -12,7 +12,8 @@ import HealthKit
 
 class Weight : HealthItem{
     
-      init(value: String, person: String, weightId: Int, weightInDate: Date) {
+    
+    init(value: String, person: String, weightId: Int, weightInDate: Date) {
         super.init()
         // Initialize stored properties.
         self.value = value
@@ -24,6 +25,7 @@ class Weight : HealthItem{
         
         self.uuid = UUID.init()
         self.deviceName = ""
+        
         
     }
     

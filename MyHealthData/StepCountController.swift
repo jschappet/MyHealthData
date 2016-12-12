@@ -53,7 +53,7 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: #selector(VitalsController.refresh(_:)) ,   for: UIControlEvents.valueChanged)
+        self.refreshControl.addTarget(self, action: #selector(StepCountController.refresh(_:)) ,   for: UIControlEvents.valueChanged)
         tableView!.addSubview(refreshControl)
         print("Done view did load: StepCountController")
         

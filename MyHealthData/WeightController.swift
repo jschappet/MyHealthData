@@ -46,7 +46,7 @@ class WeightController: UIViewController,  UITableViewDataSource, UITableViewDel
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: #selector(VitalsController.refresh(_:)) ,   for: UIControlEvents.valueChanged)
+        self.refreshControl.addTarget(self, action: #selector(WeightController.refresh(_:)) ,   for: UIControlEvents.valueChanged)
         tableView!.addSubview(refreshControl)
         
         print("Done view did load: WeightController")

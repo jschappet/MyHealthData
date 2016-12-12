@@ -250,7 +250,7 @@ class HealthManager {
     }
 
     
-    
+ 
     func readVitals(_ startDate: Date, endDate: Date, completion: (([Vitals]?, NSError?) -> Void)!) {
         var vitals = [Vitals]()
         
@@ -266,7 +266,7 @@ class HealthManager {
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
         
         let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
-        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 100, sortDescriptors: [sortDescriptor])
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 1000, sortDescriptors: [sortDescriptor])
         { (sampleQuery, results, error ) -> Void in
             
             if let dataList = results as? [HKCorrelation] {
@@ -279,7 +279,7 @@ class HealthManager {
                         let value2 = data2.quantity.doubleValue(for: HKUnit.millimeterOfMercury())
                         let date = data2.endDate
                         let v = Vitals()
-                        v.vitalsDate = date
+                        v.startDate = date
                         v.diatolic = Int(value2)
                         v.systolic = Int(value1)
                         vitals.append(v)
@@ -292,7 +292,7 @@ class HealthManager {
         }
         healthKitStore.execute(sampleQuery)
     }
-    
+   
     
     
     

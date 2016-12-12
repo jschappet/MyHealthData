@@ -26,10 +26,7 @@ func createDatabase() -> CBLDatabase {
 class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableViewDelegate {
     
     lazy var database = createDatabase()
-    
-    
-    //var latestDate : NSDate?
-    
+
     let healthManager:HealthManager = HealthManager()
     var settings : NSDictionary = [:]
     
@@ -61,9 +58,12 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
                     
                 }
             }, version: "1.0")
+            
         }
         
         weightQuery = listsView.createQuery().asLive()
+        weightQuery.descending = true
+        
         weightQuery.addObserver(self, forKeyPath: "rows", options: .new, context: nil)
         weightQuery.start()
     }
@@ -85,20 +85,9 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
         settings = healthManager.getSettings()
         
         print("starting view did load: VitalsController")
-        //UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        
-        
         super.viewDidLoad()
       
         setupViewAndQuery()
-
-        // Do any additional setup after loading the view, typically from a nib.
-
-        
-        //self.refreshControl = UIRefreshControl()
-        //self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        //self.refreshControl.addTarget(self, action: #selector(WeightCBLController.refresh(_:)) ,   for: UIControlEvents.valueChanged)
-        //tableView!.addSubview(refreshControl)
         print("Done view did load: WeightCBLController")
         
     }
@@ -127,13 +116,8 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
         
     }
     
-  //  var dataSourceArray = [Weight]()
-    
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Most of the time my data source is an array of something...  will replace with the actual name of the data source
-        print("Count \(weightTitles?.count ?? 0)")
+        
         return weightTitles?.count ?? 0
         
     }
@@ -154,14 +138,7 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
     @IBAction func clickCheckHk(_ sender: AnyObject) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let latestDate = Date.distantPast
-       /*
-        if (self.dataSourceArray.count > 0) {
-            latestDate = self.dataSourceArray[0].startDate as Date + 10.minutes
-        } else {
-            latestDate = Date.distantPast
-        }
-        */
-        
+       
         self.checkHealthKitData(latestDate, completion: { (hkItems, error) in
             print("Count: \(hkItems!.count)")
             
@@ -182,7 +159,7 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
         
         //let options = CBLDatabaseOptions()
         let dbname = "automation_jschappet"
-        //.openDatabaseNamed(dbname, with: options)
+       
         if let mgr = try? CBLManager.sharedInstance()       {
             
             mgr.backgroundTellDatabaseNamed(dbname, to: { (bgdb: CBLDatabase!) -> Void in
@@ -206,11 +183,6 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
                             
                         ]
                     ]
-                    
-                    
-                    
-                    
-                    
                     do {
                         try doc.putProperties(properties)
                     } catch  let error as NSError  {
@@ -227,26 +199,6 @@ class WeightCBLController:  UIViewController,  UITableViewDataSource, UITableVie
         }
         
     }
-    
-    
-    // MARK : Get Data
-    /*
-    func updateView() {
-        for w in dataSourceArray {
-            print("\(w.startDate) \(w.value)" )
-        }
-        
-        self.dataSourceArray = self.dataSourceArray.sorted(by: dateSort)
-        
-        
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.tableView.reloadData()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            
-        })
-    }
-    */
-    
     
     
     

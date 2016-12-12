@@ -237,7 +237,7 @@
                                 <rect key="frame" x="0.0" y="44" width="316" height="507"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="vitailsCellId" textLabel="bhh-ld-Ouo" detailTextLabel="F1A-iN-8ve" style="IBUITableViewCellStyleSubtitle" id="Ssh-o3-Qpg">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="vitalsCellId" textLabel="bhh-ld-Ouo" detailTextLabel="F1A-iN-8ve" style="IBUITableViewCellStyleSubtitle" id="Ssh-o3-Qpg">
                                         <rect key="frame" x="0.0" y="28" width="316" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ssh-o3-Qpg" id="B58-Qv-kZO">

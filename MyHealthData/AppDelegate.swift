@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
       
-        let url = URL(string: "http://129.255.39.121:5984/automation_jschappet")!
+        let url = URL(string: "http://www.schappet.com:5984/automation_jschappet")!
         
         pusher = database.createPushReplication(url)
         pusher.continuous = true

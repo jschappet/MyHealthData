@@ -17,21 +17,41 @@ class Vitals {
    
     
     
-    var vitalsId: Int
-    var vitalsDate: Date
     var systolic: Int
     var diatolic: Int
     var pulse: Int
-    var person: String
+    
+    
+    //private Integer weightId;
+    var id : Int
+    var uuid : UUID
+    //private String value;
+    var value : String;
+    
+    //private Date weightInDate;
+    var startDate : Date
+    var endDate : Date
+    var deviceName : String
+    
+    //private Person person;
+    var person : String
+    
+    var type : String
+
     
     
     init() {
+        self.id = -99
         self.person = ""
         self.systolic = 0
         self.diatolic = 0
         self.pulse = 0
-        self.vitalsDate = Date()
-        self.vitalsId = -99
+        self.startDate = Date()
+        self.endDate = Date()
+        self.type="vitals"
+        self.value=""
+        self.deviceName=""
+        self.uuid = UUID.init()
     }
     
     
@@ -47,13 +67,17 @@ class Vitals {
             "person" : 2 as AnyObject,
             "systolic" : self.systolic as AnyObject,
             "diatolic" : self.diatolic as AnyObject,
-            "vitalsDate": dateFormatter.string(from: self.vitalsDate) as AnyObject
+            "vitalsDate": dateFormatter.string(from: self.startDate) as AnyObject
             
         ]
         return parameters
     }
     
     init(jsonData: JSON) {
+        self.id = jsonData["vitalsId"].intValue
+        
+        
+        
         let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
@@ -70,13 +94,18 @@ class Vitals {
         let dateString = jsonData["vitalsDate"].stringValue
         
         if let date =  dateFormatter.date( from: dateString ) {
-            self.vitalsDate = date
+            self.startDate = date
+            self.endDate = date
         } else {
             print("Date: \(dateString) did not parse")
-            self.vitalsDate = Date()
+            self.startDate = Date()
+            self.endDate = Date()
         }
-        
-        self.vitalsId = jsonData["vitalsId"].intValue
+        self.type="vitals"
+
+        self.value=""
+        self.deviceName=""
+        self.uuid = UUID.init()
         
     }
     

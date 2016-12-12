@@ -8,30 +8,62 @@
 
 import Foundation
 import UIKit
-import Alamofire
-import SwiftyJSON
 import HealthKit
 import SwiftDate
 
 class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDelegate {
-    
-    
-    
     //var latestDate : NSDate?
     
     let healthManager:HealthManager = HealthManager()
     var settings : NSDictionary = [:]
-    
+
+    lazy var database = createDatabase()
+
     let entityType = "vitals"
     
     @IBOutlet weak var tableView: UITableView!
     
     
     let vitalDateSort = { (v1: Vitals, v2: Vitals) -> Bool in
-        return (v1.vitalsDate.timeIntervalSinceReferenceDate > v2.vitalsDate.timeIntervalSinceReferenceDate)
+        return (v1.startDate.timeIntervalSinceReferenceDate > v2.startDate.timeIntervalSinceReferenceDate)
     }
     
-
+    
+    var itemQuery : CBLLiveQuery!
+    var itemTitles : [CBLQueryRow]?
+    
+    
+    func setupViewAndQuery() {
+        let listsView = database.viewNamed("viewVitalsByTitle")
+        if listsView.mapBlock == nil {
+            listsView.setMapBlock({ (doc,emit) in
+                if let id = doc["_id"] as? String, id.hasPrefix("\(self.entityType)_") {
+                    
+                    if let data = doc["data"] as? [String : AnyObject] {
+                        if let title = data["startDate"] as? String {
+                            emit(title, data)
+                        }
+                        
+                    }
+                    
+                }
+            }, version: "1.0")
+            
+        }
+        
+        itemQuery = listsView.createQuery().asLive()
+        itemQuery.descending = true
+        
+        itemQuery.addObserver(self, forKeyPath: "rows", options: .new, context: nil)
+        itemQuery.start()
+    }
+    
+    
+    
+    func reloadItems() {
+        itemTitles = itemQuery.rows?.allObjects as? [CBLQueryRow] ?? nil
+        tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         
@@ -39,50 +71,22 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
         settings = healthManager.getSettings()
         
         print("starting view did load: VitalsController")
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        
+ 
+        settings = healthManager.getSettings()
         
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        fetchWeights(25) { (items) in
-            self.dataSourceArray = items!.sorted(by: self.vitalDateSort)
-            
-            //self.latestDate = self.dataSourceArray[0].vitalsDate
-            
-
-            self.updateView()
-        }
         
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: #selector(VitalsController.refresh(_:)) ,   for: UIControlEvents.valueChanged)
-        tableView!.addSubview(refreshControl)
+        setupViewAndQuery()
+
         print("Done view did load: VitalsController")
         
     }
     
-    
-    var refreshControl:UIRefreshControl!
-    
-    
-    func refresh(_ sender:AnyObject)
-    {
-        
-        print("refreshing")
-        
-        
-        fetchWeights(25) { (items) in
-            self.dataSourceArray = items!.sorted(by: self.vitalDateSort)
-            
-            //self.latestDate = self.dataSourceArray[0].vitalsDate
-            
-            
-            self.updateView()
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if object as? NSObject == itemQuery {
+            reloadItems()
         }
-        
-        refreshControl?.endRefreshing()
     }
-    
     
     func checkHealthKitData(_ latestDate: Date, completion: @escaping ([Vitals]?, NSError?) -> Void ) {
         //let past = latestDate
@@ -93,130 +97,103 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
         
     }
     
-    var dataSourceArray = [Vitals]()
+    //var dataSourceArray = [Vitals]()
     
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Most of the time my data source is an array of something...  will replace with the actual name of the data source
-        return dataSourceArray.count
-        
+        return itemTitles?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Note:  Be sure to replace the argument to dequeueReusableCellWithIdentifier with the actual identifier string!
-        let cell = tableView.dequeueReusableCell(withIdentifier: "vitailsCellId")! as UITableViewCell
-
-        let row = (indexPath as NSIndexPath).row
+        let cell = tableView.dequeueReusableCell(withIdentifier: "vitalsCellId")! as UITableViewCell
         
-        let dateFormatter = DateFormatter()
-        
-        
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        
-        let dateString = dateFormatter.string(from: dataSourceArray[row].vitalsDate as Date)
-        cell.textLabel?.text =  "\(dataSourceArray[row].systolic) / \(dataSourceArray[row].diatolic)"
-        cell.detailTextLabel?.text = dateString
-        // set cell's textLabel.text property
-        // set cell's detailTextLabel.text property
+        let row = self.itemTitles![indexPath.row] as CBLQueryRow
+        cell.detailTextLabel?.text = row.value(forKey: "key") as? String
+        if let myValue = row.value(forKey: "value") as? [ String : Any] {
+            if let sys  = myValue["systolic"] as! Int?  {
+                
+                if let dia  = myValue["diatolic"] as! Int? {
+                    cell.textLabel?.text = "\(sys)/\(dia)"
+                }
+            }
+            
+            
+        } else {
+            cell.textLabel?.text = "ERROR"
+        }
         return cell
     }
     
     
     @IBAction func clickCheckHk(_ sender: AnyObject) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        var vitalsDate : Date
-        if (self.dataSourceArray.count > 0) {
-            vitalsDate = self.dataSourceArray[0].vitalsDate as Date + 10.minutes
-        } else {
-            vitalsDate = Date.distantPast
-        }
+        let latestDate = Date.distantPast
         
-        
-        self.checkHealthKitData(vitalsDate, completion: { (hkItems, error) in
+        self.checkHealthKitData(latestDate, completion: { (hkItems, error) in
             print("Count: \(hkItems!.count)")
             
-            self.postVitals(hkItems!)
-            self.dataSourceArray = self.dataSourceArray.sorted(by: self.vitalDateSort)
+            self.saveHKItems(hkItems: hkItems!)
+            //self.dataSourceArray = self.dataSourceArray.sorted(by: self.dateSort)
             DispatchQueue.main.async(execute: { () -> Void in
-                self.tableView.reloadData()
+                // self.tableView.reloadData()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
                 
             })
         })
         
-        
     }
     
-    
-    // MARK : Get Data
-    
-    func updateView() {
-        for w in dataSourceArray {
-            print("\(w.vitalsDate) \(w.pulse)" )
-        }
+    func saveHKItems(hkItems: [Vitals]) {
         
-        self.dataSourceArray = self.dataSourceArray.sorted(by: vitalDateSort)
+        //let options = CBLDatabaseOptions()
+        let dbname = "automation_jschappet"
         
-        
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.tableView.reloadData()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        if let mgr = try? CBLManager.sharedInstance()       {
             
-        })
-    }
-    
-    
-    
-    // With Alamofire
-    //func fetchWeights() {
-    func fetchWeights(_ count: Int, completion: @escaping ([Vitals]?) -> Void) {
-        
-        
-        var items = [Vitals]()
-        
-        Alamofire.request("\(settings.value(forKey: "com.schappet.base.url") as! String)\(entityType)" , parameters: ["last": count])
-            .validate().responseJSON { response in
-                switch response.result {
-                case .success:
-                    if let value = response.result.value {
-                        let json = JSON(value)
-                        
-                        for (_,subJson):(String, JSON) in json {
-                            let w = Vitals(jsonData: subJson)
-                            items.append(w)
-                            //print("JSON: \(index) \(w.person) \(w.weightInDate) \(w.value)")
-                        }
-                        completion(items)
-                    }
-                case .failure(let error):
-                    print(error)
-                    completion(nil)
-                }
-        }
-        
-        
-    }
-    
-
-    func postVitals(_ vitals: [Vitals]) {
-        for v in vitals {
-            Alamofire.request("\(settings.value(forKey: "com.schappet.base.url") as! String)\(entityType)",
-                    method: .post, parameters: v.json(),  encoding: JSONEncoding.default)
-                .responseJSON { response in
-                    switch response.result {
-                    case .success:
-                        print(response)
-                        print(response.result.value ?? "")
-                        
-                    case .failure(let error):
-                        print (error)
+            mgr.backgroundTellDatabaseNamed(dbname, to: { (bgdb: CBLDatabase!) -> Void in
+                // Inside this block we can't use myDB; instead use the instance given (bgdb)
+                
+                
+                for w in hkItems {
+                    
+                    let docId = "\(self.entityType)_\(w.uuid)"
+                    guard let doc = bgdb.document(withID: docId) else {
+                        print("wont save uuid exists: \(w.uuid)")
+                        continue
                     }
                     
-            }
+                    let properties : [String : Any] = [
+                        "data" : [
+                            "devicename" : w.deviceName,
+                            "systolic" : w.systolic,
+                            "diatolic" : w.diatolic,
+                            "startDate": "\(w.startDate)",
+                            "endDate": "\(w.endDate)"
+                            
+                        ]
+                    ]
+                    do {
+                        try doc.putProperties(properties)
+                    } catch  let error as NSError  {
+                        print("could not set properties uuid exists: \(w.uuid) \(error)")
+                        continue
+                    }
+                    
+                    
+                }
+            })
+            
+            
+            
         }
+        
     }
+
     
+    
+
 }
