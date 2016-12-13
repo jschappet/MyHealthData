@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		304B1EA91CF39BDF00B42482 /* WeightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EA81CF39BDF00B42482 /* WeightController.swift */; };
+		304B1EA91CF39BDF00B42482 /* WeightControllerOff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EA81CF39BDF00B42482 /* WeightControllerOff.swift */; };
 		304B1EAD1CF4D2CD00B42482 /* Vitals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EAC1CF4D2CD00B42482 /* Vitals.swift */; };
 		304B1EAF1CF4D40400B42482 /* VitalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EAE1CF4D40400B42482 /* VitalsTests.swift */; };
 		304B1ECF1CF5E2FB00B42482 /* VitalsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1ECE1CF5E2FB00B42482 /* VitalsController.swift */; };
 		306070061DFAF82600DF1A0D /* HealthItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306070051DFAF82600DF1A0D /* HealthItem.swift */; };
 		3074C6BF1DF9E6CD0043E66A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3074C6BB1DF9E6CD0043E66A /* LaunchScreen.storyboard */; };
 		3074C6C01DF9E6CD0043E66A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3074C6BD1DF9E6CD0043E66A /* Main.storyboard */; };
-		3074C6C21DF9E95D0043E66A /* WeightCBLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3074C6C11DF9E95D0043E66A /* WeightCBLController.swift */; };
+		3074C6C21DF9E95D0043E66A /* WeightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3074C6C11DF9E95D0043E66A /* WeightController.swift */; };
 		307F69C11CEDF2E8006D0D7A /* WeightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69C01CEDF2E8006D0D7A /* WeightTests.swift */; };
 		307F69C41CEE0124006D0D7A /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 307F69C31CEE0124006D0D7A /* HealthKit.framework */; };
 		307F69C81CEE0724006D0D7A /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69C71CEE0724006D0D7A /* HealthManager.swift */; };
@@ -24,6 +24,7 @@
 		3082159F1D07324400CD6D77 /* MyHealthData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3082159E1D07324400CD6D77 /* MyHealthData.plist */; };
 		308215A31D08454E00CD6D77 /* StepCountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308215A21D08454E00CD6D77 /* StepCountController.swift */; };
 		308215A51D08461B00CD6D77 /* StepCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308215A41D08461B00CD6D77 /* StepCount.swift */; };
+		3099609A1DFF4CB700AEDFDC /* CBLConnections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309960991DFF4CB700AEDFDC /* CBLConnections.swift */; };
 		30A489F21CECE2A800A6CD87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A489F11CECE2A800A6CD87 /* AppDelegate.swift */; };
 		30A489F41CECE2A800A6CD87 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A489F31CECE2A800A6CD87 /* FirstViewController.swift */; };
 		30A489FB1CECE2A800A6CD87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30A489FA1CECE2A800A6CD87 /* Assets.xcassets */; };
@@ -50,7 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		304B1EA81CF39BDF00B42482 /* WeightController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightController.swift; sourceTree = "<group>"; };
+		304B1EA81CF39BDF00B42482 /* WeightControllerOff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightControllerOff.swift; sourceTree = "<group>"; };
 		304B1EAC1CF4D2CD00B42482 /* Vitals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vitals.swift; sourceTree = "<group>"; };
 		304B1EAE1CF4D40400B42482 /* VitalsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsTests.swift; sourceTree = "<group>"; };
 		304B1ECE1CF5E2FB00B42482 /* VitalsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsController.swift; sourceTree = "<group>"; };
@@ -58,7 +59,7 @@
 		306070051DFAF82600DF1A0D /* HealthItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthItem.swift; sourceTree = "<group>"; };
 		3074C6BC1DF9E6CD0043E66A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3074C6BE1DF9E6CD0043E66A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3074C6C11DF9E95D0043E66A /* WeightCBLController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightCBLController.swift; sourceTree = "<group>"; };
+		3074C6C11DF9E95D0043E66A /* WeightController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightController.swift; sourceTree = "<group>"; };
 		307F69C01CEDF2E8006D0D7A /* WeightTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightTests.swift; sourceTree = "<group>"; };
 		307F69C21CEE0124006D0D7A /* MyHealthData.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MyHealthData.entitlements; sourceTree = "<group>"; };
 		307F69C31CEE0124006D0D7A /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -69,6 +70,7 @@
 		3082159E1D07324400CD6D77 /* MyHealthData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyHealthData.plist; sourceTree = "<group>"; };
 		308215A21D08454E00CD6D77 /* StepCountController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepCountController.swift; sourceTree = "<group>"; };
 		308215A41D08461B00CD6D77 /* StepCount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepCount.swift; sourceTree = "<group>"; };
+		309960991DFF4CB700AEDFDC /* CBLConnections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBLConnections.swift; sourceTree = "<group>"; };
 		30A489EE1CECE2A700A6CD87 /* MyHealthData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyHealthData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30A489F11CECE2A800A6CD87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30A489F31CECE2A800A6CD87 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -117,11 +119,11 @@
 			isa = PBXGroup;
 			children = (
 				30A489F31CECE2A800A6CD87 /* FirstViewController.swift */,
-				304B1EA81CF39BDF00B42482 /* WeightController.swift */,
+				304B1EA81CF39BDF00B42482 /* WeightControllerOff.swift */,
 				304B1ECE1CF5E2FB00B42482 /* VitalsController.swift */,
 				308215981D05BA9600CD6D77 /* HeartRateController.swift */,
 				308215A21D08454E00CD6D77 /* StepCountController.swift */,
-				3074C6C11DF9E95D0043E66A /* WeightCBLController.swift */,
+				3074C6C11DF9E95D0043E66A /* WeightController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -174,6 +176,7 @@
 				30A489FF1CECE2A800A6CD87 /* Info.plist */,
 				3082159E1D07324400CD6D77 /* MyHealthData.plist */,
 				305F8C181DF9B51A0016CDD5 /* MyHealthData-Bridging-Header.h */,
+				309960991DFF4CB700AEDFDC /* CBLConnections.swift */,
 			);
 			path = MyHealthData;
 			sourceTree = "<group>";
@@ -410,15 +413,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				308215A31D08454E00CD6D77 /* StepCountController.swift in Sources */,
-				3074C6C21DF9E95D0043E66A /* WeightCBLController.swift in Sources */,
+				3074C6C21DF9E95D0043E66A /* WeightController.swift in Sources */,
 				308215991D05BA9600CD6D77 /* HeartRateController.swift in Sources */,
 				3082159B1D05BAE400CD6D77 /* HeartRate.swift in Sources */,
 				307F69C81CEE0724006D0D7A /* HealthManager.swift in Sources */,
+				3099609A1DFF4CB700AEDFDC /* CBLConnections.swift in Sources */,
 				304B1EAD1CF4D2CD00B42482 /* Vitals.swift in Sources */,
 				306070061DFAF82600DF1A0D /* HealthItem.swift in Sources */,
 				30A489F21CECE2A800A6CD87 /* AppDelegate.swift in Sources */,
 				304B1ECF1CF5E2FB00B42482 /* VitalsController.swift in Sources */,
-				304B1EA91CF39BDF00B42482 /* WeightController.swift in Sources */,
+				304B1EA91CF39BDF00B42482 /* WeightControllerOff.swift in Sources */,
 				307F69CA1CEE096A006D0D7A /* Weight.swift in Sources */,
 				308215A51D08461B00CD6D77 /* StepCount.swift in Sources */,
 				30A489F41CECE2A800A6CD87 /* FirstViewController.swift in Sources */,

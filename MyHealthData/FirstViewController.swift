@@ -49,7 +49,8 @@ class FirstViewController: UITableViewController {
         }
         
     }
-    
+    lazy var database = createHealthDataDb()
+
     
     // MARK: - TableView Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -67,12 +68,46 @@ class FirstViewController: UITableViewController {
                 }
             }
         case (kAuthorizeHealthKitSection,kAuthorizeHealthKitRow+1):
-                print("here")
-                let json = JSON(["vitalsDate":"2016-06-12T16:00+00:00","systolic":107,"diatolic":77,"comment":"HealthKit","personName":"Schappet, Jimmy"])
-                var vitals = [Vitals]()
-                let v = Vitals(jsonData: json)
-                vitals.append(v)
-                postVitals(vitals)
+            let settingsDb = createSettingsDb()
+            
+            let value = getValue(database: settingsDb, key: "base.replication.url")
+            print(value)
+            if value == "NOTSET" {
+                setSettingValue(database: settingsDb, key: "base.replication.url", value: "http://www.schappet.com:5984/")
+            }
+           
+            
+            
+            
+            
+            var databaseUsername = getValue(database: settingsDb, key: "database.user.name")
+            print(databaseUsername)
+            if databaseUsername == "NOTSET" {
+                setSettingValue(database: settingsDb, key: "database.user.name", value: "demouser")
+                databaseUsername = "demouser"
+            }
+            
+            let databaseName = getValue(database: settingsDb, key: "database.name")
+            
+            print(databaseName)
+            if databaseName == "NOTSET" {
+                let dbPrefix = "userdb-"
+                let hexString = NSMutableString()
+                for byte in databaseUsername.data(using: String.Encoding.utf8)! {
+                    hexString.appendFormat("%02x", UInt(byte))
+                }
+                let hexvalue = String(hexString)
+
+                let dbName = "\(dbPrefix)\(hexvalue)"
+                setSettingValue(database: settingsDb, key: "database.name", value: dbName)
+            }
+            
+            
+            let databasePassword = getValue(database: settingsDb, key: "database.password")
+            print(databasePassword)
+            if databasePassword == "NOTSET" {
+                setSettingValue(database: settingsDb, key: "database.password", value: "short02charger")
+            }
             
             
             
@@ -83,27 +118,7 @@ class FirstViewController: UITableViewController {
     }
     
     
-    
-    let baseUrl = "http://localhost:8080/rest/vitals"
-    
-    func postVitals(_ vitals: [Vitals]) {
-        for v in vitals {
-            let request =  Alamofire.request(baseUrl,  method: .post, parameters: v.json())
-                .responseJSON { response in
-                    switch response.result {
-                    case .success:
-                        print(response)
-                        print(response.result.value)
-                        
-                    case .failure(let error):
-                        print (error)
-                    }
-                    
-            }
-            debugPrint(request)
-            
-        }
-    }
+
 
     
     

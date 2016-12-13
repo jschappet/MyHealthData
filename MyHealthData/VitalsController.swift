@@ -17,7 +17,7 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     let healthManager:HealthManager = HealthManager()
     var settings : NSDictionary = [:]
 
-    lazy var database = createDatabase()
+    lazy var database = createHealthDataDb()
 
     let entityType = "vitals"
     
@@ -149,12 +149,10 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     
     func saveHKItems(hkItems: [Vitals]) {
         
-        //let options = CBLDatabaseOptions()
-        let dbname = "automation_jschappet"
         
         if let mgr = try? CBLManager.sharedInstance()       {
             
-            mgr.backgroundTellDatabaseNamed(dbname, to: { (bgdb: CBLDatabase!) -> Void in
+            mgr.backgroundTellDatabaseNamed(database.name, to: { (bgdb: CBLDatabase!) -> Void in
                 // Inside this block we can't use myDB; instead use the instance given (bgdb)
                 
                 
