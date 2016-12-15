@@ -17,7 +17,7 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     let healthManager:HealthManager = HealthManager()
     var settings : NSDictionary = [:]
 
-    lazy var database = createHealthDataDb()
+    lazy var database = MyCBLService.sharedInstance.createHealthDataDb()
 
     let entityType = "vitals"
     

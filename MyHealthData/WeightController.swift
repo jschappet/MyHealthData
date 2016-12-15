@@ -18,7 +18,7 @@ import SwiftDate
 
 class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDelegate {
     
-    lazy var database = createHealthDataDb()
+    lazy var database = MyCBLService.sharedInstance.createHealthDataDb()
 
 
     

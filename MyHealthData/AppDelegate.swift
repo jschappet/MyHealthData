@@ -16,39 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     
-    lazy var database = createHealthDataDb()
-    lazy var settingsDb = createSettingsDb()
-    
-    var pusher : CBLReplication!
-    var puller : CBLReplication!
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
       
-        let urlString = getValue(database: settingsDb, key: "base.replication.url")
-        let databaseName = getValue(database: settingsDb, key: "database.name")
-        let username = getValue(database: settingsDb, key: "database.user.name")
-        let password = getValue(database: settingsDb, key: "database.password")
-        let url = URL(string: "\(urlString)/\(databaseName)")!
-        
-        print("URL: \(urlString) user: \(username) password: \(password)")
-        
-        
-        pusher = database.createPushReplication(url)
-        let auth = CBLAuthenticator.basicAuthenticator(withName: username, password: password)
-        pusher.authenticator = auth
-        
-        pusher.continuous = true
-        puller = database.createPullReplication(url)
-        puller.authenticator = auth
-        
-        puller.continuous = true
-        
-        pusher.start()
-        puller.start()
-    
-        let controllerId = "Login";
-
+        var controllerId : String
+        if  LoginService.sharedInstance.isLoggedIn() {
+            
+            controllerId = "Welcome"
+        } else {
+            controllerId = "Login"
+        }
         
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let initViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: controllerId) as UIViewController

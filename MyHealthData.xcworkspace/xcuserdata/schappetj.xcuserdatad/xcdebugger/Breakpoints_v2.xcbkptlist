@@ -344,12 +344,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyHealthData/LoginService.swift"
-            timestampString = "503367727.338752"
+            timestampString = "503510689.358438"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "loginWithCompletionHandler(username:password:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyHealthData/LoginController.swift"
+            timestampString = "503508658.707345"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "DoLogin(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

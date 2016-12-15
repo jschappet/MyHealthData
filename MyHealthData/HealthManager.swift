@@ -282,6 +282,7 @@ class HealthManager {
                         v.startDate = date
                         v.diatolic = Int(value2)
                         v.systolic = Int(value1)
+                        v.deviceName =  data.sourceRevision.source.name
                         vitals.append(v)
                        // print("\(date)  \(value1) / \(value2)")
                     }

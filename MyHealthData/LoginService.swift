@@ -11,8 +11,9 @@ import Foundation
 
 public class LoginService : NSObject {
 
-    let settingsDb = createSettingsDb()
-
+    //let settingsDb = CBLService.createSettingsDb()
+    let healthDb = MyCBLService.sharedInstance.createHealthDataDb()
+    
     class var sharedInstance : LoginService {
         struct Singleton {
             static let instance = LoginService()
@@ -34,7 +35,8 @@ public class LoginService : NSObject {
     public func signOut() {
         
         do {
-            try settingsDb.delete()
+            try MyCBLService.sharedInstance.deleteSettingsDb()
+            try healthDb.delete()
         } catch let error as NSError {
             print("could not long out: \(error)")
         }
@@ -44,40 +46,36 @@ public class LoginService : NSObject {
     
     public func isLoggedIn() -> Bool {
         //var loggedIn:Bool = false
-        let username =  getValue(database: settingsDb, key: "database.user.name")
+        let username =  MyCBLService.sharedInstance.getValue( key: "database.user.name")
         return username != "NOTSET"
         //return loggedIn
     }
     
     
     
-    public func loginWithCompletionHandler(username: String, password: String, completionHandler: ((error: String?) -> Void)!) -> () {
+    public func loginWithCompletionHandler(username: String, password: String, completionHandler: ((_: String?) -> Void)!) -> () {
         
-        // Try and get an OAuth token
-        //exchangeTokenForUserAccessTokenWithCompletionHandler(username, password: password) { (oauthInfo, error) -> () in
-        
-        let settingsDb = createSettingsDb()
-        
-        let value = getValue(database: settingsDb, key: "base.replication.url")
-        print(value)
+        let value = MyCBLService.sharedInstance.getValue(key: "base.replication.url")
+        print("Base URL: \(value)")
         if value == "NOTSET" {
-            setSettingValue(database: settingsDb, key: "base.replication.url", value: "http://www.schappet.com:5984/")
+            MyCBLService.sharedInstance.setSettingValue( key: "base.replication.url", value: "https://data.schappet.com/")
         }
+        print("Base URL: \(MyCBLService.sharedInstance.getValue(key: "base.replication.url"))")
         
         
         
         
-        
-        var databaseUsername = getValue(database: settingsDb, key: "database.user.name")
-        print(databaseUsername)
+        var databaseUsername = MyCBLService.sharedInstance.getValue( key: "database.user.name")
+        print("Database Username: \(databaseUsername)")
         if databaseUsername == "NOTSET" {
-            setSettingValue(database: settingsDb, key: "database.user.name", value: username)
-            databaseUsername = "demouser"
+            MyCBLService.sharedInstance.setSettingValue( key: "database.user.name", value: username)
+            databaseUsername = username
         }
+        print("Database Username: \(databaseUsername)")
         
-        let databaseName = getValue(database: settingsDb, key: "database.name")
+        let databaseName = MyCBLService.sharedInstance.getValue( key: "database.name")
         
-        print(databaseName)
+        print("Database Name: \(databaseName)")
         if databaseName == "NOTSET" {
             let dbPrefix = "userdb-"
             let hexString = NSMutableString()
@@ -87,29 +85,17 @@ public class LoginService : NSObject {
             let hexvalue = String(hexString)
             
             let dbName = "\(dbPrefix)\(hexvalue)"
-            setSettingValue(database: settingsDb, key: "database.name", value: dbName)
+            MyCBLService.sharedInstance.setSettingValue( key: "database.name", value: dbName)
         }
+        print("Database Name: \(MyCBLService.sharedInstance.getValue( key: "database.name"))")
         
-        
-        let databasePassword = getValue(database: settingsDb, key: "database.password")
+        let databasePassword = MyCBLService.sharedInstance.getValue( key: "database.password")
         print(databasePassword)
         if databasePassword == "NOTSET" {
-            setSettingValue(database: settingsDb, key: "database.password", value: password)
+            MyCBLService.sharedInstance.setSettingValue(key: "database.password", value: password)
         }
-        
-            var error: String? = nil
-            if (error == nil) {
-                
-                // Everything worked and OAuthInfo was returned
-               // self.tokenInfo = oauthInfo!
-                completionHandler(error: nil)
-            } else {
-                
-                // Something went wrong
-                //self.tokenInfo = nil
-                completionHandler(error: error)
-            }
-        }
+        completionHandler(nil)
+       
     }
     
     

@@ -49,7 +49,7 @@ class FirstViewController: UITableViewController {
         }
         
     }
-    lazy var database = createHealthDataDb()
+    lazy var database = MyCBLService.sharedInstance.createHealthDataDb()
 
     
     // MARK: - TableView Delegate
@@ -69,7 +69,12 @@ class FirstViewController: UITableViewController {
             }
         case (kAuthorizeHealthKitSection,kAuthorizeHealthKitRow+1):
             print("here")
+            LoginService.sharedInstance.signOut()
             
+            let controllerId = LoginService.sharedInstance.isLoggedIn() ? "Welcome" : "Login";
+            let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let initViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: controllerId) as UIViewController
+            self.present(initViewController, animated: true, completion: nil)
             
             
         default:
@@ -78,7 +83,9 @@ class FirstViewController: UITableViewController {
         self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    
+    @IBAction func signOut(sender: AnyObject) {
+
+    }
 
 
     
