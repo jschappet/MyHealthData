@@ -68,46 +68,7 @@ class FirstViewController: UITableViewController {
                 }
             }
         case (kAuthorizeHealthKitSection,kAuthorizeHealthKitRow+1):
-            let settingsDb = createSettingsDb()
-            
-            let value = getValue(database: settingsDb, key: "base.replication.url")
-            print(value)
-            if value == "NOTSET" {
-                setSettingValue(database: settingsDb, key: "base.replication.url", value: "http://www.schappet.com:5984/")
-            }
-           
-            
-            
-            
-            
-            var databaseUsername = getValue(database: settingsDb, key: "database.user.name")
-            print(databaseUsername)
-            if databaseUsername == "NOTSET" {
-                setSettingValue(database: settingsDb, key: "database.user.name", value: "demouser")
-                databaseUsername = "demouser"
-            }
-            
-            let databaseName = getValue(database: settingsDb, key: "database.name")
-            
-            print(databaseName)
-            if databaseName == "NOTSET" {
-                let dbPrefix = "userdb-"
-                let hexString = NSMutableString()
-                for byte in databaseUsername.data(using: String.Encoding.utf8)! {
-                    hexString.appendFormat("%02x", UInt(byte))
-                }
-                let hexvalue = String(hexString)
-
-                let dbName = "\(dbPrefix)\(hexvalue)"
-                setSettingValue(database: settingsDb, key: "database.name", value: dbName)
-            }
-            
-            
-            let databasePassword = getValue(database: settingsDb, key: "database.password")
-            print(databasePassword)
-            if databasePassword == "NOTSET" {
-                setSettingValue(database: settingsDb, key: "database.password", value: "short02charger")
-            }
+            print("here")
             
             
             
