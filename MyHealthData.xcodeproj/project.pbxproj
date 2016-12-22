@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3045210A1E00A0B400B98BBE /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304521091E00A0B400B98BBE /* LoginController.swift */; };
-		3045210C1E00C2F000B98BBE /* WelcomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3045210B1E00C2F000B98BBE /* WelcomeController.swift */; };
 		3045210F1E00C33800B98BBE /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3045210E1E00C33800B98BBE /* LoginService.swift */; };
 		304B1EA91CF39BDF00B42482 /* WeightControllerOff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EA81CF39BDF00B42482 /* WeightControllerOff.swift */; };
 		304B1EAD1CF4D2CD00B42482 /* Vitals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B1EAC1CF4D2CD00B42482 /* Vitals.swift */; };
@@ -55,7 +54,6 @@
 
 /* Begin PBXFileReference section */
 		304521091E00A0B400B98BBE /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
-		3045210B1E00C2F000B98BBE /* WelcomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeController.swift; sourceTree = "<group>"; };
 		3045210E1E00C33800B98BBE /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		304B1EA81CF39BDF00B42482 /* WeightControllerOff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightControllerOff.swift; sourceTree = "<group>"; };
 		304B1EAC1CF4D2CD00B42482 /* Vitals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vitals.swift; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 				308215A21D08454E00CD6D77 /* StepCountController.swift */,
 				3074C6C11DF9E95D0043E66A /* WeightController.swift */,
 				304521091E00A0B400B98BBE /* LoginController.swift */,
-				3045210B1E00C2F000B98BBE /* WelcomeController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -432,7 +429,6 @@
 				3045210F1E00C33800B98BBE /* LoginService.swift in Sources */,
 				308215A31D08454E00CD6D77 /* StepCountController.swift in Sources */,
 				3074C6C21DF9E95D0043E66A /* WeightController.swift in Sources */,
-				3045210C1E00C2F000B98BBE /* WelcomeController.swift in Sources */,
 				308215991D05BA9600CD6D77 /* HeartRateController.swift in Sources */,
 				3082159B1D05BAE400CD6D77 /* HeartRate.swift in Sources */,
 				3045210A1E00A0B400B98BBE /* LoginController.swift in Sources */,
