@@ -31,7 +31,8 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     
     var itemQuery : CBLLiveQuery!
     var itemTitles : [CBLQueryRow]?
-    
+    var refreshControl:UIRefreshControl!
+
     
     func setupViewAndQuery() {
         let listsView = database.viewNamed("viewVitalsByTitle")
@@ -56,6 +57,13 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
         
         itemQuery.addObserver(self, forKeyPath: "rows", options: .new, context: nil)
         itemQuery.start()
+        
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to Sync Health Data")
+        self.refreshControl.addTarget(self, action: #selector(self.clickCheckHk(_:)) ,   for: UIControlEvents.valueChanged)
+        tableView!.addSubview(refreshControl)
+        
     }
     
     
@@ -140,11 +148,12 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
             DispatchQueue.main.async(execute: { () -> Void in
                 // self.tableView.reloadData()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.refreshControl?.endRefreshing()
                 
                 
             })
         })
-        
+
     }
     
     func saveHKItems(hkItems: [Vitals]) {

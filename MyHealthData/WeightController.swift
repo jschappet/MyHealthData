@@ -24,7 +24,8 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
     
     let healthManager:HealthManager = HealthManager()
     var settings : NSDictionary = [:]
-    
+    var refreshControl:UIRefreshControl!
+
     let entityType = "weight"
     
     @IBOutlet weak var tableView: UITableView!
@@ -68,6 +69,12 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
         weightQuery.start()
         
         
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to Sync Health Data")
+        self.refreshControl.addTarget(self, action: #selector(self.clickCheckHk(_:)) ,   for: UIControlEvents.valueChanged)
+        tableView!.addSubview(refreshControl)
+        
+        
     }
     
     func reloadWeights() {
@@ -95,18 +102,6 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
     }
     
     
-    var refreshControl:UIRefreshControl!
-    
-    
-    func refresh(_ sender:AnyObject)
-    {
-        
-        print("refreshing")
-        
-
-        
-        refreshControl?.endRefreshing()
-    }
     
     
     func checkHealthKitData(_ latestDate: Date, completion: @escaping ([Weight]?, NSError?) -> Void ) {
@@ -151,7 +146,8 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
                // self.tableView.reloadData()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
-                
+                self.refreshControl?.endRefreshing()
+
             })
         })
         

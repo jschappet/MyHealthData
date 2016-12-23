@@ -30,7 +30,6 @@ class FirstViewController: UITableViewController {
 
     
     
-    
     let healthManager:HealthManager = HealthManager()
     
     func authorizeHealthKit(_ completion: ((_ success:Bool, _ error:NSError?) -> Void)!)

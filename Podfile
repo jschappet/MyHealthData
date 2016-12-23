@@ -7,6 +7,7 @@ target 'MyHealthData' do
   pod 'SwiftyJSON'
   pod 'SwiftDate'
   pod 'Alamofire', '~> 4.0'
+  pod 'ResearchKit', :git => 'https://github.com/chrisortman/ResearchKit.git', :branch => 'pdf-interface2'
 end
 
 

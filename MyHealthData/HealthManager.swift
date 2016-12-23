@@ -11,7 +11,7 @@ import HealthKit
 
 class HealthManager {
   
-  let healthKitStore:HKHealthStore = HKHealthStore()
+  let healthStore:HKHealthStore = HKHealthStore()
   
   func authorizeHealthKit(_ completion: ((_ success:Bool, _ error:NSError?) -> Void)!)
   {
@@ -50,7 +50,7 @@ class HealthManager {
     }
     
     // 4.  Request HealthKit authorization
-    healthKitStore.requestAuthorization(
+    healthStore.requestAuthorization(
       toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { (success, error) -> Void in
       
       if( completion != nil )
@@ -76,7 +76,7 @@ class HealthManager {
     
     // 1. Request birthday and calculate age
     do {
-      let birthDay = try healthKitStore.dateOfBirth()
+      let birthDay = try healthStore.dateOfBirth()
       let today = Date()
       let calendar = Calendar.current
         
@@ -95,7 +95,7 @@ class HealthManager {
     // 2. Read biological sex
     var biologicalSex: HKBiologicalSexObject?
     do {
-      try biologicalSex = healthKitStore.biologicalSex()
+      try biologicalSex = healthStore.biologicalSex()
     } catch {
       print("Error reading Biological Sex")
     }
@@ -103,7 +103,7 @@ class HealthManager {
     // 3. Read blood type
     var bloodType:HKBloodTypeObject?
     do {
-      try bloodType = healthKitStore.bloodType()
+      try bloodType = healthStore.bloodType()
     } catch {
       print("Error reading Blood Type")
     }
@@ -145,7 +145,7 @@ class HealthManager {
       }
     }
     // 5. Execute the Query
-    self.healthKitStore.execute(sampleQuery)
+    healthStore.execute(sampleQuery)
   }
   
   
@@ -184,19 +184,15 @@ class HealthManager {
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
         
         let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
-        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 100, sortDescriptors: [sortDescriptor])
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 5000, sortDescriptors: [sortDescriptor])
         { (sampleQuery, results, error ) -> Void in
                 print("got results: \(results!.count)")
                 for r in results!
                 {
                     if let data1 = r as? HKQuantitySample {
                         // TODO: Get HeartRate for the
-                        let value1 = data1.quantity.doubleValue(for: HKUnit(from: "count/min"))
+                        let hr = HeartRate(hkSample: data1)
                         
-                        let date = data1.endDate
-                        let hr = HeartRate()
-                        hr.measureDate = date
-                        hr.value = "\(value1)"
                         heartRates.append(hr)
                         // print("\(date)  \(value1) / \(value2)")
                     }
@@ -204,9 +200,66 @@ class HealthManager {
                 completion?(heartRates, error as NSError?)
             
         }
-        healthKitStore.execute(sampleQuery)
+        healthStore.execute(sampleQuery)
     }
+/*
+    func todayTotalSteps(endDate: Date, completion: (_: Double) -> Void) {
+        
+        let calendar = Calendar.current
+        var interval = DateComponents()
+        interval.day = 7
+        
+        // Set the anchor date to Monday at 3:00 a.m.
+        let anchorComponents = calendar.components([.Day, .Month, .Year, .Weekday], fromDate: Date())
+        
+        
+        let offset = (7 + anchorComponents.weekday - 2) % 7
+        anchorComponents.day -= offset
+        anchorComponents.hour = 3
+        
+        guard let anchorDate = calendar.date(from: anchorComponents) else {
+            fatalError("*** unable to create a valid date from the given components ***")
+        }
+        
+        guard let quantityType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount) else {
+            fatalError("*** Unable to create a step count type ***")
+        }
+        
+        // Create the query
+        let stepsQuery = HKStatisticsCollectionQuery(quantityType: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!, quantitySamplePredicate: nil, options: .cumulativeSum, anchorDate: anchorDate!, intervalComponents: interval)
 
+        
+        // Set the results handler
+        stepsQuery.initialResultsHandler = {
+            query, results, error in
+            
+            guard let statsCollection = results else {
+                // Perform proper error handling here
+                fatalError("*** An error occurred while calculating the statistics: \(error?.localizedDescription) ***")
+            }
+            
+            let endDate = Date()
+            
+            guard let startDate = calendar.dateByAddingUnit(.Month, value: -3, toDate: endDate, options: []) else {
+                fatalError("*** Unable to calculate the start date ***")
+            }
+            
+            // Plot the weekly step counts over the past 3 months
+            statsCollection.enumerateStatisticsFromDate(startDate, toDate: endDate) { [unowned self] statistics, stop in
+                
+                if let quantity = statistics.sumQuantity() {
+                    let date = statistics.startDate
+                    let value = quantity.doubleValueForUnit(HKUnit.countUnit())
+                    
+                    // Call a custom method to plot each data point.
+                    self.plotWeeklyStepCount(value, forDate: date)
+                }
+            }
+        }
+        
+        healthStore.executeQuery(stepsQuery)
+    }
+  */
     
     
     func readStepCount(_ startDate: Date, endDate: Date, completion: (([StepCount]?, NSError?) -> Void)!) {
@@ -228,25 +281,19 @@ class HealthManager {
             {
                 if let data1 = r as? HKQuantitySample {
                     print(data1.sourceRevision.source.name)
-                    if (data1.sourceRevision.source.name == "Misfit") {
+                    //if (data1.sourceRevision.source.name == "Misfit") {
                         // TODO: Get HeartRate for the
-                        let value1 = data1.quantity.doubleValue(for: HKUnit.count())
+                    let act = StepCount(data: data1)
                     
-                        let startDate = data1.startDate
-                        let endDate = data1.endDate
-                        let act = StepCount()
-                        act.measureStartDate = startDate
-                        act.measureEndDate = endDate
-                        act.value = "\(value1)"
-                        activities.append(act)
-                    }
+                    activities.append(act)
+                    //}
                     // print("\(date)  \(value1) / \(value2)")
                 }
             }
             completion?(activities, error as NSError?)
             
         }
-        healthKitStore.execute(sampleQuery)
+        healthStore.execute(sampleQuery)
     }
 
     
@@ -279,6 +326,7 @@ class HealthManager {
                         let value2 = data2.quantity.doubleValue(for: HKUnit.millimeterOfMercury())
                         let date = data2.endDate
                         let v = Vitals()
+                        v.uuid = data.uuid
                         v.startDate = date
                         v.diatolic = Int(value2)
                         v.systolic = Int(value1)
@@ -291,7 +339,7 @@ class HealthManager {
             }
             
         }
-        healthKitStore.execute(sampleQuery)
+        healthStore.execute(sampleQuery)
     }
    
     
@@ -334,7 +382,7 @@ class HealthManager {
             }
           }
         }
-        healthKitStore.execute(sampleQuery)
+        healthStore.execute(sampleQuery)
     }
     
     

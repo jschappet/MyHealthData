@@ -8,25 +8,46 @@
 
 import Foundation
 import SwiftyJSON
-
-class HeartRate {
+import HealthKit
+class HeartRate : HealthItem {
     
-    
-    var heartRateId: Int
-    var measureDate: Date
+  /*
+    var id: Int
+    var startDate: Date
+    var endDate: Date
     var value: String
-    
-    
+    var uuid: UUID
+    var deviceName : String
     var person: String
+    */
     
-    
-    init() {
+    override init() {
+        super.init()
+
         self.person = ""
         self.value = ""
-        self.measureDate = Date()
-        self.heartRateId = -99
+        self.startDate = Date()
+        self.endDate = Date()
+        self.id = -99
+        self.uuid = UUID.init()
+        self.deviceName = ""
     }
     
+    
+    init(hkSample: HKQuantitySample) {
+        super.init()
+        self.uuid = hkSample.uuid
+        self.person = ""
+        self.startDate = hkSample.startDate
+        self.endDate = hkSample.endDate
+        
+        self.deviceName = hkSample.sourceRevision.source.name
+        let value1 =  hkSample.quantity.doubleValue(for: HKUnit(from: "count/min"))
+        
+        self.value = "\(value1)"
+        self.id = -1
+        
+    }
     
     
     func json() -> [String : AnyObject] {
@@ -39,15 +60,19 @@ class HeartRate {
             "personName" : self.person as AnyObject,
             "person" : 2 as AnyObject,
             "value" : self.value as AnyObject,
-            
-            "measureDate": dateFormatter.string(from: self.measureDate) as AnyObject
+            "uuid" : self.uuid as AnyObject,
+            "startDate": dateFormatter.string(from: self.startDate) as AnyObject,
+            "endDate": dateFormatter.string(from: self.endDate) as AnyObject
             
         ]
         return parameters
     }
     
     init(jsonData: JSON) {
+        super.init()
+
         let dateFormatter = DateFormatter()
+        self.uuid = UUID.init()
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
@@ -61,13 +86,15 @@ class HeartRate {
         let dateString = jsonData["measureDate"].stringValue
         
         if let date =  dateFormatter.date( from: dateString ) {
-            self.measureDate = date
+            self.startDate = date
+            self.endDate = date
         } else {
             print("Date: \(dateString) did not parse")
-            self.measureDate = Date()
+            self.endDate = Date()
+            self.startDate = Date()
         }
         
-        self.heartRateId = jsonData["heartRateId"].intValue
+        self.id = jsonData["id"].intValue
         
     }
     

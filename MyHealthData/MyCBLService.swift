@@ -51,12 +51,24 @@ public class MyCBLService {
         
         pusher = createHealthDataDb().createPushReplication(url)
         let auth = CBLAuthenticator.basicAuthenticator(withName: username, password: password)
+        //let auth = CBLAuthenticator.oAuth1Authenticator(withConsumerKey: <#T##String#>, consumerSecret: <#T##String#>, token: <#T##String#>, tokenSecret: <#T##String#>, signatureMethod: <#T##String#>)
+        
+        /* NON WORKING Version of oAuth */
+        //let consumerKey = "dGVzdDk5Z29vZGppbXNpbVRodSBEZWMgMTUgMTU6MTM6MzcgQ1NUIDIwMTYK"
+        //let consumerSecret = "AF46E0054191"
+        //let token = "amltc2ltVGh1IERlYyAxNSAxNToxMzozNyBDU1QgMjAxNnRlc3Q5OWdvb2QK"
+        //let tokenSecret = "AF46E0054191"
+        
+        
+        //let auth = CBLAuthenticator.oAuth1Authenticator(withConsumerKey: consumerKey,
+         //           consumerSecret: consumerSecret, token: token, tokenSecret: tokenSecret, signatureMethod: "HMAC-SHA1" )
+        
         pusher.authenticator = auth
         
         pusher.continuous = true
         puller = createHealthDataDb().createPullReplication(url)
         puller.authenticator = auth
-        
+       // print ("Puller Error \(puller.lastError!)")
         puller.continuous = true
         
         pusher.start()

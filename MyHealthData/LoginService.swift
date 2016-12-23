@@ -64,6 +64,9 @@ public class LoginService : NSObject {
         
         
         
+        // signatureMethod: <#T##String#>)
+        
+        
         
         var databaseUsername = MyCBLService.sharedInstance.getValue( key: "database.user.name")
         print("Database Username: \(databaseUsername)")
@@ -78,7 +81,8 @@ public class LoginService : NSObject {
         print("Database Name: \(databaseName)")
         if databaseName == "NOTSET" {
             let dbPrefix = "userdb-"
-            let hexString = NSMutableString()
+            var hexString : NSMutableString
+            hexString = ""
             for byte in databaseUsername.data(using: String.Encoding.utf8)! {
                 hexString.appendFormat("%02x", UInt(byte))
             }

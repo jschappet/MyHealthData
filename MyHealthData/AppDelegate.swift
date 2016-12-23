@@ -20,9 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
       
         var controllerId : String
-        if  LoginService.sharedInstance.isLoggedIn() {
-            
+        if LoginService.sharedInstance.isLoggedIn() {
             controllerId = "Welcome"
+            MyCBLService.sharedInstance.startReplication()
         } else {
             controllerId = "Login"
         }
