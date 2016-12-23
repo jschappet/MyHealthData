@@ -3,21 +3,34 @@ PODS:
   - couchbase-lite-ios (1.3.1):
     - couchbase-lite-ios/SQLite (= 1.3.1)
   - couchbase-lite-ios/SQLite (1.3.1)
+  - ResearchKit (1.3.1)
   - SwiftDate (4.0.8)
   - SwiftyJSON (3.1.3)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - couchbase-lite-ios (~> 1.3.1)
+  - ResearchKit (from `https://github.com/chrisortman/ResearchKit.git`, branch `pdf-interface2`)
   - SwiftDate
   - SwiftyJSON
+
+EXTERNAL SOURCES:
+  ResearchKit:
+    :branch: pdf-interface2
+    :git: https://github.com/chrisortman/ResearchKit.git
+
+CHECKOUT OPTIONS:
+  ResearchKit:
+    :commit: 6f4b1e4ba3ef719798b39134b17b9a868a98ca4e
+    :git: https://github.com/chrisortman/ResearchKit.git
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
   couchbase-lite-ios: e4672e9c623e31584602c0300c299c363acebb05
+  ResearchKit: f89a201b1b6ec05cdc253ed3d342c4bb512926ca
   SwiftDate: 9aa3259d8850d818bec02802f8f05aa9a8c26fdb
   SwiftyJSON: 38a8ea2006779c0fc4c310cb2ee8195327740faf
 
-PODFILE CHECKSUM: 00b134e4de76c8305cb89107bf987990bd5ebef2
+PODFILE CHECKSUM: e35e5274acfbe0b50d746104ad81c30968f5fa7a
 
 COCOAPODS: 1.1.0.rc.2

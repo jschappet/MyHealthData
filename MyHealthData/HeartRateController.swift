@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-import Alamofire
-import SwiftyJSON
 import HealthKit
 import SwiftDate
 

@@ -8,11 +8,9 @@
 
 import Foundation
 import UIKit
-import Alamofire
-import SwiftyJSON
 import HealthKit
 import SwiftDate
-
+import ResearchKit
 
 
 
@@ -20,7 +18,9 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
     
     lazy var database = MyCBLService.sharedInstance.createHealthDataDb()
 
-
+   
+    @IBOutlet weak var weigtGraphView: ORKLineGraphChartView!
+    var graphDataSource = WeightGraphDataSource()
     
     let healthManager:HealthManager = HealthManager()
     var settings : NSDictionary = [:]
@@ -29,6 +29,7 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
     let entityType = "weight"
     
     @IBOutlet weak var tableView: UITableView!
+    
     
     
     let dateSort = { (v1: Weight, v2: Weight) -> Bool in
@@ -73,18 +74,58 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to Sync Health Data")
         self.refreshControl.addTarget(self, action: #selector(self.clickCheckHk(_:)) ,   for: UIControlEvents.valueChanged)
         tableView!.addSubview(refreshControl)
+        // Connect the line graph view object to a data source
+        weigtGraphView.dataSource = self.graphDataSource
         
-        
+        // Optional custom configuration
+        weigtGraphView.showsHorizontalReferenceLines = true
+        weigtGraphView.showsVerticalReferenceLines = true
+        weigtGraphView.axisColor = UIColor.white
+        weigtGraphView.verticalAxisTitleColor = UIColor.orange
+        weigtGraphView.showsHorizontalReferenceLines = true
+        weigtGraphView.showsVerticalReferenceLines = true
+        weigtGraphView.scrubberLineColor = UIColor.red
+ 
     }
     
     func reloadWeights() {
         weightTitles = weightQuery.rows?.allObjects as? [CBLQueryRow] ?? nil
+        if self.weightTitles != nil {
+            
+            if (self.weightTitles?.count) != nil && (self.weightTitles?.count)! > 10  {
+                print("Count: \(self.weightTitles?.count)")
+                var points = [  Float ]()
+                for count  in 1...10 {
+                    let row = self.weightTitles![count] as CBLQueryRow
+                    if let myValue = row.value(forKey: "value") as? [ String : Float] {
+                        let value = myValue["value"]! as Float
+                        points[count] = value
+                    }
+           
+                }
+                graphDataSource.setPlotPoints(values: points)
+        
+        
+                // Connect the line graph view object to a data source
+                weigtGraphView.dataSource = self.graphDataSource
+        
+                // Optional custom configuration
+                weigtGraphView.showsHorizontalReferenceLines = true
+                weigtGraphView.showsVerticalReferenceLines = true
+                weigtGraphView.axisColor = UIColor.white
+                weigtGraphView.verticalAxisTitleColor = UIColor.orange
+                weigtGraphView.showsHorizontalReferenceLines = true
+                weigtGraphView.showsVerticalReferenceLines = true
+                weigtGraphView.scrubberLineColor = UIColor.red
+            }
+        }
         tableView.reloadData()
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if object as? NSObject == weightQuery {
             reloadWeights()
+
         }
     }
     

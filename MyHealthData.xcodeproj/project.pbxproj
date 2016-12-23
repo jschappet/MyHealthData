@@ -18,6 +18,7 @@
 		3074C6BF1DF9E6CD0043E66A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3074C6BB1DF9E6CD0043E66A /* LaunchScreen.storyboard */; };
 		3074C6C01DF9E6CD0043E66A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3074C6BD1DF9E6CD0043E66A /* Main.storyboard */; };
 		3074C6C21DF9E95D0043E66A /* WeightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3074C6C11DF9E95D0043E66A /* WeightController.swift */; };
+		307874501E0D88EF00AF3C71 /* WeightGraphDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3078744F1E0D88EF00AF3C71 /* WeightGraphDataSource.swift */; };
 		307F69C11CEDF2E8006D0D7A /* WeightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69C01CEDF2E8006D0D7A /* WeightTests.swift */; };
 		307F69C41CEE0124006D0D7A /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 307F69C31CEE0124006D0D7A /* HealthKit.framework */; };
 		307F69C81CEE0724006D0D7A /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307F69C71CEE0724006D0D7A /* HealthManager.swift */; };
@@ -66,6 +67,7 @@
 		3074C6BC1DF9E6CD0043E66A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3074C6BE1DF9E6CD0043E66A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3074C6C11DF9E95D0043E66A /* WeightController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightController.swift; sourceTree = "<group>"; };
+		3078744F1E0D88EF00AF3C71 /* WeightGraphDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightGraphDataSource.swift; sourceTree = "<group>"; };
 		307F69C01CEDF2E8006D0D7A /* WeightTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightTests.swift; sourceTree = "<group>"; };
 		307F69C21CEE0124006D0D7A /* MyHealthData.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MyHealthData.entitlements; sourceTree = "<group>"; };
 		307F69C31CEE0124006D0D7A /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -130,6 +132,14 @@
 			name = Services;
 			sourceTree = "<group>";
 		};
+		3078744E1E0D88D700AF3C71 /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				3078744F1E0D88EF00AF3C71 /* WeightGraphDataSource.swift */,
+			);
+			name = Graphs;
+			sourceTree = "<group>";
+		};
 		307F69BC1CEDEB6F006D0D7A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +192,7 @@
 		30A489F01CECE2A800A6CD87 /* MyHealthData */ = {
 			isa = PBXGroup;
 			children = (
+				3078744E1E0D88D700AF3C71 /* Graphs */,
 				3045210D1E00C32800B98BBE /* Services */,
 				3074C6BB1DF9E6CD0043E66A /* LaunchScreen.storyboard */,
 				3074C6BD1DF9E6CD0043E66A /* Main.storyboard */,
@@ -430,6 +441,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3045210F1E00C33800B98BBE /* LoginService.swift in Sources */,
+				307874501E0D88EF00AF3C71 /* WeightGraphDataSource.swift in Sources */,
 				308215A31D08454E00CD6D77 /* StepCountController.swift in Sources */,
 				3074C6C21DF9E95D0043E66A /* WeightController.swift in Sources */,
 				302953131E0D6FA7001D968E /* SettingsController.swift in Sources */,
