@@ -24,9 +24,9 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     @IBOutlet weak var tableView: UITableView!
     
     
-    let vitalDateSort = { (v1: Vitals, v2: Vitals) -> Bool in
-        return (v1.startDate.timeIntervalSinceReferenceDate > v2.startDate.timeIntervalSinceReferenceDate)
-    }
+    //let vitalDateSort = { (v1: Vitals, v2: Vitals) -> Bool in
+    //    return (v1.startDate.timeIntervalSinceReferenceDate > v2.startDate.timeIntervalSinceReferenceDate)
+    //}
     
     
     var itemQuery : CBLLiveQuery!
@@ -35,6 +35,11 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
 
     
     func setupViewAndQuery() {
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd hh:mm"
+
+        
         let listsView = database.viewNamed("viewVitalsByTitle")
         if listsView.mapBlock == nil {
             listsView.setMapBlock({ (doc,emit) in
@@ -42,13 +47,15 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
                     
                     if let data = doc["data"] as? [String : AnyObject] {
                         if let title = data["startDate"] as? String {
-                            emit(title, data)
+                            let startDate = title.dateFromISO8601
+                            let yyyymmdd = formatter.string(from: startDate!)
+                            emit(yyyymmdd, data)
                         }
                         
                     }
                     
                 }
-            }, version: "1.0")
+            }, version: "1.1")
             
         }
         
@@ -178,8 +185,8 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
                             "devicename" : w.deviceName,
                             "systolic" : w.systolic,
                             "diatolic" : w.diatolic,
-                            "startDate": "\(w.startDate)",
-                            "endDate": "\(w.endDate)"
+                            "startDate": "\(w.startDate.iso8601)",
+                            "endDate": "\(w.endDate.iso8601)"
                             
                         ]
                     ]

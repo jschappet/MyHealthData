@@ -41,6 +41,8 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
     var weightTitles : [CBLQueryRow]?
 
     func setupViewAndQuery() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
         
         let listsView = database.viewNamed("weightList")
         //listsView.delete()
@@ -50,15 +52,15 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
                     
                     if let data = doc["data"] as? [String : AnyObject] {
                         if let title = data["startDate"] as? String {
-                           // let index = title.index(title.startIndex, offsetBy: 7)
-                           // let yyyymm = title.substring(to: index)
-                           emit(title, data)
+                            let startDate = title.dateFromISO8601
+                            let yyyymmdd = formatter.string(from: startDate!)
+                           emit(yyyymmdd, data)
                         }
                         
                     }
                     
                 }
-            }, version: "1.0")
+            }, version: "1.1")
 
         }
         print(listsView.totalRows)
@@ -93,17 +95,18 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
         if self.weightTitles != nil {
             
             if (self.weightTitles?.count) != nil && (self.weightTitles?.count)! > 10  {
-                print("Count: \(self.weightTitles?.count)")
                 var points = [  Float ]()
-                for count  in 1...10 {
+                for count  in 0...9 {
                     let row = self.weightTitles![count] as CBLQueryRow
-                    if let myValue = row.value(forKey: "value") as? [ String : Float] {
-                        let value = myValue["value"]! as Float
-                        points[count] = value
+                    if let myValue = row.value(forKey: "value") as? [ String : String] {
+                        if let value = Float(myValue["value"]!) {
+                            points.append( value )
+                            
+                        }
                     }
-           
+                    
                 }
-                graphDataSource.setPlotPoints(values: points)
+                graphDataSource.setPlotPoints(values: points.reversed())
         
         
                 // Connect the line graph view object to a data source
@@ -218,8 +221,8 @@ class WeightController:  UIViewController,  UITableViewDataSource, UITableViewDe
                         "data" : [
                             "devicename" : w.deviceName,
                             "value" : w.value,
-                            "startDate": "\(w.startDate)",
-                            "endDate": "\(w.endDate)"
+                            "startDate": "\(w.startDate.iso8601)",
+                            "endDate": "\(w.endDate.iso8601)"
                             
                         ]
                     ]

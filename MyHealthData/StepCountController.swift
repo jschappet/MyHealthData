@@ -34,6 +34,8 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     
     func setupViewAndQuery() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
 
         let listsView = database.viewNamed("viewStepCountByTitle")
         if listsView.mapBlock == nil {
@@ -42,8 +44,8 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
                     
                     if let data = doc["data"] as? [String : AnyObject] {
                         if let title = data["startDate"] as? String {
-                            let index = title.index(title.startIndex, offsetBy: 10)
-                            let yyyymmdd = title.substring(to: index)
+                            let startDate = title.dateFromISO8601
+                            let yyyymmdd = formatter.string(from: startDate!)
                             emit(yyyymmdd, data["value"])
                         }
                         
@@ -61,13 +63,14 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
                 }
                 return total
             },
-              version: "1.8")
+              version: "1.9")
             
         }
         
         itemQuery = listsView.createQuery().asLive()
         itemQuery.descending = true
         itemQuery.groupLevel = 1
+        itemQuery.limit = 10000
         itemQuery.addObserver(self, forKeyPath: "rows", options: .new, context: nil)
         itemQuery.start()
         
@@ -124,23 +127,21 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     
     @IBAction func clickCheckHk(_ sender: AnyObject) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        var latestDate = Date.distantPast
-        if let myValue = self.itemTitles?[0].value(forKey: "value") as? [ String : Any] {
-            if let value  = myValue["startDate"] as! String?  {
-                
-                
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-                
-                latestDate = formatter.date(from: value)!
+        var latestDate: Date = 3.months.ago()!
+        
+        if (self.itemTitles?.count)! > 0 {
+
+            if let myValue = self.itemTitles?[0].value(forKey: "key") as?  String {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+                latestDate = latestDate > formatter.date(from: myValue)! ? latestDate : formatter.date(from: myValue)!
                 
             }
         }
-        
         print ("getting step count \(latestDate) ")
         
         self.checkHealthKitData(latestDate, completion: { (hkItems, error) in
-            print("Count: \(hkItems!.count)")
+           // print("Count: \(hkItems!.count)")
             
             self.saveHKItems(hkItems: hkItems!)
             //self.dataSourceArray = self.dataSourceArray.sorted(by: self.dateSort)
@@ -181,8 +182,8 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
                         "data" : [
                             "devicename" : w.deviceName,
                             "value" : w.value,
-                            "startDate": "\(w.startDate)",
-                            "endDate": "\(w.endDate)"
+                            "startDate": "\(w.startDate.iso8601)",
+                            "endDate": "\(w.endDate.iso8601)"
                             
                         ]
                     ]

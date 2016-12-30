@@ -37,6 +37,8 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     func setupViewAndQuery() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
         let listsView = database.viewNamed("viewHeartRateByTitle")
         if listsView.mapBlock == nil {
             listsView.setMapBlock({ (doc,emit) in
@@ -44,8 +46,8 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
                     
                     if let data = doc["data"] as? [String : AnyObject] {
                         if let title = data["startDate"] as? String {
-                            let index = title.index(title.startIndex, offsetBy: 10)
-                            let yyyymmdd = title.substring(to: index)
+                            let startDate = title.dateFromISO8601
+                            let yyyymmdd = formatter.string(from: startDate!)
                             emit(yyyymmdd, data["value"])
                         }
                         
@@ -75,6 +77,7 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
         itemQuery = listsView.createQuery().asLive()
         itemQuery.descending = true
         itemQuery.groupLevel = 1
+        itemQuery.limit = 10000
         itemQuery.addObserver(self, forKeyPath: "rows", options: .new, context: nil)
         itemQuery.start()
         
@@ -152,11 +155,13 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func clickCheckHk(_ sender: AnyObject) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         var latestDate = Date.distantPast
-        if let myValue = self.itemTitles?[0].value(forKey: "key") as? String  {
-            print("My Value: \(myValue)")
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            latestDate = formatter.date(from: myValue)!
+        if (self.itemTitles?.count)! > 0 {
+            if let myValue =  self.itemTitles?[0].value(forKey: "key") as? String  {
+                print("My Value: \(myValue)")
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd"
+                latestDate = formatter.date(from: myValue)!
+            }
         }
         self.checkHealthKitData(latestDate, completion: { (hkItems, error) in
             print("Count: \(hkItems!.count)")
@@ -195,8 +200,8 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
                         "data" : [
                             "devicename" : w.deviceName,
                             "value" : w.value,
-                            "startDate": "\(w.startDate)",
-                            "endDate": "\(w.endDate)"
+                            "startDate": "\(w.startDate.iso8601)",
+                            "endDate": "\(w.endDate.iso8601)"
                             
                         ]
                     ]

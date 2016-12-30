@@ -20,7 +20,7 @@ class WeightGraphDataSource: NSObject, ORKGraphChartViewDataSource {
             myPlotPoints[0][count] = ORKRangedPoint(value:  CGFloat(i))
             myPlotPoints[1][count] = ORKRangedPoint(value: CGFloat(count))
             
-            //print("\(count)  \(i)")
+            print("\(count)  \(i)")
             count += 1
         }
         

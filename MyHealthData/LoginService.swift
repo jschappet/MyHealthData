@@ -66,7 +66,12 @@ public class LoginService : NSObject {
         
         // signatureMethod: <#T##String#>)
         
-        
+        let stepCountSource = MyCBLService.sharedInstance.getValue(key: "step.count.source")
+        print("Step Count Source: \(stepCountSource)")
+        if stepCountSource == "NOTSET" {
+            MyCBLService.sharedInstance.setSettingValue( key: "step.count.source", value: "James’s Apple Watch")
+        }
+        print("\(MyCBLService.sharedInstance.getValue(key: "step.count.source"))")
         
         var databaseUsername = MyCBLService.sharedInstance.getValue( key: "database.user.name")
         print("Database Username: \(databaseUsername)")

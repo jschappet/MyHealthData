@@ -191,6 +191,7 @@ class HealthManager {
                 {
                     if let data1 = r as? HKQuantitySample {
                         // TODO: Get HeartRate for the
+                        
                         let hr = HeartRate(hkSample: data1)
                         
                         heartRates.append(hr)
@@ -271,6 +272,10 @@ class HealthManager {
             
             return
         }
+        
+        let stepCountSource = MyCBLService.sharedInstance.getValue(key: "step.count.source")
+        
+        
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
         
         let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
@@ -280,12 +285,15 @@ class HealthManager {
             for r in results!
             {
                 if let data1 = r as? HKQuantitySample {
-                    print(data1.sourceRevision.source.name)
                     //if (data1.sourceRevision.source.name == "Misfit") {
                         // TODO: Get HeartRate for the
-                    let act = StepCount(data: data1)
                     
-                    activities.append(act)
+                    if (data1.sourceRevision.source.name == stepCountSource){
+                       // print("Match: \(data1.sourceRevision.source.name)")
+                        let act = StepCount(data: data1)
+                    
+                        activities.append(act)
+                    }
                     //}
                     // print("\(date)  \(value1) / \(value2)")
                 }
