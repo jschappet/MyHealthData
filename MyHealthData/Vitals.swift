@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-class Vitals {
+struct Vitals {
     
     
     //{"vitalsId":879,"vitalsDate":"2016-04-12T16:00+00:00","systolic":107,"diatolic":77,"pulse":60,"comment":"","personName":"Schappet, Jimmy"}

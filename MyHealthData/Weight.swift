@@ -10,12 +10,25 @@ import Foundation
 import SwiftyJSON
 import HealthKit
 
-class Weight : HealthItem{
+struct Weight : HealthItem{
+    
+    var id: Int
+    var uuid: UUID
+    var value: String
+    
+    var startDate: Date
+    var endDate: Date
+    var deviceName: String
+    
+    var person: String
+    var type = "weight"
+    
+    
+    var identifier: HKQuantityTypeIdentifier = HKQuantityTypeIdentifier.bodyMass
     
     
     init(value: String, person: String, weightId: Int, weightInDate: Date) {
-        super.init()
-        // Initialize stored properties.
+        
         self.value = value
         self.person = person
         self.id = weightId
@@ -30,29 +43,68 @@ class Weight : HealthItem{
     }
     
     
-    init(hkSample: HKQuantitySample) {
-        super.init()
-        self.uuid = hkSample.uuid
-        self.person = ""
-        self.startDate = hkSample.startDate
-        self.endDate = hkSample.endDate
+    init() {
         
-        self.deviceName = hkSample.sourceRevision.source.name
-        let value1 = hkSample.quantity.doubleValue(for: HKUnit.pound())
+        self.value = ""
+        self.person = ""
+        self.id = -1
+        
+        self.startDate = Date()
+        self.endDate =  Date()
+        
+        self.uuid = UUID.init()
+        self.deviceName = ""
+        
+        
+    }
+    
+    
+    func json() -> [String : AnyObject] {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        let parameters: [String: AnyObject] = [
+            "personName" : self.person as AnyObject,
+            "person" : 2 as AnyObject,
+            "value" : self.value as AnyObject,
+            //"uuid" : self.uuid as AnyObject,
+            "startDate": dateFormatter.string(from: self.startDate) as AnyObject,
+            "endDate": dateFormatter.string(from: self.endDate) as AnyObject,
+            "deviceName": self.deviceName as AnyObject
+            
+        ]
+        return parameters
+    }
+    
+    func filter (_ sample: HKQuantitySample) -> Bool {
+        return true
+    }
+    
+    init(sample: HKQuantitySample) {
+        
+        self.uuid = sample.uuid
+        self.person = ""
+        self.startDate = sample.startDate
+        self.endDate = sample.endDate
+        
+        self.deviceName = sample.sourceRevision.source.name
+        let value1 = sample.quantity.doubleValue(for: HKUnit.pound())
         self.value = "\(value1)"
         self.id = -1
 
     }
  
-    init(jsonData: JSON) {
-        super.init()
-        self.person = jsonData["personName"].stringValue
+    init(data: JSON) {
+        
+        self.person = data["personName"].stringValue
         self.uuid = UUID.init()
         self.deviceName = ""
         
-        self.value = "\(jsonData["valueFloat"].floatValue)"
+        self.value = "\(data["valueFloat"].floatValue)"
         
-        let dateString = jsonData["weightInDate"].stringValue
+        let dateString = data["weightInDate"].stringValue
         
         let dateFormatter = DateFormatter()
 
@@ -68,7 +120,7 @@ class Weight : HealthItem{
             self.endDate = Date()
         }
         
-        self.id = jsonData["weightId"].intValue
+        self.id = data["weightId"].intValue
         
     }
     

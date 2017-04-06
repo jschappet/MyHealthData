@@ -7,24 +7,39 @@
 //
 
 import Foundation
-class HealthItem {
+import HealthKit
+import SwiftyJSON
+
+
+protocol HealthItem {
+  
+ 
+    var id : Int { get set }
+    var uuid : UUID { get set }
+    var value : String { get set }
+   
     
-    //private Integer weightId;
-    var id : Int
-    var uuid : UUID
-    //private String value;
-    var value : String;
-    
-    //private Date weightInDate;
-    var startDate : Date
-    var endDate : Date
-    var deviceName : String
+    var startDate : Date { get set }
+    var endDate : Date { get set }
+    var deviceName : String { get set }
     
     //private Person person;
-    var person : String
+    var person : String { get set }
     
-    var type : String
+    var type : String { get set }
+    var identifier:  HKQuantityTypeIdentifier { get set }
     
+    func json() -> [String : AnyObject]
+    
+    init(data: JSON)
+    init(sample: HKQuantitySample)
+    init()
+    
+    func filter(_ sample: HKQuantitySample) -> Bool
+    
+    
+    
+   /*
     init() {
         self.id = -1
         self.uuid = UUID.init()
@@ -34,7 +49,8 @@ class HealthItem {
         self.startDate = Date()
         self.person = ""
         self.type = "undefinded"
+        self.identifier = HKQuantityTypeIdentifier.stepCount
     }
-    
+    */
     
 }

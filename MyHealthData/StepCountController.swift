@@ -11,14 +11,11 @@ import UIKit
 import HealthKit
 import SwiftDate
 
-class StepCountController:  UIViewController,  UITableViewDataSource, UITableViewDelegate {
+class StepCountController:  HealthController,  UITableViewDataSource, UITableViewDelegate {
     
-    lazy var database = MyCBLService.sharedInstance.createHealthDataDb()
-
     
     //var latestDate : NSDate?
     
-    let healthManager:HealthManager = HealthManager()
     var settings : NSDictionary = [:]
     var refreshControl:UIRefreshControl!
 
@@ -32,7 +29,7 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     var itemTitles : [CBLQueryRow]?
     
     
-    func setupViewAndQuery() {
+    override func setupViewAndQuery() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -84,8 +81,16 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     }
     
     
+    override func fetch(_ completion: () -> Void) {
+        self.clickCheckHk("" as AnyObject);
+        completion()
+    }
     
-    func reloadItems() {
+    
+    override func reloadItems() {
+        guard itemQuery != nil  else {
+            return
+        }
         itemTitles = itemQuery.rows?.allObjects as? [CBLQueryRow] ?? nil
         tableView.reloadData()
     }
@@ -128,7 +133,9 @@ class StepCountController:  UIViewController,  UITableViewDataSource, UITableVie
     @IBAction func clickCheckHk(_ sender: AnyObject) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         var latestDate: Date = 3.months.ago()!
-        
+        guard itemTitles != nil  else {
+            return
+        }
         if (self.itemTitles?.count)! > 0 {
 
             if let myValue = self.itemTitles?[0].value(forKey: "key") as?  String {

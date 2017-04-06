@@ -169,6 +169,97 @@ class HealthManager {
   */
     
     
+    
+    
+    
+    func healthQuery<Type: HealthItem>(_ startDate: Date, endDate: Date, completion: (([Type]?, NSError?) -> Void)!) {
+        var activities = [Type]()
+        let template = Type();
+        
+        print ("Getting data from: \(startDate) to: \(endDate)")
+        guard let type = HKQuantityType.quantityType(forIdentifier: template.identifier ) else {
+            // display error, etc...
+            print("error getting data")
+            
+            return
+        }
+        
+        //let stepCountSource = MyCBLService.sharedInstance.getValue(key: "step.count.source")
+        
+        
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
+        
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 10000, sortDescriptors: [sortDescriptor])
+        { (sampleQuery, results, error ) -> Void in
+            print("got results: \(results!.count)")
+            for r in results!
+            {
+                if let data1 = r as? HKQuantitySample {
+                    //if (data1.sourceRevision.source.name == "Misfit") {
+                    // TODO: Get HeartRate for the
+                    
+                    if (template.filter(data1)){
+                        // print("Match: \(data1.sourceRevision.source.name)")
+                        let act = Type(sample: data1)
+                        
+                        activities.append(act)
+                    }
+                    //}
+                    // print("\(date)  \(value1) / \(value2)")
+                }
+            }
+            completion?(activities, error as NSError?)
+            
+        }
+        healthStore.execute(sampleQuery)
+        
+    }
+
+    
+    
+    
+    func readStepCount(_ startDate: Date, endDate: Date, completion: (([StepCount]?, NSError?) -> Void)!) {
+        var activities = [StepCount]()
+        print ("Getting data from: \(startDate) to: \(endDate)")
+        guard let type = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount) else {
+            // display error, etc...
+            print("error getting data")
+            
+            return
+        }
+        
+        let stepCountSource = MyCBLService.sharedInstance.getValue(key: "step.count.source")
+        
+        
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
+        
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
+        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 10000, sortDescriptors: [sortDescriptor])
+        { (sampleQuery, results, error ) -> Void in
+            print("got results: \(results!.count)")
+            for r in results!
+            {
+                if let data1 = r as? HKQuantitySample {
+                    //if (data1.sourceRevision.source.name == "Misfit") {
+                    // TODO: Get HeartRate for the
+                    
+                    if (data1.sourceRevision.source.name == stepCountSource){
+                        // print("Match: \(data1.sourceRevision.source.name)")
+                        let act = StepCount(sample: data1)
+                        
+                        activities.append(act)
+                    }
+                    //}
+                    // print("\(date)  \(value1) / \(value2)")
+                }
+            }
+            completion?(activities, error as NSError?)
+            
+        }
+        healthStore.execute(sampleQuery)
+    }
+
     func readHeartRate(_ startDate: Date, endDate: Date, completion: (([HeartRate]?, NSError?) -> Void)!) {
         var heartRates = [HeartRate]()
         print ("Getting data from: \(startDate) to: \(endDate)")
@@ -192,7 +283,7 @@ class HealthManager {
                     if let data1 = r as? HKQuantitySample {
                         // TODO: Get HeartRate for the
                         
-                        let hr = HeartRate(hkSample: data1)
+                        let hr = HeartRate(sample: data1)
                         
                         heartRates.append(hr)
                         // print("\(date)  \(value1) / \(value2)")
@@ -263,48 +354,6 @@ class HealthManager {
   */
     
     
-    func readStepCount(_ startDate: Date, endDate: Date, completion: (([StepCount]?, NSError?) -> Void)!) {
-        var activities = [StepCount]()
-        print ("Getting data from: \(startDate) to: \(endDate)")
-        guard let type = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount) else {
-            // display error, etc...
-            print("error getting data")
-            
-            return
-        }
-        
-        let stepCountSource = MyCBLService.sharedInstance.getValue(key: "step.count.source")
-        
-        
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: HKQueryOptions())
-        
-        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: true)
-        let sampleQuery = HKSampleQuery(sampleType: type, predicate: predicate, limit: 10000, sortDescriptors: [sortDescriptor])
-        { (sampleQuery, results, error ) -> Void in
-            print("got results: \(results!.count)")
-            for r in results!
-            {
-                if let data1 = r as? HKQuantitySample {
-                    //if (data1.sourceRevision.source.name == "Misfit") {
-                        // TODO: Get HeartRate for the
-                    
-                    if (data1.sourceRevision.source.name == stepCountSource){
-                       // print("Match: \(data1.sourceRevision.source.name)")
-                        let act = StepCount(data: data1)
-                    
-                        activities.append(act)
-                    }
-                    //}
-                    // print("\(date)  \(value1) / \(value2)")
-                }
-            }
-            completion?(activities, error as NSError?)
-            
-        }
-        healthStore.execute(sampleQuery)
-    }
-
-    
  
     func readVitals(_ startDate: Date, endDate: Date, completion: (([Vitals]?, NSError?) -> Void)!) {
         var vitals = [Vitals]()
@@ -333,7 +382,7 @@ class HealthManager {
                         let value1 = data1.quantity.doubleValue(for: HKUnit.millimeterOfMercury())
                         let value2 = data2.quantity.doubleValue(for: HKUnit.millimeterOfMercury())
                         let date = data2.endDate
-                        let v = Vitals()
+                        var v = Vitals()
                         v.uuid = data.uuid
                         v.startDate = date
                         v.diatolic = Int(value2)
@@ -379,7 +428,7 @@ class HealthManager {
                     print(data1.sourceRevision.source.name)
                     //if (data1.sourceRevision.source.name == "Misfit") {
                         // TODO: Get HeartRate for the
-                    let act = Weight(hkSample: data1)
+                    let act = Weight(sample: data1)
                         weights.append(act)
                     //}
                     // print("\(date)  \(value1) / \(value2)")

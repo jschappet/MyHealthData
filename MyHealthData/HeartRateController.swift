@@ -11,14 +11,10 @@ import UIKit
 import HealthKit
 import SwiftDate
 
-class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HeartRateController: HealthController, UITableViewDelegate, UITableViewDataSource  {
     
     
-    //var latestDate : NSDate?
-    lazy var database = MyCBLService.sharedInstance.createHealthDataDb()
-
-    let healthManager:HealthManager = HealthManager()
- 
+  
     var settings : NSDictionary = [:]
     
     let entityType = "heartrate"
@@ -36,7 +32,7 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     var refreshControl:UIRefreshControl!
     
     
-    func setupViewAndQuery() {
+    override func setupViewAndQuery() {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         let listsView = database.viewNamed("viewHeartRateByTitle")
@@ -91,7 +87,10 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     
-    func reloadItems() {
+    override func reloadItems() {
+        guard itemQuery != nil  else {
+            return
+        }
         itemTitles = itemQuery.rows?.allObjects as? [CBLQueryRow] ?? nil
         tableView.reloadData()
     }
@@ -151,10 +150,18 @@ class HeartRateController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
     
+    override func fetch(_ completion: () -> Void) {
+        self.clickCheckHk("" as AnyObject);
+        completion()
+    }
+    
     
     @IBAction func clickCheckHk(_ sender: AnyObject) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         var latestDate = Date.distantPast
+        guard itemTitles != nil  else {
+            return
+        }
         if (self.itemTitles?.count)! > 0 {
             if let myValue =  self.itemTitles?[0].value(forKey: "key") as? String  {
                 print("My Value: \(myValue)")

@@ -10,19 +10,21 @@ import Foundation
 import SwiftyJSON
 import HealthKit
 
-class StepCount {
+struct StepCount: HealthItem {
     
     
     var id: Int
     var uuid: UUID
     var startDate: Date
     var endDate: Date
+    var type = "stepcount"
+
     
     var value: String
     var deviceName: String
     
     var person: String
-    
+    var identifier: HKQuantityTypeIdentifier = HKQuantityTypeIdentifier.stepCount
     
     init() {
         self.uuid = UUID.init()
@@ -32,18 +34,23 @@ class StepCount {
         self.endDate = Date()
         self.id = -99
         self.deviceName = ""
+        
     }
     
-    init(data: HKQuantitySample ) {
-        let value1 = data.quantity.doubleValue(for: HKUnit.count())
-        self.uuid = data.uuid
+    init(sample: HKQuantitySample ) {
+        let value1 = sample.quantity.doubleValue(for: HKUnit.count())
+        self.uuid = sample.uuid
         self.id = -1
-        self.startDate = data.startDate
-        self.endDate = data.endDate
+        self.startDate = sample.startDate
+        self.endDate = sample.endDate
         self.value = "\(value1)"
         self.person=""
-        self.deviceName = data.sourceRevision.source.name
-        
+        self.deviceName = sample.sourceRevision.source.name
+    }
+    
+    
+    func filter (_ sample: HKQuantitySample) -> Bool {
+        return sample.sourceRevision.source.name ==  MyCBLService.sharedInstance.getValue(key: "step.count.source")
     }
     
     func json() -> [String : AnyObject] {
@@ -65,7 +72,7 @@ class StepCount {
         return parameters
     }
     
-    init(jsonData: JSON) {
+    init(data: JSON) {
         let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
@@ -73,11 +80,11 @@ class StepCount {
         
         //print(jsonData)
         self.uuid = UUID.init()
-        self.person = jsonData["personName"].stringValue
+        self.person = data["personName"].stringValue
         
-        self.value = jsonData["value"].stringValue
+        self.value = data["value"].stringValue
         
-        var dateString = jsonData["measureStartDate"].stringValue
+        var dateString = data["measureStartDate"].stringValue
         
         if let date =  dateFormatter.date(from: dateString ) {
             self.startDate = date
@@ -86,7 +93,7 @@ class StepCount {
             self.startDate = Date()
         }
         
-        dateString = jsonData["endDate"].stringValue
+        dateString = data["endDate"].stringValue
         
         if let date =  dateFormatter.date( from: dateString ) {
             self.endDate = date
@@ -95,8 +102,8 @@ class StepCount {
             self.endDate = Date()
         }
         
-        self.id = jsonData["id"].intValue
-        self.deviceName = jsonData["deviceName"].stringValue
+        self.id = data["id"].intValue
+        self.deviceName = data["deviceName"].stringValue
     }
     
 }

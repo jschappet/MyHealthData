@@ -9,7 +9,21 @@
 import Foundation
 import SwiftyJSON
 import HealthKit
-class HeartRate : HealthItem {
+struct HeartRate : HealthItem {
+    
+    
+    var id: Int
+    var uuid: UUID
+    var startDate: Date
+    var endDate: Date
+    var type = "heartrate"
+    
+    
+    var value: String
+    var deviceName: String
+    
+    var person: String
+    var identifier: HKQuantityTypeIdentifier = HKQuantityTypeIdentifier.heartRate
     
   /*
     var id: Int
@@ -21,8 +35,7 @@ class HeartRate : HealthItem {
     var person: String
     */
     
-    override init() {
-        super.init()
+    init() {
 
         self.person = ""
         self.value = ""
@@ -33,16 +46,19 @@ class HeartRate : HealthItem {
         self.deviceName = ""
     }
     
+    func filter (_ sample: HKQuantitySample) -> Bool {
+        return true
+    }
     
-    init(hkSample: HKQuantitySample) {
-        super.init()
-        self.uuid = hkSample.uuid
+    
+    init(sample: HKQuantitySample) {
+        self.uuid = sample.uuid
         self.person = ""
-        self.startDate = hkSample.startDate
-        self.endDate = hkSample.endDate
+        self.startDate = sample.startDate
+        self.endDate = sample.endDate
         
-        self.deviceName = hkSample.sourceRevision.source.name
-        let value1 =  hkSample.quantity.doubleValue(for: HKUnit(from: "count/min"))
+        self.deviceName = sample.sourceRevision.source.name
+        let value1 =  sample.quantity.doubleValue(for: HKUnit(from: "count/min"))
         
         self.value = "\(value1)"
         self.id = -1
@@ -68,9 +84,8 @@ class HeartRate : HealthItem {
         return parameters
     }
     
-    init(jsonData: JSON) {
-        super.init()
-
+    init(data: JSON) {
+        
         let dateFormatter = DateFormatter()
         self.uuid = UUID.init()
         
@@ -79,11 +94,11 @@ class HeartRate : HealthItem {
         
         //print(jsonData)
         
-        self.person = jsonData["personName"].stringValue
+        self.person = data["personName"].stringValue
         
-        self.value = jsonData["value"].stringValue
+        self.value = data["value"].stringValue
         
-        let dateString = jsonData["measureDate"].stringValue
+        let dateString = data["measureDate"].stringValue
         
         if let date =  dateFormatter.date( from: dateString ) {
             self.startDate = date
@@ -94,8 +109,8 @@ class HeartRate : HealthItem {
             self.startDate = Date()
         }
         
-        self.id = jsonData["id"].intValue
-        
+        self.id = data["id"].intValue
+        self.deviceName = data["deviceName"].stringValue;
     }
     
 }

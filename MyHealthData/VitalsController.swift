@@ -11,14 +11,12 @@ import UIKit
 import HealthKit
 import SwiftDate
 
-class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDelegate {
+class VitalsController:  HealthController,  UITableViewDataSource, UITableViewDelegate {
     //var latestDate : NSDate?
     
-    let healthManager:HealthManager = HealthManager()
     var settings : NSDictionary = [:]
 
-    lazy var database = MyCBLService.sharedInstance.createHealthDataDb()
-
+    
     let entityType = "vitals"
     
     @IBOutlet weak var tableView: UITableView!
@@ -34,7 +32,12 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     var refreshControl:UIRefreshControl!
 
     
-    func setupViewAndQuery() {
+    override func fetch(_ completion: () -> Void) {
+        self.clickCheckHk("" as AnyObject);
+        completion()
+    }
+    
+    override func setupViewAndQuery() {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd hh:mm"
@@ -75,10 +78,16 @@ class VitalsController:  UIViewController,  UITableViewDataSource, UITableViewDe
     
     
     
-    func reloadItems() {
+    override func reloadItems() {
+        guard itemQuery != nil  else {
+            return
+        }
+        
         itemTitles = itemQuery.rows?.allObjects as? [CBLQueryRow] ?? nil
         tableView.reloadData()
-    }
+    
+        
+     }
     
     override func viewDidLoad() {
         
